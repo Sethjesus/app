@@ -62,6 +62,21 @@
         .section h2 {
             color: #007bff;
         }
+        .download-btn {
+            margin-top: 20px;
+            padding: 12px;
+            font-size: 1.2rem;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.3s;
+            display: none;
+        }
+        .download-btn:hover {
+            background-color: #218838;
+        }
     </style>
 </head>
 <body>
@@ -74,6 +89,8 @@
         <a class="app-link" href="https://sethjesus.github.io/ESG/" target="_blank">🌍 碳盤換算</a>
         <a class="app-link" href="https://sethjesus.github.io/udm-jpesg-calculator/" target="_blank">🧮 計算機下載</a>
         <a class="app-link" href="https://sethjesus.github.io/Charge/Charge.html" target="_blank">⚡ 電費換算</a>
+        
+        <button id="installBtn" class="download-btn">📥 下載應用程式</button>
     </div>
     
     <div class="container section">
@@ -98,5 +115,26 @@
         <p>📍 地址：新北市中和區中正路872號12樓</p>
         <p>📞 連絡電話：02-22602388</p>
     </div>
+    
+    <script>
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (event) => {
+            event.preventDefault();
+            deferredPrompt = event;
+            document.getElementById("installBtn").style.display = "block";
+        });
+        
+        document.getElementById("installBtn").addEventListener("click", () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === "accepted") {
+                        console.log("使用者接受安裝");
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        });
+    </script>
 </body>
 </html>
