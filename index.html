@@ -2,138 +2,101 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>UDM 景沛 ESG Apps 下載</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌿UDM 景沛 ESG Apps 下載 🌿</title>
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="icon-192.png">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 10px;
-            text-align: center;
-            background-color: #f4f4f4;
-        }
-        .header {
-            background-color: #28a745;
-            color: white;
-            padding: 15px;
-            font-size: 1.5rem;
-            font-weight: bold;
-        }
-        .container {
-            max-width: 95%;
-            margin: 10px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        .app-link {
-            display: block;
-            margin: 10px 0;
-            padding: 12px;
-            font-size: 1.2rem;
-            background-color: #007bff;
-            color: white;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: 0.3s;
-        }
-        .app-link:hover {
-            background-color: #0056b3;
-        }
-        .footer {
-            margin-top: 15px;
-            font-size: 0.9rem;
-            color: #333;
-        }
-        .footer a {
-            color: #007bff;
-            text-decoration: none;
-        }
-        .section {
-            margin-top: 20px;
-            padding: 15px;
-            background: #e3f2fd;
-            border-radius: 10px;
-        }
-        .section h2 {
-            color: #007bff;
-        }
-        .download-btn {
-            margin-top: 20px;
-            padding: 12px;
-            font-size: 1.2rem;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: 0.3s;
-            display: none;
-        }
-        .download-btn:hover {
-            background-color: #218838;
+        body { font-family: Arial, sans-serif; margin: 0; padding: 10px; text-align: center; background-color: #f4f4f4; }
+        .header { background-color: #28a745; color: white; padding: 15px; font-size: 1.5rem; font-weight: bold; }
+        .container { max-width: 95%; margin: 10px auto; background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
+        .app-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; justify-content: center; align-items: center; }
+        .app-box { padding: 15px; background-color: #007bff; color: white; border-radius: 10px; font-size: 1rem; text-decoration: none; transition: 0.3s; display: flex; justify-content: center; align-items: center; font-weight: bold; }
+        .app-box:hover { background-color: #0056b3; }
+        .dashboard { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; justify-content: center; align-items: center; max-width: 900px; margin: auto; }
+        .box { padding: 15px; border: 1px solid #ccc; border-radius: 10px; font-size: 1rem; }
+        .warning { background-color: #ffc107; color: #000; padding: 5px; border-radius: 5px; }
+        .footer { margin-top: 20px; padding: 10px; background: #e3f2fd; border-radius: 10px; font-size: 1rem; }
+        .footer a { color: #007bff; text-decoration: none; }
+        @media (max-width: 768px) {
+            .dashboard { grid-template-columns: repeat(2, 1fr); }
+            .app-grid { grid-template-columns: repeat(1, 1fr); }
         }
     </style>
 </head>
 <body>
-    <div class="header">🌿 UDM 景沛 ESG 應用程式下載</div>
+    <div class="header">🌿 UDM 景沛 ESG-APP下載 & 專業ESG整合設計服務</div>
+    
     <div class="container">
         <h2>📱 下載 ESG 相關應用</h2>
         <p>提升環保意識，減少碳足跡！</p>
-        <p>📲 點擊下方連結，長按複製，然後在 Chrome / Safari 貼上網址進行下載</p>
-        
-        <a class="app-link" href="https://sethjesus.github.io/esg-carbon-pwa/" target="_blank">🌍 碳盤換算</a>
-        <a class="app-link" href="https://sethjesus.github.io/udm-jpesg-calculator/" target="_blank">🧮 計算機下載</a>
-        <a class="app-link" href="https://sethjesus.github.io/Charge/Charge.html" target="_blank">⚡ 電費換算</a>
-        
-        <button id="installBtn" class="download-btn">📥 下載應用程式</button>
+        <div class="app-grid">
+            <a class="app-box" href="https://sethjesus.github.io/esg-carbon-pwa/" target="_blank">🌍 碳盤換算</a>
+            <a class="app-box" href="https://sethjesus.github.io/udm-jpesg-calculator/" target="_blank">🧮 計算機下載</a>
+            <a class="app-box" href="https://sethjesus.github.io/Charge/Charge.html" target="_blank">⚡ 電費換算</a>
+        </div>
     </div>
     
-    <div class="container section">
-        <h2>🌍 國際 ESG 趨勢</h2>
-        <p>全球企業正加速採用 ESG 原則，許多國家已制定減碳政策與永續發展計劃，例如：
-            <br>✅ 歐盟碳邊境調整機制 (CBAM) 
-            <br>✅ 美國 SEC ESG 披露要求
-            <br>✅ 亞洲地區綠色金融與碳交易市場發展</p>
+    <div class="container">
+        <h2>專業ESG整合設計服務</h2>
+        <div class="dashboard">
+            <div class="box">🔌 電力消耗: <span id="power">-- kW</span></div>
+            <div class="box">💧 水使用量: <span id="water">-- m³</span></div>
+            <div class="box">🌡 溫度: <span id="temperature">--°C</span></div>
+            <div class="box">💦 濕度: <span id="humidity">--%</span></div>
+            <div class="box">🌫 空氣品質: <span id="airQuality">-- AQI</span></div>
+            <div class="box">⚗️ pH 值: <span id="pH">--</span></div>
+            <div class="box">🧪 營養液濃度 (EC): <span id="EC">-- mS/cm</span></div>
+            <div class="box">🌍 CO₂ 濃度: <span id="co2Level">-- ppm</span></div>
+            <div class="box" id="advice">✅ 監控建議會即時顯示</div>
+        </div>
     </div>
-
-    <div class="container section">
-        <h2>🇹🇼 台灣未來 ESG 政策</h2>
-        <p>台灣政府積極推動 ESG，主要政策包括：
-            <br>✅ 2050 淨零排放政策
-            <br>✅ TCFD (氣候財務揭露) 規範強化
-            <br>✅ 強化企業碳盤查與碳費制度
-            <br>✅ 再生能源推廣與綠能採購</p>
-    </div>
-    
     <div class="footer">
         <p>🔗 <a href="https://jpesg.netlify.app/" target="_blank">景沛ESG 官網</a></p>
-        <p>📍 地址：新北市中和區中正路872號12樓</p>
+        <p>📍 地址：新北市中和區中正路872號12樓之一</p>
         <p>📞 連絡電話：02-22602388</p>
+        <p>📧 電子郵件：201.esg@udmgroup.com</p>
     </div>
-    
     <script>
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (event) => {
-            event.preventDefault();
-            deferredPrompt = event;
-            document.getElementById("installBtn").style.display = "block";
-        });
+        function getRandomValue(min, max) {
+            return (Math.random() * (max - min) + min).toFixed(2);
+        }
+
+        function updateDashboard() {
+            let sensorData = {
+                power: getRandomValue(100, 500),
+                water: getRandomValue(10, 50),
+                temperature: getRandomValue(18, 30),
+                humidity: getRandomValue(40, 80),
+                airQuality: getRandomValue(0, 300),
+                pH: getRandomValue(5.5, 7.5),
+                EC: getRandomValue(0.8, 2.5),
+                co2Level: getRandomValue(300, 800)
+            };
+            Object.keys(sensorData).forEach(key => {
+                document.getElementById(key).innerText = sensorData[key];
+            });
+            
+            let advice = "✅ 一切運行正常";
+            let warning = "";
+            if (sensorData.power > 400) warning += "⚠️ 電力消耗過高，請檢查用電設備！\n";
+            if (sensorData.water > 40) warning += "💧 水使用量過高，請節約用水！\n";
+            if (sensorData.temperature > 28) warning += "🔥 溫度過高，建議開啟空調或通風！\n";
+            if (sensorData.humidity < 50) warning += "💦 濕度偏低，建議使用加濕器！\n";
+            if (sensorData.airQuality > 150) warning += "🌫 空氣品質不佳，請注意通風！\n";
+            if (sensorData.pH < 6.0) warning += "⚗️ pH 值過低，請適當調整養液！\n";
+            if (sensorData.EC < 1.2) warning += "🧪 營養液濃度低，請補充養分！\n";
+            if (sensorData.co2Level > 600) warning += "🌍 CO₂ 濃度偏高，請增加空氣流通！\n";
+            
+            let adviceBox = document.getElementById("advice");
+            adviceBox.innerText = warning ? warning : advice;
+            adviceBox.className = warning ? "box warning" : "box";
+        }
         
-        document.getElementById("installBtn").addEventListener("click", () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === "accepted") {
-                        console.log("使用者接受安裝");
-                    }
-                    deferredPrompt = null;
-                });
-            }
+        document.addEventListener("DOMContentLoaded", () => {
+            updateDashboard();
+            setInterval(updateDashboard, 5000);
         });
     </script>
 </body>
