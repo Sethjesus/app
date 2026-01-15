@@ -1,142 +1,1640 @@
-
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>用電量儀表板</title>
+    <title>仙洞國小環保小衛士 - 進階版</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
         }
-        h1 {
+        
+        body {
+            background-color: #e9f7ef;
+            color: #333;
+            line-height: 1.6;
+            padding: 10px;
+            background-image: linear-gradient(to bottom, #e9f7ef, #d4f1e6);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        header p {
+            font-size: 1.2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            width: 100px;
+            height: 100px;
+            background-color: white;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #4CAF50;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .timer {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            backdrop-filter: blur(5px);
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .tab-button {
+            padding: 12px 25px;
+            background-color: #f1f8e9;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #2E7D32;
+        }
+        
+        .tab-button.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .tab-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .teaching-section, .game-section {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .section-title {
+            color: #2E7D32;
+            border-bottom: 3px solid #FFEB3B;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title i {
+            font-size: 1.8rem;
+        }
+        
+        .knowledge-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .knowledge-card {
+            background: linear-gradient(135deg, #f9f9f9, #ffffff);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-left: 5px solid;
+            cursor: pointer;
+            height: 100%;
+        }
+        
+        .knowledge-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 7px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .knowledge-card.energy {
+            border-left-color: #FF9800;
+        }
+        
+        .knowledge-card.ozone {
+            border-left-color: #9C27B0;
+        }
+        
+        .knowledge-card.water {
+            border-left-color: #2196F3;
+        }
+        
+        .knowledge-card.animal {
+            border-left-color: #795548;
+        }
+        
+        .knowledge-card.esg {
+            border-left-color: #4CAF50;
+        }
+        
+        .knowledge-card.climate {
+            border-left-color: #607D8B;
+        }
+        
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
             text-align: center;
         }
-        h3 {
-            font-size: 1.5em;
+        
+        .knowledge-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #333;
+            text-align: center;
         }
-        /* 链接的样式 */
-        a {
-            text-decoration: none; /* 去除默认的下划线 */
-            color: #007BFF; /* 设置链接颜色 */
-            font-size: 1.2em; /* 增大字体 */
+        
+        .card-content {
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.5;
         }
-
-        /* 鼠标悬停时的高亮效果 */
-        a:hover {
-            color: white; /* 悬停时文本颜色为白色 */
-            background-color: #007BFF; /* 悬停时背景颜色 */
-            padding: 5px; /* 增加内边距 */
-            border-radius: 5px; /* 设置圆角 */
+        
+        .card-tip {
+            background-color: #FFF9C4;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            border-left: 3px solid #FFC107;
+        }
+        
+        .game-area {
+            background-color: #f8fdf9;
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 500px;
+            border: 2px dashed #4CAF50;
+        }
+        
+        .game-instruction {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #555;
+            text-align: center;
+        }
+        
+        .game-modes {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .mode-button {
+            padding: 10px 20px;
+            background-color: #E8F5E9;
+            border: 2px solid #4CAF50;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #2E7D32;
+            transition: all 0.3s;
+        }
+        
+        .mode-button.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .game-container {
+            min-height: 350px;
+            position: relative;
+        }
+        
+        /* 配對遊戲樣式 */
+        .matching-game {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .matching-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .matching-item {
+            width: 140px;
+            height: 140px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            text-align: center;
+            padding: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .matching-item.left {
+            background-color: #E3F2FD;
+            border: 2px solid #2196F3;
+            color: #1565C0;
+        }
+        
+        .matching-item.right {
+            background-color: #F1F8E9;
+            border: 2px solid #8BC34A;
+            color: #33691E;
+        }
+        
+        .matching-item.selected {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .matching-item.matched {
+            opacity: 0.7;
+            cursor: default;
+        }
+        
+        .matching-arrow {
+            font-size: 2rem;
+            color: #FF5722;
+        }
+        
+        /* 節電挑戰遊戲樣式 */
+        .energy-challenge {
+            text-align: center;
+        }
+        
+        .house-container {
+            width: 300px;
+            height: 250px;
+            margin: 20px auto;
+            position: relative;
+            background-color: #FFF3E0;
+            border-radius: 10px;
+            padding: 20px;
+            border: 3px solid #FF9800;
+        }
+        
+        .appliance {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background-color: white;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+            font-size: 0.8rem;
+            text-align: center;
+        }
+        
+        .appliance.on {
+            background-color: #FFECB3;
+            border: 2px solid #FF9800;
+        }
+        
+        .appliance.off {
+            background-color: #F5F5F5;
+            border: 2px solid #9E9E9E;
+        }
+        
+        .appliance-icon {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .energy-meter {
+            width: 80%;
+            height: 30px;
+            background-color: #E0E0E0;
+            border-radius: 15px;
+            margin: 20px auto;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .energy-level {
+            height: 100%;
+            width: 50%;
+            background: linear-gradient(90deg, #4CAF50, #FF9800, #F44336);
+            border-radius: 15px;
+            transition: width 0.5s;
+        }
+        
+        .meter-labels {
+            display: flex;
+            justify-content: space-between;
+            width: 80%;
+            margin: 0 auto;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        /* 拯救北極熊遊戲樣式 */
+        .polar-bear-game {
+            text-align: center;
+        }
+        
+        .iceberg {
+            width: 300px;
+            height: 150px;
+            background-color: #B3E5FC;
+            margin: 20px auto;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid #81D4FA;
+        }
+        
+        .ice-level {
+            height: 80%;
+            width: 100%;
+            background-color: #E1F5FE;
+            position: absolute;
+            bottom: 0;
+            transition: height 2s;
+        }
+        
+        .polar-bear {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 4rem;
+            transition: bottom 2s;
+            z-index: 2;
+        }
+        
+        .threats {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .threat {
+            padding: 10px 15px;
+            background-color: #FFEBEE;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid #F44336;
+            font-weight: bold;
+            color: #C62828;
+        }
+        
+        .threat:hover {
+            background-color: #FFCDD2;
+        }
+        
+        .solutions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .solution {
+            padding: 10px 15px;
+            background-color: #E8F5E9;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid #4CAF50;
+            font-weight: bold;
+            color: #2E7D32;
+        }
+        
+        .solution:hover {
+            background-color: #C8E6C9;
+        }
+        
+        .solution.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .game-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .score, .level {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2E7D32;
+        }
+        
+        .game-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-start {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .btn-reset {
+            background-color: #FF9800;
+            color: white;
+        }
+        
+        .btn-next {
+            background-color: #2196F3;
+            color: white;
+        }
+        
+        .feedback {
+            text-align: center;
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-top: 20px;
+            min-height: 40px;
+            padding: 10px;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        
+        .feedback.correct {
+            color: #2E7D32;
+            background-color: rgba(76, 175, 80, 0.1);
+        }
+        
+        .feedback.incorrect {
+            color: #F44336;
+            background-color: rgba(244, 67, 54, 0.1);
+        }
+        
+        .progress-container {
+            margin-top: 20px;
+            background-color: #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            height: 20px;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+        }
+        
+        .fact-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .fact-content {
+            background-color: white;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 15px;
+            padding: 30px;
+            position: relative;
+            animation: popup 0.5s;
+        }
+        
+        @keyframes popup {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        .close-popup {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #777;
+        }
+        
+        .fact-content h3 {
+            color: #2E7D32;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+        
+        .fact-icon {
+            font-size: 3rem;
+            text-align: center;
+            margin: 15px 0;
+            color: #4CAF50;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #FFEB3B;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-left: 10px;
+            color: #333;
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .timer {
+                position: static;
+                margin-top: 15px;
+                display: inline-block;
+            }
+            
+            .tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .knowledge-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .house-container {
+                width: 250px;
+                height: 220px;
+            }
+            
+            .appliance {
+                width: 50px;
+                height: 50px;
+                font-size: 0.7rem;
+            }
         }
     </style>
 </head>
 <body>
-
-    <h1>用電量儀表板</h1>
-    <iframe src="power_consumption_chart.html" width="100%" height="1000px" frameborder="0"></iframe>
-    <iframe src="total_power_consumption_and_carbon_emission_sum_chart.html" width="100%" height="600px" frameborder="0"></iframe>
-   
-
-    <h3>查看設備用電分析圖：</h3>
-    <p><a href="total_power_consumption_chart.html" target="_blank">點此查看各設備總用電量直方圖</a></p>
-    <p><a href="power_consumption_pie_chart.html" target="_blank">點此查看各設備總用電量圓餅圖</a></p>
-    <p><a href="total_and_avg_power_consumption_chart.html" target="_blank">點此查看用電趨勢與平均值</a></p>
-    <p><a href="total_power_consumption_and_carbon_emission_bar_chart.html" target="_blank">點此查看每日用電與碳足跡</a></p>
-    <p><a href="static_power_consumption_with_alerts.html" target="_blank">點此設定所有設備警示範圍</a></p>
-    <p><a href="static_power_consumption_with_alerts_left_aligned.html" target="_blank">點此設定各設備警示範圍</a></p>
-
-    <h3>有線偵測系統冰水主機與水塔碳排</h3>
-    <p><a href="water_carbon_emissions_report.html" target="_blank">水碳排與冰水主機碳排</a></p>
-    <!-- 緊急諮詢區域 -->
-
-<div>
-    <h3>相關諮詢</h3>
-    <p>如有EMS諮詢問題，請隨時聯繫我們：</p>
-
-    <!-- UDM Logo 放在最上方 -->
-    <a href="https://sethjesus.github.io/Maincarbon/Maincarbon.html" target="_blank">
-        <img src="https://github.com/Sethjesus/Photo/blob/main/UDM%20Logo.png?raw=true" alt="UDM Logo" style="width: 120px; height: auto; display: block; margin: 0 auto;">
-    </a>
-
-    <!-- 使用指定的Skype圖片作為連結 -->
-    <div style="text-align: center; margin-top: 20px;">
-        <a href="skype:jackyliaosutra?call" target="_blank" style="display: inline-block; margin-right: 20px;">
-            <img src="https://github.com/Sethjesus/Photo/blob/main/Skype.jpg?raw=true" alt="Skype Logo" style="width: 100px; height: auto;">
-        </a>
-
-        <!-- 移除 Line 的連結，只顯示圖片並加入放大效果 -->
-         <div style="display: inline-block; margin-right: 20px;">
-         <img src="https://github.com/Sethjesus/Photo/blob/main/Line.jpg?raw=true" alt="Line Barcode" style="width: 110px; height: auto; transition: transform 0.3s ease;">
-         <p style="text-align: center; font-size: 1.2em; margin-top: 5px;"><sub>掃描Line條碼</sub></p> <!-- 添加說明文字 -->
-         </div>
-
-
-        <!-- 電話撥打連結 -->
-        <a href="tel:+886952316596" target="_blank" style="display: inline-block; margin-right: 20px;">
-            <img src="https://github.com/Sethjesus/Photo/blob/main/Whatsapp.jpg?raw=true" alt="Call Icon" style="width: 100px; height: auto;">
-        </a>
-
-        <!-- Instagram 圖標 -->
-        <a href="https://www.instagram.com/udmesg/">
-            <img src="https://github.com/Sethjesus/Photo/blob/main/IG.jpg?raw=true" alt="Instagram Logo" style="width: 100px; height: auto; display: inline-block; margin-right: 20px;">
-        </a>
-
-        <!-- Facebook 圖標 -->
-        <a href="https://www.facebook.com/groups/2933690666774064">
-            <img src="https://github.com/Sethjesus/Photo/blob/main/Facebook.jpg?raw=true" alt="Facebook Logo" style="width: 100px; height: auto; display: inline-block;">
-        </a>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-earth-asia"></i>
+            </div>
+            <h1>仙洞國小環保小衛士 - 進階版</h1>
+            <p>學習環境保護知識，從節約用電、能源監控到認識臭氧破洞、ESG、拯救北極熊，一起守護地球！</p>
+            <div class="timer">
+                <i class="fas fa-clock"></i> <span id="time">30:00</span>
+            </div>
+        </header>
+        
+        <div class="tabs">
+            <button class="tab-button active" data-tab="knowledge">
+                <i class="fas fa-graduation-cap"></i> 環保知識學堂
+            </button>
+            <button class="tab-button" data-tab="matching-game">
+                <i class="fas fa-puzzle-piece"></i> 環保配對遊戲
+            </button>
+            <button class="tab-button" data-tab="energy-game">
+                <i class="fas fa-bolt"></i> 節電挑戰賽
+            </button>
+            <button class="tab-button" data-tab="polar-bear-game">
+                <i class="fas fa-paw"></i> 拯救北極熊
+            </button>
+        </div>
+        
+        <div class="tab-content active" id="knowledge-tab">
+            <div class="teaching-section">
+                <h2 class="section-title"><i class="fas fa-book-open"></i> 環保知識大全</h2>
+                <p>小朋友，讓我們學習更多關於環境保護的知識，了解我們的地球正面臨哪些挑戰，以及我們可以怎麼做！</p>
+                
+                <div class="knowledge-cards">
+                    <div class="knowledge-card energy" onclick="showFact('energy')">
+                        <div class="card-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3>用電節約與能源監控</h3>
+                        <div class="card-content">
+                            <p>電力的生產會產生二氧化碳，加劇全球暖化。我們可以：</p>
+                            <ul>
+                                <li>隨手關燈，離開房間關閉電器</li>
+                                <li>使用節能標章的電器產品</li>
+                                <li>夏季冷氣設定在26-28°C</li>
+                                <li>使用自然光，減少開燈時間</li>
+                            </ul>
+                        </div>
+                        <div class="card-tip">
+                            <strong>小挑戰：</strong>今天回家檢查家裡有沒有待機的電器，把它們的插頭拔掉！
+                        </div>
+                    </div>
+                    
+                    <div class="knowledge-card ozone" onclick="showFact('ozone')">
+                        <div class="card-icon">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <h3>臭氧層破洞</h3>
+                        <div class="card-content">
+                            <p>臭氧層保護我們免受有害紫外線傷害。但人類使用的氟氯碳化物(CFCs)會破壞臭氧層，導致：</p>
+                            <ul>
+                                <li>皮膚癌風險增加</li>
+                                <li>農作物減產</li>
+                                <li>海洋生態受影響</li>
+                            </ul>
+                            <p>好消息：自從1987年蒙特婁公約後，臭氧層正在慢慢恢復！</p>
+                        </div>
+                    </div>
+                    
+                    <div class="knowledge-card water" onclick="showFact('water')">
+                        <div class="card-icon">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <h3>珍惜水資源</h3>
+                        <div class="card-content">
+                            <p>地球上的水只有2.5%是淡水，其中大部分是冰河。我們要：</p>
+                            <ul>
+                                <li>縮短洗澡時間，使用省水蓮蓬頭</li>
+                                <li>刷牙時關水龍頭，可節省6公升水</li>
+                                <li>收集雨水澆花</li>
+                                <li>一水多用：洗米水可以澆花</li>
+                            </ul>
+                        </div>
+                        <div class="card-tip">
+                            <strong>你知道嗎：</strong>生產1件棉T恤需要2,700公升的水！
+                        </div>
+                    </div>
+                    
+                    <div class="knowledge-card animal" onclick="showFact('animal')">
+                        <div class="card-icon">
+                            <i class="fas fa-paw"></i>
+                        </div>
+                        <h3>北極熊與生態危機</h3>
+                        <div class="card-content">
+                            <p>北極熊依賴海冰捕食海豹，但全球暖化導致：</p>
+                            <ul>
+                                <li>北極海冰每年減少13%</li>
+                                <li>北極熊覓食困難，體重下降</li>
+                                <li>生存區域縮小，數量減少</li>
+                            </ul>
+                            <p>保護北極熊，我們需要減少碳排放，減緩全球暖化。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="knowledge-card esg" onclick="showFact('esg')">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>什麼是ESG？ <span class="badge">新知識</span></h3>
+                        <div class="card-content">
+                            <p>ESG是企業評估的三個重要標準：</p>
+                            <ul>
+                                <li><strong>E 環境：</strong>公司對環境的影響，如碳排放、資源使用</li>
+                                <li><strong>S 社會：</strong>公司對員工、社區的責任</li>
+                                <li><strong>G 治理：</strong>公司的管理和透明度</li>
+                            </ul>
+                            <p>選擇支持ESG表現好的企業，就是在支持環保！</p>
+                        </div>
+                    </div>
+                    
+                    <div class="knowledge-card climate" onclick="showFact('climate')">
+                        <div class="card-icon">
+                            <i class="fas fa-mountain"></i>
+                        </div>
+                        <h3>冰河融化與海平面上升</h3>
+                        <div class="card-content">
+                            <p>全球暖化導致冰河融化，造成：</p>
+                            <ul>
+                                <li>海平面上升，沿海城市受威脅</li>
+                                <li>極端天氣增加</li>
+                                <li>淡水資源減少</li>
+                            </ul>
+                            <p>如果格陵蘭冰蓋全部融化，海平面將上升7公尺！</p>
+                        </div>
+                        <div class="card-tip">
+                            <strong>行動：</strong>減少使用一次性塑膠，它們的生產過程會排放大量二氧化碳。
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-instruction">
+                    <p><i class="fas fa-lightbulb"></i> <strong>環保小口訣：</strong> 隨手關燈省能源，冷氣26剛剛好，自備餐具少塑膠，走路騎車減碳排，珍惜用水滴滴貴，環保行動我最行！</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="matching-game-tab">
+            <div class="game-section">
+                <h2 class="section-title"><i class="fas fa-puzzle-piece"></i> 環保配對遊戲</h2>
+                
+                <div class="game-area">
+                    <div class="game-stats">
+                        <div class="score">得分: <span id="score">0</span></div>
+                        <div class="level">關卡: <span id="level">1</span>/3</div>
+                    </div>
+                    
+                    <div class="game-instruction">
+                        <p>將環境問題與解決方案配對起來！點擊左邊的問題，再點擊右邊的解決方案。</p>
+                    </div>
+                    
+                    <div class="game-container">
+                        <div class="matching-game" id="matching-game-container">
+                            <!-- 遊戲內容由JavaScript動態生成 -->
+                        </div>
+                    </div>
+                    
+                    <div class="feedback" id="feedback"></div>
+                    
+                    <div class="game-controls">
+                        <button class="btn-start" onclick="startMatchingGame()">
+                            <i class="fas fa-play"></i> 開始遊戲
+                        </button>
+                        <button class="btn-reset" onclick="resetMatchingGame()">
+                            <i class="fas fa-redo"></i> 重新開始
+                        </button>
+                        <button class="btn-next" onclick="nextMatchingLevel()" disabled id="next-btn">
+                            <i class="fas fa-arrow-right"></i> 下一關
+                        </button>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progress-bar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="energy-game-tab">
+            <div class="game-section">
+                <h2 class="section-title"><i class="fas fa-bolt"></i> 節電挑戰賽</h2>
+                
+                <div class="game-area">
+                    <div class="game-stats">
+                        <div class="score">節省電量: <span id="energy-saved">0</span> kWh</div>
+                        <div class="level">每月電費: <span id="energy-cost">$800</span></div>
+                    </div>
+                    
+                    <div class="game-instruction">
+                        <p>關閉不必要的電器，節省能源！點擊電器來開啟或關閉它。</p>
+                        <p>目標：在60秒內將能源使用降到綠色區域！</p>
+                    </div>
+                    
+                    <div class="game-container">
+                        <div class="energy-challenge" id="energy-game-container">
+                            <div class="energy-meter">
+                                <div class="energy-level" id="energy-level"></div>
+                            </div>
+                            <div class="meter-labels">
+                                <span>節能</span>
+                                <span>普通</span>
+                                <span>耗能</span>
+                            </div>
+                            
+                            <div class="house-container" id="house-container">
+                                <!-- 電器由JavaScript動態生成 -->
+                            </div>
+                            
+                            <div class="feedback" id="energy-feedback"></div>
+                            
+                            <div class="game-controls">
+                                <button class="btn-start" onclick="startEnergyGame()">
+                                    <i class="fas fa-play"></i> 開始挑戰
+                                </button>
+                                <button class="btn-reset" onclick="resetEnergyGame()">
+                                    <i class="fas fa-redo"></i> 重新開始
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="polar-bear-game-tab">
+            <div class="game-section">
+                <h2 class="section-title"><i class="fas fa-paw"></i> 拯救北極熊</h2>
+                
+                <div class="game-area">
+                    <div class="game-stats">
+                        <div class="score">北極熊健康度: <span id="polar-bear-health">100</span>%</div>
+                        <div class="level">冰層厚度: <span id="ice-thickness">100</span>%</div>
+                    </div>
+                    
+                    <div class="game-instruction">
+                        <p>幫助北極熊對抗全球暖化！點擊威脅來了解問題，點擊解決方案來幫助北極熊。</p>
+                        <p>注意：冰層融化會讓北極熊落水！</p>
+                    </div>
+                    
+                    <div class="game-container">
+                        <div class="polar-bear-game" id="polar-bear-game-container">
+                            <div class="iceberg">
+                                <div class="ice-level" id="ice-level"></div>
+                                <div class="polar-bear" id="polar-bear">🐻‍❄️</div>
+                            </div>
+                            
+                            <h3>環境威脅：</h3>
+                            <div class="threats" id="threats-container">
+                                <!-- 威脅由JavaScript動態生成 -->
+                            </div>
+                            
+                            <h3>解決方案：</h3>
+                            <div class="solutions" id="solutions-container">
+                                <!-- 解決方案由JavaScript動態生成 -->
+                            </div>
+                            
+                            <div class="feedback" id="polar-bear-feedback"></div>
+                            
+                            <div class="game-controls">
+                                <button class="btn-start" onclick="startPolarBearGame()">
+                                    <i class="fas fa-play"></i> 開始救援
+                                </button>
+                                <button class="btn-reset" onclick="resetPolarBearGame()">
+                                    <i class="fas fa-redo"></i> 重新開始
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>仙洞國小環保教育活動 | 活動時間：30分鐘 | 設計理念：培養小朋友環保意識，珍惜地球資源</p>
+            <p>記住：每個小小的環保行動，都能為地球帶來大大的改變！</p>
+        </div>
     </div>
-</div>
+    
+    <!-- 知識彈出視窗 -->
+    <div class="fact-popup" id="fact-popup">
+        <div class="fact-content">
+            <div class="close-popup" onclick="closeFactPopup()">&times;</div>
+            <h3 id="fact-title"></h3>
+            <div class="fact-icon" id="fact-icon"></div>
+            <div id="fact-content"></div>
+            <div class="card-tip" id="fact-tip"></div>
+        </div>
+    </div>
 
-
- <h3>深入統計分析結構方程式模型(SEM)</h3>
-<p>
-    本頁面提供設備結構方程模型（SEM），專業人員可參考以下連結，了解更深入的統計檢測細節：
-</p>
-<p>
-    <a href="equipment_analysis_report.html" target="_blank" style="color: blue; text-decoration: underline;">
-        點此進入專業統計分析報告
-    </a>
-</p>
-
-<br><br>
-
-
-<h2>節電建議</h2>
-
-<H3>1. 操作變化</H3>
-工作時間變動：電力消耗的變異性可能與人員在設施中的數量變化有關（例如工作時間、班次、假期或停工等）。
-機械/設備使用情況：工廠或辦公室的設備可能根據生產排程、維護計劃或使用模式進行變化，這會導致電力消耗的波動。
-<h3>2. 外部天氣條件</H3>
-氣溫與氣候：加熱和冷卻系統通常是電力的主要消耗者。突如其來的氣溫變化或極端天氣條件（如炎熱的夏天或寒冷的冬天）會導致電力需求的大幅波動。
-濕度：例如，較高的濕度可能會增加空調需求，從而導致電力使用增加。
-<h3>3. 外部需求或供應的變化</H3>
-尖峰需求時期：在某些時段，電力網可能面臨更高的需求，這會導致價格波動和能源使用的變異，尤其是在對電力價格敏感的行業或地區。
-電力網不穩定：如果當地電力網經歷停電、干擾或負荷分配，使用者可能會改變消耗行為，從而導致不規則的電力使用。
-<H3>4. 行為因素</h3>
-人類行為：個人或工作人員的習慣和偏好可能會導致能耗變化。例如，關閉不使用的設備或在特定活動期間使用更多電器，會導致電力消耗的波動。
-節能意識：積極進行節能措施的組織或個體可能顯示出較少的變異性，而缺乏節能措施的情況則可能導致不穩定的消耗。 
-<h3>5. 設備和基礎設施問題</h3>
-設備的年齡與效率：舊的或效率低下的電力設備（如六色機、冷氣、空壓機）可能會導致更多的電力需求波動，而較新的高效系統如加裝變頻則可能會穩定用電模式。
-負荷變動：某些過程或機械設備（如使用設備或空壓機）的能耗需求可能會根據負載、維護或操作狀況發生變化。
-<h3>6. 特殊事件與假期</h3>
-特殊活動：某些事件或促銷（例如產品需求旺盛、特殊旺淡季）可能會導致暫時性的電力消耗增減，從而引起變異性。
-假期和休假：在假期或休假期間，尤其是在辦公室或人員較少的設施，電力使用可能大幅下降。
-<h3>7. 經濟與市場因素</h3>
-電力成本：高昂的電力價格可能會使使用者更加關注其消耗，從而減少變異性，尤其是當他們決定限制用電時。
-能源供應與需求：能源供應的變動（如新發電廠投入使用、可再生能源比重增高或能源短缺）可能會影響價格和使用量的波動。
-<h3>8. 政策與法規變化</h3>
-政府激勵措施：政府政策，如節能計劃或對高效電器的補貼，會導致用電行為的變化，從而減少變異性。
-能源使用規範：某些政策要求特定的用電行為，例如高峰時段的工業限電，可能會調整消耗模式。
-<h3>9. 技術進步</h3>
-智能電表與自動化系統：智能電表和能源管理系統的採用，通過根據實時數據自動調整用電，可能有助於穩定用電，從而減少變異性。
-可再生能源的集成：太陽能板、風能或其他可再生能源的使用可能會導致電力使用的波動，具體取決於自然資源的可用性以及備用電源的需求。
-<h3>10. 節能措施</h3>
-節能設備與做法：使用節能燈具、變頻系統加裝和變頻冷卻系統可以減少對電網的負荷，並穩定用電模式。
-能源審計：定期進行能源審計以追蹤用電情況並實施減少浪費或提升效率的建議，有助於長期減少變異性。
-總結來說，電力使用變異性是由操作、行為、環境、技術與經濟等多重因素共同驅動的。透過分析這些因素，可以識別出異常波動的原因，並進行更好的預測、能源管理，從而減少效率損失。
-</P>
+    <script>
+        // 全局變數
+        let timeLeft = 30 * 60; // 30分鐘轉換為秒
+        let timerInterval;
+        let currentTab = 'knowledge';
+        
+        // 初始化
+        function init() {
+            updateTimerDisplay();
+            setupTabs();
+            initMatchingGame();
+            initEnergyGame();
+            initPolarBearGame();
+            startTimer();
+            
+            // 顯示歡迎訊息
+            setTimeout(() => {
+                showFact('welcome');
+            }, 1000);
+        }
+        
+        // 開始計時器
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert('時間到！今天的環保學習完成啦！你學到了好多環保知識，真棒！');
+                }
+            }, 1000);
+        }
+        
+        // 更新計時器顯示
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('time').textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        // 設置標籤頁切換
+        function setupTabs() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.getAttribute('data-tab');
+                    
+                    // 更新按鈕狀態
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    
+                    // 更新內容顯示
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                    
+                    currentTab = tabId;
+                });
+            });
+        }
+        
+        // 顯示知識彈出視窗
+        function showFact(factType) {
+            const popup = document.getElementById('fact-popup');
+            const title = document.getElementById('fact-title');
+            const icon = document.getElementById('fact-icon');
+            const content = document.getElementById('fact-content');
+            const tip = document.getElementById('fact-tip');
+            
+            const facts = {
+                'welcome': {
+                    title: '歡迎來到環保小衛士！',
+                    icon: '<i class="fas fa-earth-asia"></i>',
+                    content: '<p>小朋友你好！歡迎來到仙洞國小環保小衛士學習遊戲！</p><p>在這裡，你會學到關於節約用電、珍惜水資源、保護臭氧層、認識ESG，還有拯救北極熊的知識！</p><p>點擊不同的標籤頁可以學習和玩遊戲，讓我們一起成為環保小達人吧！</p>',
+                    tip: '記得在30分鐘內完成所有學習和遊戲哦！'
+                },
+                'energy': {
+                    title: '用電節約與能源監控',
+                    icon: '<i class="fas fa-bolt"></i>',
+                    content: '<p><strong>為什麼要節約用電？</strong></p><ul><li>台灣的電力主要來自燃煤和天然氣，會產生大量二氧化碳</li><li>每節省1度電，可減少0.5公斤的二氧化碳排放</li><li>節約用電還能省錢，把錢用在更有意義的地方</li></ul><p><strong>能源監控是什麼？</strong></p><p>就是隨時注意我們用了多少電，找出浪費的地方。現在有智慧電表可以幫助我們監控用電情況！</p>',
+                    tip: '挑戰：今晚關掉電視和電腦，和家人一起玩桌遊或看書！'
+                },
+                'ozone': {
+                    title: '臭氧層破洞',
+                    icon: '<i class="fas fa-layer-group"></i>',
+                    content: '<p><strong>什麼是臭氧層？</strong></p><p>臭氧層是地球大氣中一層含有臭氧(O₃)的區域，位於離地面20-30公里的平流層。它能吸收太陽光中有害的紫外線，保護地球上的生物。</p><p><strong>臭氧層破洞怎麼形成的？</strong></p><p>人類使用的冷媒、噴霧罐中的氟氯碳化物(CFCs)會上升到平流層，破壞臭氧分子，導致臭氧層變薄形成破洞。</p><p><strong>好消息：</strong>自從全球禁止使用CFCs後，臭氧層正在慢慢修復中！</p>',
+                    tip: '避免購買含有CFCs的噴霧產品，選擇環保替代品。'
+                },
+                'water': {
+                    title: '珍惜水資源',
+                    icon: '<i class="fas fa-tint"></i>',
+                    content: '<p><strong>水資源有多珍貴？</strong></p><p>地球上的水97.5%是海水，2.5%是淡水，其中大部分是冰河和地下水，我們能直接使用的淡水不到1%。</p><p><strong>台灣是缺水國家！</strong></p><p>台灣年平均降雨量雖高，但地形陡峭，雨水很快流入大海，加上人口密集，每人可用的水資源只有世界平均的1/6。</p><p><strong>節水小妙招：</strong></p><ul><li>淋浴比泡澡省水</li><li>使用省水馬桶和龍頭</li><li>洗菜水可以澆花</li><li>衣服累積多一點再洗</li></ul>',
+                    tip: '檢查家裡的水龍頭有沒有漏水，一個滴水的水龍頭一年會浪費3,000公升的水！'
+                },
+                'animal': {
+                    title: '北極熊與生態危機',
+                    icon: '<i class="fas fa-paw"></i>',
+                    content: '<p><strong>北極熊的困境</strong></p><p>北極熊主要依靠海冰捕食海豹，但全球暖化導致北極海冰快速融化：</p><ul><li>過去40年，北極夏季海冰減少了40%</li><li>北極熊必須游泳更遠距離尋找食物</li><li>小熊存活率下降</li><li>有些北極熊甚至入侵人類村莊尋找食物</li></ul><p><strong>不只是北極熊</strong></p><p>全球暖化影響整個北極生態系：海象、北極狐、許多鳥類都面臨生存危機。</p>',
+                    tip: '減少吃肉，尤其是牛肉，因為畜牧業是溫室氣體的主要來源之一。'
+                },
+                'esg': {
+                    title: '什麼是ESG？',
+                    icon: '<i class="fas fa-chart-line"></i>',
+                    content: '<p><strong>ESG是什麼？</strong></p><p>ESG是評估企業的三個重要標準：</p><ul><li><strong>E 環境(Environmental)：</strong>公司對環境的影響，包括能源使用、廢棄物處理、碳排放等</li><li><strong>S 社會(Social)：</strong>公司對員工、客戶、供應商和社區的責任</li><li><strong>G 治理(Governance)：</strong>公司的管理結構、透明度和道德標準</li></ul><p><strong>為什麼ESG重要？</strong></p><p>ESG表現好的公司通常更永續、風險更低，也更容易吸引投資。我們可以支持ESG表現好的企業，用消費選擇推動環保！</p>',
+                    tip: '和家人討論購買產品時，可以選擇有環保標章或ESG表現好的品牌。'
+                },
+                'climate': {
+                    title: '冰河融化與海平面上升',
+                    icon: '<i class="fas fa-mountain"></i>',
+                    content: '<p><strong>冰河融化的影響</strong></p><p>全球暖化導致兩極冰蓋和高山冰河快速融化：</p><ul><li>過去20年，格陵蘭冰蓋每年損失2790億噸冰</li><li>南極冰蓋融化導致海平面每年上升0.4毫米</li><li>如果所有冰河融化，海平面將上升70公尺</li></ul><p><strong>海平面上升的後果</strong></p><p>許多沿海城市和島國將被淹沒，包括台灣的部分地區。威尼斯、曼谷、上海等城市都面臨威脅。</p><p><strong>我們能做什麼？</strong></p><p>減少碳排放，支持可再生能源，保護森林，減少消費。</p>',
+                    tip: '種植一棵樹，它一生可以吸收1噸的二氧化碳！'
+                }
+            };
+            
+            if (facts[factType]) {
+                title.innerHTML = facts[factType].title;
+                icon.innerHTML = facts[factType].icon;
+                content.innerHTML = facts[factType].content;
+                tip.innerHTML = facts[factType].tip;
+                popup.style.display = 'flex';
+            }
+        }
+        
+        // 關閉知識彈出視窗
+        function closeFactPopup() {
+            document.getElementById('fact-popup').style.display = 'none';
+        }
+        
+        // ========== 配對遊戲 ==========
+        let matchingGameData = [];
+        let matchingScore = 0;
+        let matchingLevel = 1;
+        let matchingGameActive = false;
+        let selectedItem = null;
+        let correctMatches = 0;
+        let totalMatches = 3;
+        
+        function initMatchingGame() {
+            matchingGameData = [
+                {
+                    problems: [
+                        { id: 1, text: "冷氣開太冷", icon: "fas fa-snowflake" },
+                        { id: 2, text: "使用一次性塑膠袋", icon: "fas fa-shopping-bag" },
+                        { id: 3, text: "開車上學", icon: "fas fa-car" }
+                    ],
+                    solutions: [
+                        { id: 1, text: "設定26-28°C", match: 1, icon: "fas fa-thermometer-half" },
+                        { id: 2, text: "自備環保袋", match: 2, icon: "fas fa-shopping-basket" },
+                        { id: 3, text: "走路或騎腳踏車", match: 3, icon: "fas fa-bicycle" }
+                    ]
+                },
+                {
+                    problems: [
+                        { id: 1, text: "臭氧層破洞", icon: "fas fa-layer-group" },
+                        { id: 2, text: "北極熊失去家園", icon: "fas fa-paw" },
+                        { id: 3, text: "冰河融化", icon: "fas fa-mountain" }
+                    ],
+                    solutions: [
+                        { id: 1, text: "減少使用冷媒", match: 1, icon: "fas fa-wind" },
+                        { id: 2, text: "減少碳排放", match: 2, icon: "fas fa-industry" },
+                        { id: 3, text: "減緩全球暖化", match: 3, icon: "fas fa-temperature-high" }
+                    ]
+                },
+                {
+                    problems: [
+                        { id: 1, text: "浪費水資源", icon: "fas fa-tint" },
+                        { id: 2, text: "電力浪費", icon: "fas fa-bolt" },
+                        { id: 3, text: "空氣污染", icon: "fas fa-smog" }
+                    ],
+                    solutions: [
+                        { id: 1, text: "一水多用", match: 1, icon: "fas fa-recycle" },
+                        { id: 2, text: "隨手關燈", match: 2, icon: "fas fa-lightbulb" },
+                        { id: 3, text: "搭乘大眾運輸", match: 3, icon: "fas fa-bus" }
+                    ]
+                }
+            ];
+            
+            renderMatchingGame();
+        }
+        
+        function renderMatchingGame() {
+            const container = document.getElementById('matching-game-container');
+            const levelData = matchingGameData[matchingLevel - 1];
+            
+            container.innerHTML = '';
+            
+            // 問題列
+            const problemsRow = document.createElement('div');
+            problemsRow.className = 'matching-row';
+            
+            levelData.problems.forEach(problem => {
+                const problemElement = document.createElement('div');
+                problemElement.className = 'matching-item left';
+                problemElement.innerHTML = `
+                    <i class="${problem.icon}"></i>
+                    <span>${problem.text}</span>
+                `;
+                problemElement.dataset.id = problem.id;
+                problemElement.dataset.type = 'problem';
+                problemElement.addEventListener('click', () => selectMatchingItem(problemElement));
+                problemsRow.appendChild(problemElement);
+            });
+            
+            container.appendChild(problemsRow);
+            
+            // 箭頭
+            const arrowRow = document.createElement('div');
+            arrowRow.className = 'matching-row';
+            arrowRow.innerHTML = `
+                <div class="matching-arrow"><i class="fas fa-long-arrow-alt-down"></i></div>
+                <div class="matching-arrow"><i class="fas fa-long-arrow-alt-down"></i></div>
+                <div class="matching-arrow"><i class="fas fa-long-arrow-alt-down"></i></div>
+            `;
+            container.appendChild(arrowRow);
+            
+            // 解決方案列
+            const solutionsRow = document.createElement('div');
+            solutionsRow.className = 'matching-row';
+            
+            // 隨機排序解決方案
+            const shuffledSolutions = [...levelData.solutions].sort(() => Math.random() - 0.5);
+            
+            shuffledSolutions.forEach(solution => {
+                const solutionElement = document.createElement('div');
+                solutionElement.className = 'matching-item right';
+                solutionElement.innerHTML = `
+                    <i class="${solution.icon}"></i>
+                    <span>${solution.text}</span>
+                `;
+                solutionElement.dataset.id = solution.id;
+                solutionElement.dataset.match = solution.match;
+                solutionElement.dataset.type = 'solution';
+                solutionElement.addEventListener('click', () => selectMatchingItem(solutionElement));
+                solutionsRow.appendChild(solutionElement);
+            });
+            
+            container.appendChild(solutionsRow);
+            
+            // 更新分數和等級顯示
+            document.getElementById('score').textContent = matchingScore;
+            document.getElementById('level').textContent = matchingLevel;
+            document.getElementById('progress-bar').style.width = '0%';
+            
+            // 重置反饋
+            document.getElementById('feedback').textContent = '點擊問題，再點擊解決方案來配對！';
+            document.getElementById('feedback').className = 'feedback';
+            
+            // 禁用下一關按鈕
+            document.getElementById('next-btn').disabled = true;
+            
+            // 重置選擇狀態
+            selectedItem = null;
+            correctMatches = 0;
+        }
+        
+        function selectMatchingItem(item) {
+            if (!matchingGameActive) return;
+            
+            if (item.classList.contains('matched')) return;
+            
+            if (!selectedItem) {
+                // 選擇第一個項目
+                selectedItem = item;
+                item.classList.add('selected');
+            } else {
+                // 選擇第二個項目
+                if (selectedItem.dataset.type === item.dataset.type) {
+                    // 相同類型，更換選擇
+                    selectedItem.classList.remove('selected');
+                    selectedItem = item;
+                    item.classList.add('selected');
+                } else {
+                    // 不同類型，檢查配對
+                    const isProblemFirst = selectedItem.dataset.type === 'problem';
+                    const problem = isProblemFirst ? selectedItem : item;
+                    const solution = isProblemFirst ? item : selectedItem;
+                    
+                    const problemId = parseInt(problem.dataset.id);
+                    const solutionMatchId = parseInt(solution.dataset.match);
+                    
+                    if (problemId === solutionMatchId) {
+                        // 配對正確
+                        problem.classList.add('matched');
+                        solution.classList.add('matched');
+                        problem.classList.remove('selected');
+                        solution.classList.remove('selected');
+                        
+                        matchingScore += 10 * matchingLevel;
+                        document.getElementById('score').textContent = matchingScore;
+                        
+                        correctMatches++;
+                        const progress = (correctMatches / totalMatches) * 100;
+                        document.getElementById('progress-bar').style.width = `${progress}%`;
+                        
+                        document.getElementById('feedback').textContent = '太棒了！配對正確！';
+                        document.getElementById('feedback').className = 'feedback correct';
+                        
+                        if (correctMatches >= totalMatches) {
+                            matchingGameActive = false;
+                            document.getElementById('feedback').textContent = `恭喜！完成第${matchingLevel}關！獲得${10 * matchingLevel * totalMatches}分！`;
+                            
+                            if (matchingLevel < 3) {
+                                document.getElementById('next-btn').disabled = false;
+                            } else {
+                                document.getElementById('feedback').textContent += ' 你已完成所有關卡！成為環保配對達人！';
+                            }
+                        }
+                    } else {
+                        // 配對錯誤
+                        document.getElementById('feedback').textContent = '配對錯誤，再試試看！';
+                        document.getElementById('feedback').className = 'feedback incorrect';
+                        
+                        matchingScore = Math.max(0, matchingScore - 5);
+                        document.getElementById('score').textContent = matchingScore;
+                        
+                        selectedItem.classList.remove('selected');
+                    }
+                    
+                    selectedItem = null;
+                }
+            }
+        }
+        
+        function startMatchingGame() {
+            matchingGameActive = true;
+            correctMatches = 0;
+            document.getElementById('progress-bar').style.width = '0%';
+            
+            // 重置所有項目狀態
+            document.querySelectorAll('.matching-item').forEach(item => {
+                item.classList.remove('matched', 'selected');
+            });
+            
+            document.getElementById('feedback').textContent = '遊戲開始！點擊問題，再點擊解決方案來配對！';
+            document.getElementById('feedback').className = 'feedback';
+            
+            document.getElementById('next-btn').disabled = true;
+        }
+        
+        function resetMatchingGame() {
+            matchingGameActive = false;
+            matchingScore = 0;
+            matchingLevel = 1;
+            correctMatches = 0;
+            
+            renderMatchingGame();
+            
+            document.getElementById('feedback').textContent = '點擊「開始遊戲」按鈕開始遊戲！';
+            document.getElementById('feedback').className = 'feedback';
+        }
+        
+        function nextMatchingLevel() {
+            matchingLevel++;
+            renderMatchingGame();
+            startMatchingGame();
+        }
+        
+        // ========== 節電挑戰遊戲 ==========
+        let energyGameActive = false;
+        let energySaved = 0;
+        let energyCost = 800;
+        let energyLevel = 50; // 50% 初始能源使用
+        let appliances = [];
+        
+        function initEnergyGame() {
+            appliances = [
+                { id: 1, name: "冷氣", power: 1500, x: 20, y: 30, on: true, icon: "fas fa-snowflake" },
+                { id: 2, name: "電視", power: 200, x: 120, y: 40, on: true, icon: "fas fa-tv" },
+                { id: 3, name: "電燈", power: 100, x: 220, y: 30, on: true, icon: "fas fa-lightbulb" },
+                { id: 4, name: "電腦", power: 300, x: 40, y: 120, on: true, icon: "fas fa-desktop" },
+                { id: 5, name: "電風扇", power: 80, x: 140, y: 130, on: true, icon: "fas fa-fan" },
+                { id: 6, name: "充電器", power: 50, x: 220, y: 120, on: true, icon: "fas fa-charging-station" }
+            ];
+            
+            renderEnergyGame();
+        }
+        
+        function renderEnergyGame() {
+            const container = document.getElementById('house-container');
+            container.innerHTML = '';
+            
+            appliances.forEach(appliance => {
+                const applianceElement = document.createElement('div');
+                applianceElement.className = `appliance ${appliance.on ? 'on' : 'off'}`;
+                applianceElement.style.left = `${appliance.x}px`;
+                applianceElement.style.top = `${appliance.y}px`;
+                applianceElement.innerHTML = `
+                    <div class="appliance-icon"><i class="${appliance.icon}"></i></div>
+                    <div>${appliance.name}</div>
+                `;
+                applianceElement.addEventListener('click', () => toggleAppliance(appliance.id));
+                container.appendChild(applianceElement);
+            });
+            
+            updateEnergyDisplay();
+        }
+        
+        function toggleAppliance(id) {
+            if (!energyGameActive) return;
+            
+            const appliance = appliances.find(a => a.id === id);
+            appliance.on = !appliance.on;
+            
+            // 計算能源使用
+            let totalPower = 0;
+            appliances.forEach(a => {
+                if (a.on) totalPower += a.power;
+            });
+            
+            // 更新能源等級 (0-100%，越低越好)
+            energyLevel = Math.min(100, Math.max(10, (totalPower / 2500) * 100));
+            
+            // 計算節省能源
+            if (!appliance.on) {
+                energySaved += appliance.power * 0.001; // 假設關閉1小時
+                energyCost = Math.max(200, 800 - energySaved * 5); // 每節省1度電省5元
+            } else {
+                energySaved = Math.max(0, energySaved - appliance.power * 0.001);
+                energyCost = Math.min(1200, 800 + (appliance.power * 0.001 * 5));
+            }
+            
+            updateEnergyDisplay();
+            renderEnergyGame();
+            
+            // 檢查是否完成挑戰
+            if (energyLevel <= 30) {
+                energyGameActive = false;
+                document.getElementById('energy-feedback').textContent = '太棒了！你成功節能，將能源使用降到綠色區域！';
+                document.getElementById('energy-feedback').className = 'feedback correct';
+            }
+        }
+        
+        function updateEnergyDisplay() {
+            document.getElementById('energy-level').style.width = `${energyLevel}%`;
+            document.getElementById('energy-saved').textContent = energySaved.toFixed(1);
+            document.getElementById('energy-cost').textContent = `$${Math.round(energyCost)}`;
+            
+            // 更新反饋
+            if (energyLevel <= 30) {
+                document.getElementById('energy-feedback').textContent = '優秀！能源使用在節能範圍！';
+                document.getElementById('energy-feedback').className = 'feedback correct';
+            } else if (energyLevel <= 60) {
+                document.getElementById('energy-feedback').textContent = '還可以，試著關閉更多電器！';
+                document.getElementById('energy-feedback').className = 'feedback';
+            } else {
+                document.getElementById('energy-feedback').textContent = '用電太多了！快關掉一些電器！';
+                document.getElementById('energy-feedback').className = 'feedback incorrect';
+            }
+        }
+        
+        function startEnergyGame() {
+            energyGameActive = true;
+            energySaved = 0;
+            energyCost = 800;
+            energyLevel = 50;
+            
+            // 隨機開啟一些電器
+            appliances.forEach(appliance => {
+                appliance.on = Math.random() > 0.3;
+            });
+            
+            // 重新計算能源使用
+            let totalPower = 0;
+            appliances.forEach(a => {
+                if (a.on) totalPower += a.power;
+            });
+            energyLevel = (totalPower / 2500) * 100;
+            
+            renderEnergyGame();
+            
+            document.getElementById('energy-feedback').textContent = '遊戲開始！點擊電器來開啟或關閉它，目標是將能源使用降到綠色區域！';
+            document.getElementById('energy-feedback').className = 'feedback';
+        }
+        
+        function resetEnergyGame() {
+            energyGameActive = false;
+            energySaved = 0;
+            energyCost = 800;
+            energyLevel = 50;
+            
+            appliances.forEach(appliance => {
+                appliance.on = true;
+            });
+            
+            renderEnergyGame();
+            
+            document.getElementById('energy-feedback').textContent = '點擊「開始挑戰」按鈕開始遊戲！';
+            document.getElementById('energy-feedback').className = 'feedback';
+        }
+        
+        // ========== 拯救北極熊遊戲 ==========
+        let polarBearGameActive = false;
+        let polarBearHealth = 100;
+        let iceThickness = 100;
+        let threats = [];
+        let solutions = [];
+        
+        function initPolarBearGame() {
+            threats = [
+                { id: 1, name: "全球暖化", damage: 15, icon: "fas fa-temperature-high" },
+                { id: 2, name: "海冰融化", damage: 20, icon: "fas fa-icicles" },
+                { id: 3, name: "海洋污染", damage: 10, icon: "fas fa-trash" },
+                { id: 4, name: "過度捕魚", damage: 10, icon: "fas fa-fish" }
+            ];
+            
+            solutions = [
+                { id: 1, name: "種樹", heal: 15, cost: 10, icon: "fas fa-tree" },
+                { id: 2, name: "節約用電", heal: 10, cost: 5, icon: "fas fa-bolt" },
+                { id: 3, name: "減少塑膠", heal: 10, cost: 5, icon: "fas fa-recycle" },
+                { id: 4, name: "綠色能源", heal: 20, cost: 15, icon: "fas fa-solar-panel" }
+            ];
+            
+            renderPolarBearGame();
+        }
+        
+        function renderPolarBearGame() {
+            const threatsContainer = document.getElementById('threats-container');
+            const solutionsContainer = document.getElementById('solutions-container');
+            
+            threatsContainer.innerHTML = '';
+            solutionsContainer.innerHTML = '';
+            
+            threats.forEach(threat => {
+                const threatElement = document.createElement('div');
+                threatElement.className = 'threat';
+                threatElement.innerHTML = `
+                    <i class="${threat.icon}"></i> ${threat.name}
+                `;
+                threatElement.addEventListener('click', () => applyThreat(threat.id));
+                threatsContainer.appendChild(threatElement);
+            });
+            
+            solutions.forEach(solution => {
+                const solutionElement = document.createElement('div');
+                solutionElement.className = 'solution';
+                solutionElement.innerHTML = `
+                    <i class="${solution.icon}"></i> ${solution.name}
+                `;
+                solutionElement.addEventListener('click', () => applySolution(solution.id));
+                solutionsContainer.appendChild(solutionElement);
+            });
+            
+            updatePolarBearDisplay();
+        }
+        
+        function applyThreat(threatId) {
+            if (!polarBearGameActive) return;
+            
+            const threat = threats.find(t => t.id === threatId);
+            
+            // 減少冰層厚度和北極熊健康度
+            iceThickness = Math.max(0, iceThickness - threat.damage);
+            polarBearHealth = Math.max(0, polarBearHealth - threat.damage / 2);
+            
+            updatePolarBearDisplay();
+            
+            document.getElementById('polar-bear-feedback').textContent = `哦不！${threat.name}讓冰層融化了${threat.damage}%！`;
+            document.getElementById('polar-bear-feedback').className = 'feedback incorrect';
+            
+            checkGameOver();
+        }
+        
+        function applySolution(solutionId) {
+            if (!polarBearGameActive) return;
+            
+            const solution = solutions.find(s => s.id === solutionId);
+            
+            // 恢復冰層厚度和北極熊健康度
+            iceThickness = Math.min(100, iceThickness + solution.heal);
+            polarBearHealth = Math.min(100, polarBearHealth + solution.heal / 2);
+            
+            updatePolarBearDisplay();
+            
+            document.getElementById('polar-bear-feedback').textContent = `太好了！${solution.name}幫助恢復了冰層${solution.heal}%！`;
+            document.getElementById('polar-bear-feedback').className = 'feedback correct';
+            
+            checkGameWin();
+        }
+        
+        function updatePolarBearDisplay() {
+            document.getElementById('ice-thickness').textContent = iceThickness;
+            document.getElementById('polar-bear-health').textContent = polarBearHealth;
+            
+            // 更新冰層視覺效果
+            document.getElementById('ice-level').style.height = `${iceThickness}%`;
+            
+            // 更新北極熊位置
+            const bearElement = document.getElementById('polar-bear');
+            const bottomPosition = 10 + (100 - iceThickness) * 0.5;
+            bearElement.style.bottom = `${bottomPosition}px`;
+            
+            // 更新北極熊表情
+            if (polarBearHealth >= 70) {
+                bearElement.textContent = "🐻‍❄️";
+            } else if (polarBearHealth >= 30) {
+                bearElement.textContent = "😟🐻‍❄️";
+            } else {
+                bearElement.textContent = "😨🐻‍❄️";
+            }
+        }
+        
+        function checkGameOver() {
+            if (iceThickness <= 0 || polarBearHealth <= 0) {
+                polarBearGameActive = false;
+                document.getElementById('polar-bear-feedback').textContent = '遊戲結束！冰層完全融化了，北極熊失去家園了...再試一次吧！';
+                document.getElementById('polar-bear-feedback').className = 'feedback incorrect';
+            }
+        }
+        
+        function checkGameWin() {
+            if (iceThickness >= 80 && polarBearHealth >= 80) {
+                polarBearGameActive = false;
+                document.getElementById('polar-bear-feedback').textContent = '恭喜！你成功拯救了北極熊和它的家園！';
+                document.getElementById('polar-bear-feedback').className = 'feedback correct';
+            }
+        }
+        
+        function startPolarBearGame() {
+            polarBearGameActive = true;
+            polarBearHealth = 100;
+            iceThickness = 100;
+            
+            updatePolarBearDisplay();
+            
+            document.getElementById('polar-bear-feedback').textContent = '遊戲開始！點擊威脅了解問題，點擊解決方案幫助北極熊！';
+            document.getElementById('polar-bear-feedback').className = 'feedback';
+        }
+        
+        function resetPolarBearGame() {
+            polarBearGameActive = false;
+            polarBearHealth = 100;
+            iceThickness = 100;
+            
+            updatePolarBearDisplay();
+            
+            document.getElementById('polar-bear-feedback').textContent = '點擊「開始救援」按鈕開始遊戲！';
+            document.getElementById('polar-bear-feedback').className = 'feedback';
+        }
+        
+        // 頁面加載時初始化
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
 </body>
 </html>
