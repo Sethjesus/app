@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>仙洞國小環保小衛士 - 進階版</title>
+    <title>仙洞國小環保小衛士 - 最終優化版</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -198,6 +198,10 @@
             border-left-color: #4CAF50;
         }
         
+        .knowledge-card.carbon {
+            border-left-color: #8BC34A;
+        }
+        
         .knowledge-card.climate {
             border-left-color: #607D8B;
         }
@@ -333,7 +337,7 @@
             color: #FF5722;
         }
         
-        /* 節電挑戰遊戲樣式 */
+        /* 節電挑戰遊戲樣式 - 修正版 */
         .energy-challenge {
             text-align: center;
         }
@@ -374,6 +378,7 @@
         .appliance.off {
             background-color: #F5F5F5;
             border: 2px solid #9E9E9E;
+            color: #777;
         }
         
         .appliance-icon {
@@ -407,6 +412,147 @@
             font-size: 0.9rem;
             font-weight: bold;
             color: #555;
+        }
+        
+        .energy-details {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .energy-detail {
+            background-color: #F5F5F5;
+            padding: 8px 12px;
+            border-radius: 8px;
+            min-width: 120px;
+        }
+        
+        .energy-detail .label {
+            font-weight: bold;
+            color: #666;
+        }
+        
+        .energy-detail .value {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #2E7D32;
+        }
+        
+        .energy-detail .value.high {
+            color: #F44336;
+        }
+        
+        /* 碳匯挑戰賽樣式 - 修正版 */
+        .carbon-sink-game {
+            text-align: center;
+        }
+        
+        .carbon-meter {
+            width: 80%;
+            height: 30px;
+            background-color: #E0E0E0;
+            border-radius: 15px;
+            margin: 20px auto;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .carbon-level {
+            height: 100%;
+            width: 30%;
+            background: linear-gradient(90deg, #F44336, #FF9800, #4CAF50);
+            border-radius: 15px;
+            transition: width 0.5s;
+        }
+        
+        .carbon-sources, .carbon-sinks {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .carbon-source {
+            padding: 10px 15px;
+            background-color: #FFEBEE;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid #F44336;
+            font-weight: bold;
+            color: #C62828;
+            min-width: 120px;
+        }
+        
+        .carbon-sink {
+            padding: 10px 15px;
+            background-color: #E8F5E9;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid #4CAF50;
+            font-weight: bold;
+            color: #2E7D32;
+            min-width: 120px;
+        }
+        
+        .carbon-source:hover {
+            background-color: #FFCDD2;
+        }
+        
+        .carbon-sink:hover {
+            background-color: #C8E6C9;
+        }
+        
+        .earth-container {
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            position: relative;
+            background-color: #BBDEFB;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid #64B5F6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 5rem;
+            color: #1E88E5;
+        }
+        
+        .carbon-score {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .carbon-score-item {
+            background-color: #F5F5F5;
+            padding: 8px 12px;
+            border-radius: 8px;
+            min-width: 140px;
+        }
+        
+        .carbon-score-item .label {
+            font-weight: bold;
+            color: #666;
+        }
+        
+        .carbon-score-item .value {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #2E7D32;
+        }
+        
+        .carbon-score-item .value.negative {
+            color: #F44336;
+        }
+        
+        .carbon-score-item .value.positive {
+            color: #4CAF50;
         }
         
         /* 拯救北極熊遊戲樣式 */
@@ -690,6 +836,12 @@
                 height: 50px;
                 font-size: 0.7rem;
             }
+            
+            .energy-details, .carbon-score {
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+            }
         }
     </style>
 </head>
@@ -699,8 +851,8 @@
             <div class="logo">
                 <i class="fas fa-earth-asia"></i>
             </div>
-            <h1>仙洞國小環保小衛士 - 進階版</h1>
-            <p>學習環境保護知識，從節約用電、能源監控到認識臭氧破洞、ESG、拯救北極熊，一起守護地球！</p>
+            <h1>仙洞國小環保小衛士 - 最終優化版</h1>
+            <p>學習環境保護知識，從節約用電、碳匯到認識臭氧破洞、ESG、拯救北極熊，一起守護地球！</p>
             <div class="timer">
                 <i class="fas fa-clock"></i> <span id="time">30:00</span>
             </div>
@@ -715,6 +867,9 @@
             </button>
             <button class="tab-button" data-tab="energy-game">
                 <i class="fas fa-bolt"></i> 節電挑戰賽
+            </button>
+            <button class="tab-button" data-tab="carbon-game">
+                <i class="fas fa-tree"></i> 碳匯挑戰賽
             </button>
             <button class="tab-button" data-tab="polar-bear-game">
                 <i class="fas fa-paw"></i> 拯救北極熊
@@ -733,32 +888,44 @@
                         </div>
                         <h3>用電節約與能源監控</h3>
                         <div class="card-content">
-                            <p>電力的生產會產生二氧化碳，加劇全球暖化。我們可以：</p>
+                            <p><strong>電費計算公式：</strong></p>
+                            <p>電費 = 用電度數 × 每度電價(約3元)</p>
+                            <p><strong>電器耗電計算：</strong></p>
+                            <p>用電度數 = 電器功率(W) × 使用時間(小時) ÷ 1000</p>
+                            <p><strong>例如：</strong></p>
                             <ul>
-                                <li>隨手關燈，離開房間關閉電器</li>
-                                <li>使用節能標章的電器產品</li>
-                                <li>夏季冷氣設定在26-28°C</li>
-                                <li>使用自然光，減少開燈時間</li>
+                                <li>100W電燈開10小時 = 1度電 = 3元</li>
+                                <li>冷氣1500W開1小時 = 1.5度電 = 4.5元</li>
+                                <li>關閉待機電器可節省5-10%電費</li>
                             </ul>
                         </div>
                         <div class="card-tip">
-                            <strong>小挑戰：</strong>今天回家檢查家裡有沒有待機的電器，把它們的插頭拔掉！
+                            <strong>節電技巧：</strong>離開房間超過10分鐘就關燈，夏季冷氣設定26-28°C最省電！
                         </div>
                     </div>
                     
-                    <div class="knowledge-card ozone" onclick="showFact('ozone')">
+                    <div class="knowledge-card carbon" onclick="showFact('carbon')">
                         <div class="card-icon">
-                            <i class="fas fa-layer-group"></i>
+                            <i class="fas fa-tree"></i>
                         </div>
-                        <h3>臭氧層破洞</h3>
+                        <h3>樹木碳匯與海洋碳匯 <span class="badge">新知識</span></h3>
                         <div class="card-content">
-                            <p>臭氧層保護我們免受有害紫外線傷害。但人類使用的氟氯碳化物(CFCs)會破壞臭氧層，導致：</p>
+                            <p><strong>碳匯是什麼？</strong>能夠吸收二氧化碳的自然系統。</p>
+                            <p><strong>樹木碳匯：</strong></p>
                             <ul>
-                                <li>皮膚癌風險增加</li>
-                                <li>農作物減產</li>
-                                <li>海洋生態受影響</li>
+                                <li>一棵樹每年可吸收12公斤二氧化碳</li>
+                                <li>一棵樹一生可吸收約1噸二氧化碳</li>
+                                <li>1公頃森林每年吸收22噸二氧化碳</li>
                             </ul>
-                            <p>好消息：自從1987年蒙特婁公約後，臭氧層正在慢慢恢復！</p>
+                            <p><strong>海洋碳匯：</strong></p>
+                            <ul>
+                                <li>海洋吸收約30%人類排放的二氧化碳</li>
+                                <li>浮游植物通過光合作用吸收二氧化碳</li>
+                                <li>1平方公里的健康海洋每年吸收150公斤二氧化碳</li>
+                            </ul>
+                        </div>
+                        <div class="card-tip">
+                            <strong>行動：</strong>種植一棵樹，它一生可以吸收1噸的二氧化碳！
                         </div>
                     </div>
                     
@@ -813,22 +980,19 @@
                         </div>
                     </div>
                     
-                    <div class="knowledge-card climate" onclick="showFact('climate')">
+                    <div class="knowledge-card ozone" onclick="showFact('ozone')">
                         <div class="card-icon">
-                            <i class="fas fa-mountain"></i>
+                            <i class="fas fa-layer-group"></i>
                         </div>
-                        <h3>冰河融化與海平面上升</h3>
+                        <h3>臭氧層破洞</h3>
                         <div class="card-content">
-                            <p>全球暖化導致冰河融化，造成：</p>
+                            <p>臭氧層保護我們免受有害紫外線傷害。但人類使用的氟氯碳化物(CFCs)會破壞臭氧層，導致：</p>
                             <ul>
-                                <li>海平面上升，沿海城市受威脅</li>
-                                <li>極端天氣增加</li>
-                                <li>淡水資源減少</li>
+                                <li>皮膚癌風險增加</li>
+                                <li>農作物減產</li>
+                                <li>海洋生態受影響</li>
                             </ul>
-                            <p>如果格陵蘭冰蓋全部融化，海平面將上升7公尺！</p>
-                        </div>
-                        <div class="card-tip">
-                            <strong>行動：</strong>減少使用一次性塑膠，它們的生產過程會排放大量二氧化碳。
+                            <p>好消息：自從1987年蒙特婁公約後，臭氧層正在慢慢恢復！</p>
                         </div>
                     </div>
                 </div>
@@ -845,12 +1009,13 @@
                 
                 <div class="game-area">
                     <div class="game-stats">
-                        <div class="score">得分: <span id="score">0</span></div>
-                        <div class="level">關卡: <span id="level">1</span>/3</div>
+                        <div class="score">得分: <span id="matching-score">0</span>/300</div>
+                        <div class="level">關卡: <span id="matching-level">1</span>/3</div>
                     </div>
                     
                     <div class="game-instruction">
                         <p>將環境問題與解決方案配對起來！點擊左邊的問題，再點擊右邊的解決方案。</p>
+                        <p><strong>計分規則：</strong>每關配對正確得100分，三關全對可得300分滿分！</p>
                     </div>
                     
                     <div class="game-container">
@@ -859,7 +1024,7 @@
                         </div>
                     </div>
                     
-                    <div class="feedback" id="feedback"></div>
+                    <div class="feedback" id="matching-feedback"></div>
                     
                     <div class="game-controls">
                         <button class="btn-start" onclick="startMatchingGame()">
@@ -868,13 +1033,13 @@
                         <button class="btn-reset" onclick="resetMatchingGame()">
                             <i class="fas fa-redo"></i> 重新開始
                         </button>
-                        <button class="btn-next" onclick="nextMatchingLevel()" disabled id="next-btn">
+                        <button class="btn-next" onclick="nextMatchingLevel()" disabled id="matching-next-btn">
                             <i class="fas fa-arrow-right"></i> 下一關
                         </button>
                     </div>
                     
                     <div class="progress-container">
-                        <div class="progress-bar" id="progress-bar"></div>
+                        <div class="progress-bar" id="matching-progress-bar"></div>
                     </div>
                 </div>
             </div>
@@ -886,13 +1051,20 @@
                 
                 <div class="game-area">
                     <div class="game-stats">
-                        <div class="score">節省電量: <span id="energy-saved">0</span> kWh</div>
-                        <div class="level">每月電費: <span id="energy-cost">$800</span></div>
+                        <div class="score">遊戲得分: <span id="energy-score">0</span>/100</div>
+                        <div class="level">時間: <span id="energy-time">60</span>秒</div>
                     </div>
                     
                     <div class="game-instruction">
                         <p>關閉不必要的電器，節省能源！點擊電器來開啟或關閉它。</p>
-                        <p>目標：在60秒內將能源使用降到綠色區域！</p>
+                        <p><strong>計分規則：</strong></p>
+                        <ul>
+                            <li>關閉一個電器得10分</li>
+                            <li>能源使用率低於30%得30分</li>
+                            <li>每月節省電費超過$300得30分</li>
+                            <li>時間內完成得30分</li>
+                        </ul>
+                        <p>目標：在60秒內關閉所有不必要電器，獲得100分滿分！</p>
                     </div>
                     
                     <div class="game-container">
@@ -906,6 +1078,21 @@
                                 <span>耗能</span>
                             </div>
                             
+                            <div class="energy-details">
+                                <div class="energy-detail">
+                                    <div class="label">每月電費</div>
+                                    <div class="value" id="energy-cost">$800</div>
+                                </div>
+                                <div class="energy-detail">
+                                    <div class="label">節省電費</div>
+                                    <div class="value" id="energy-saved">$0</div>
+                                </div>
+                                <div class="energy-detail">
+                                    <div class="label">用電度數</div>
+                                    <div class="value" id="energy-kwh">0</div>
+                                </div>
+                            </div>
+                            
                             <div class="house-container" id="house-container">
                                 <!-- 電器由JavaScript動態生成 -->
                             </div>
@@ -917,6 +1104,80 @@
                                     <i class="fas fa-play"></i> 開始挑戰
                                 </button>
                                 <button class="btn-reset" onclick="resetEnergyGame()">
+                                    <i class="fas fa-redo"></i> 重新開始
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="carbon-game-tab">
+            <div class="game-section">
+                <h2 class="section-title"><i class="fas fa-tree"></i> 碳匯挑戰賽</h2>
+                
+                <div class="game-area">
+                    <div class="game-stats">
+                        <div class="score">遊戲得分: <span id="carbon-score">0</span>/100</div>
+                        <div class="level">碳平衡: <span id="carbon-balance">-100</span> 公斤</div>
+                    </div>
+                    
+                    <div class="game-instruction">
+                        <p>增加碳匯吸收，減少碳排放！點擊碳源增加排放，點擊碳匯增加吸收。</p>
+                        <p><strong>計分規則：</strong></p>
+                        <ul>
+                            <li>每增加10公斤碳匯得5分</li>
+                            <li>每減少10公斤碳排放得5分</li>
+                            <li>碳平衡達到正值得30分</li>
+                            <li>碳平衡達到+50得20分</li>
+                        </ul>
+                        <p>目標：讓碳匯吸收量超過碳排放量，達到碳平衡正值，獲得100分滿分！</p>
+                    </div>
+                    
+                    <div class="game-container">
+                        <div class="carbon-sink-game" id="carbon-game-container">
+                            <div class="earth-container">
+                                <i class="fas fa-globe-americas" id="earth-icon"></i>
+                            </div>
+                            
+                            <div class="carbon-meter">
+                                <div class="carbon-level" id="carbon-level"></div>
+                            </div>
+                            <div class="meter-labels">
+                                <span>碳匯不足</span>
+                                <span>平衡</span>
+                                <span>碳匯充足</span>
+                            </div>
+                            
+                            <div class="carbon-score">
+                                <div class="carbon-score-item">
+                                    <div class="label">碳排放量</div>
+                                    <div class="value negative" id="carbon-emission">100 公斤</div>
+                                </div>
+                                <div class="carbon-score-item">
+                                    <div class="label">碳匯吸收量</div>
+                                    <div class="value positive" id="carbon-sink-amount">0 公斤</div>
+                                </div>
+                            </div>
+                            
+                            <h3>碳排放源：</h3>
+                            <div class="carbon-sources" id="carbon-sources-container">
+                                <!-- 碳源由JavaScript動態生成 -->
+                            </div>
+                            
+                            <h3>碳匯吸收：</h3>
+                            <div class="carbon-sinks" id="carbon-sinks-container">
+                                <!-- 碳匯由JavaScript動態生成 -->
+                            </div>
+                            
+                            <div class="feedback" id="carbon-feedback"></div>
+                            
+                            <div class="game-controls">
+                                <button class="btn-start" onclick="startCarbonGame()">
+                                    <i class="fas fa-play"></i> 開始遊戲
+                                </button>
+                                <button class="btn-reset" onclick="resetCarbonGame()">
                                     <i class="fas fa-redo"></i> 重新開始
                                 </button>
                             </div>
@@ -1003,6 +1264,7 @@
             setupTabs();
             initMatchingGame();
             initEnergyGame();
+            initCarbonGame();
             initPolarBearGame();
             startTimer();
             
@@ -1067,43 +1329,19 @@
                 'welcome': {
                     title: '歡迎來到環保小衛士！',
                     icon: '<i class="fas fa-earth-asia"></i>',
-                    content: '<p>小朋友你好！歡迎來到仙洞國小環保小衛士學習遊戲！</p><p>在這裡，你會學到關於節約用電、珍惜水資源、保護臭氧層、認識ESG，還有拯救北極熊的知識！</p><p>點擊不同的標籤頁可以學習和玩遊戲，讓我們一起成為環保小達人吧！</p>',
+                    content: '<p>小朋友你好！歡迎來到仙洞國小環保小衛士學習遊戲！</p><p>在這裡，你會學到關於節約用電、珍惜水資源、保護臭氧層、認識ESG，還有碳匯和拯救北極熊的知識！</p><p>點擊不同的標籤頁可以學習和玩遊戲，讓我們一起成為環保小達人吧！</p>',
                     tip: '記得在30分鐘內完成所有學習和遊戲哦！'
                 },
                 'energy': {
-                    title: '用電節約與能源監控',
+                    title: '用電節約與電費計算',
                     icon: '<i class="fas fa-bolt"></i>',
-                    content: '<p><strong>為什麼要節約用電？</strong></p><ul><li>台灣的電力主要來自燃煤和天然氣，會產生大量二氧化碳</li><li>每節省1度電，可減少0.5公斤的二氧化碳排放</li><li>節約用電還能省錢，把錢用在更有意義的地方</li></ul><p><strong>能源監控是什麼？</strong></p><p>就是隨時注意我們用了多少電，找出浪費的地方。現在有智慧電表可以幫助我們監控用電情況！</p>',
-                    tip: '挑戰：今晚關掉電視和電腦，和家人一起玩桌遊或看書！'
+                    content: '<p><strong>電費如何計算？</strong></p><p>電費 = 用電度數 × 每度電價(約3元)</p><p><strong>電器耗電計算：</strong></p><p>用電度數 = 電器功率(W) × 使用時間(小時) ÷ 1000</p><p><strong>實際例子：</strong></p><ul><li>100W電燈開10小時 = 1度電 = 3元電費</li><li>冷氣1500W開1小時 = 1.5度電 = 4.5元電費</li><li>電視200W開5小時 = 1度電 = 3元電費</li><li>電腦300W開3小時 = 0.9度電 = 2.7元電費</li></ul><p>關閉待機電器，每月可節省5-10%電費！</p>',
+                    tip: '晚上睡覺前，記得檢查所有電器是否已關閉或拔掉插頭！'
                 },
-                'ozone': {
-                    title: '臭氧層破洞',
-                    icon: '<i class="fas fa-layer-group"></i>',
-                    content: '<p><strong>什麼是臭氧層？</strong></p><p>臭氧層是地球大氣中一層含有臭氧(O₃)的區域，位於離地面20-30公里的平流層。它能吸收太陽光中有害的紫外線，保護地球上的生物。</p><p><strong>臭氧層破洞怎麼形成的？</strong></p><p>人類使用的冷媒、噴霧罐中的氟氯碳化物(CFCs)會上升到平流層，破壞臭氧分子，導致臭氧層變薄形成破洞。</p><p><strong>好消息：</strong>自從全球禁止使用CFCs後，臭氧層正在慢慢修復中！</p>',
-                    tip: '避免購買含有CFCs的噴霧產品，選擇環保替代品。'
-                },
-                'water': {
-                    title: '珍惜水資源',
-                    icon: '<i class="fas fa-tint"></i>',
-                    content: '<p><strong>水資源有多珍貴？</strong></p><p>地球上的水97.5%是海水，2.5%是淡水，其中大部分是冰河和地下水，我們能直接使用的淡水不到1%。</p><p><strong>台灣是缺水國家！</strong></p><p>台灣年平均降雨量雖高，但地形陡峭，雨水很快流入大海，加上人口密集，每人可用的水資源只有世界平均的1/6。</p><p><strong>節水小妙招：</strong></p><ul><li>淋浴比泡澡省水</li><li>使用省水馬桶和龍頭</li><li>洗菜水可以澆花</li><li>衣服累積多一點再洗</li></ul>',
-                    tip: '檢查家裡的水龍頭有沒有漏水，一個滴水的水龍頭一年會浪費3,000公升的水！'
-                },
-                'animal': {
-                    title: '北極熊與生態危機',
-                    icon: '<i class="fas fa-paw"></i>',
-                    content: '<p><strong>北極熊的困境</strong></p><p>北極熊主要依靠海冰捕食海豹，但全球暖化導致北極海冰快速融化：</p><ul><li>過去40年，北極夏季海冰減少了40%</li><li>北極熊必須游泳更遠距離尋找食物</li><li>小熊存活率下降</li><li>有些北極熊甚至入侵人類村莊尋找食物</li></ul><p><strong>不只是北極熊</strong></p><p>全球暖化影響整個北極生態系：海象、北極狐、許多鳥類都面臨生存危機。</p>',
-                    tip: '減少吃肉，尤其是牛肉，因為畜牧業是溫室氣體的主要來源之一。'
-                },
-                'esg': {
-                    title: '什麼是ESG？',
-                    icon: '<i class="fas fa-chart-line"></i>',
-                    content: '<p><strong>ESG是什麼？</strong></p><p>ESG是評估企業的三個重要標準：</p><ul><li><strong>E 環境(Environmental)：</strong>公司對環境的影響，包括能源使用、廢棄物處理、碳排放等</li><li><strong>S 社會(Social)：</strong>公司對員工、客戶、供應商和社區的責任</li><li><strong>G 治理(Governance)：</strong>公司的管理結構、透明度和道德標準</li></ul><p><strong>為什麼ESG重要？</strong></p><p>ESG表現好的公司通常更永續、風險更低，也更容易吸引投資。我們可以支持ESG表現好的企業，用消費選擇推動環保！</p>',
-                    tip: '和家人討論購買產品時，可以選擇有環保標章或ESG表現好的品牌。'
-                },
-                'climate': {
-                    title: '冰河融化與海平面上升',
-                    icon: '<i class="fas fa-mountain"></i>',
-                    content: '<p><strong>冰河融化的影響</strong></p><p>全球暖化導致兩極冰蓋和高山冰河快速融化：</p><ul><li>過去20年，格陵蘭冰蓋每年損失2790億噸冰</li><li>南極冰蓋融化導致海平面每年上升0.4毫米</li><li>如果所有冰河融化，海平面將上升70公尺</li></ul><p><strong>海平面上升的後果</strong></p><p>許多沿海城市和島國將被淹沒，包括台灣的部分地區。威尼斯、曼谷、上海等城市都面臨威脅。</p><p><strong>我們能做什麼？</strong></p><p>減少碳排放，支持可再生能源，保護森林，減少消費。</p>',
+                'carbon': {
+                    title: '樹木碳匯與海洋碳匯',
+                    icon: '<i class="fas fa-tree"></i>',
+                    content: '<p><strong>碳匯是什麼？</strong>能夠吸收二氧化碳的自然系統。</p><p><strong>樹木碳匯：</strong></p><ul><li>一棵樹每年可吸收12公斤二氧化碳</li><li>一棵樹一生可吸收約1噸二氧化碳</li><li>1公頃森林每年吸收22噸二氧化碳</li><li>全球森林每年吸收約29億噸二氧化碳</li></ul><p><strong>海洋碳匯：</strong></p><ul><li>海洋吸收約30%人類排放的二氧化碳</li><li>浮游植物通過光合作用吸收二氧化碳</li><li>1平方公里的健康海洋每年吸收150公斤二氧化碳</li><li>全球海洋每年吸收約25億噸二氧化碳</li></ul><p><strong>保護碳匯：</strong>減少森林砍伐、保護海洋生態、植樹造林！</p>',
                     tip: '種植一棵樹，它一生可以吸收1噸的二氧化碳！'
                 }
             };
@@ -1233,16 +1471,16 @@
             container.appendChild(solutionsRow);
             
             // 更新分數和等級顯示
-            document.getElementById('score').textContent = matchingScore;
-            document.getElementById('level').textContent = matchingLevel;
-            document.getElementById('progress-bar').style.width = '0%';
+            document.getElementById('matching-score').textContent = matchingScore;
+            document.getElementById('matching-level').textContent = matchingLevel;
+            document.getElementById('matching-progress-bar').style.width = '0%';
             
             // 重置反饋
-            document.getElementById('feedback').textContent = '點擊問題，再點擊解決方案來配對！';
-            document.getElementById('feedback').className = 'feedback';
+            document.getElementById('matching-feedback').textContent = '點擊問題，再點擊解決方案來配對！';
+            document.getElementById('matching-feedback').className = 'feedback';
             
             // 禁用下一關按鈕
-            document.getElementById('next-btn').disabled = true;
+            document.getElementById('matching-next-btn').disabled = true;
             
             // 重置選擇狀態
             selectedItem = null;
@@ -1281,34 +1519,33 @@
                         problem.classList.remove('selected');
                         solution.classList.remove('selected');
                         
-                        matchingScore += 10 * matchingLevel;
-                        document.getElementById('score').textContent = matchingScore;
+                        // 每關配對正確得100分，三關全對得300分
+                        matchingScore += 100;
+                        document.getElementById('matching-score').textContent = matchingScore;
                         
                         correctMatches++;
                         const progress = (correctMatches / totalMatches) * 100;
-                        document.getElementById('progress-bar').style.width = `${progress}%`;
+                        document.getElementById('matching-progress-bar').style.width = `${progress}%`;
                         
-                        document.getElementById('feedback').textContent = '太棒了！配對正確！';
-                        document.getElementById('feedback').className = 'feedback correct';
+                        document.getElementById('matching-feedback').textContent = '太棒了！配對正確！';
+                        document.getElementById('matching-feedback').className = 'feedback correct';
                         
                         if (correctMatches >= totalMatches) {
                             matchingGameActive = false;
-                            document.getElementById('feedback').textContent = `恭喜！完成第${matchingLevel}關！獲得${10 * matchingLevel * totalMatches}分！`;
+                            document.getElementById('matching-feedback').textContent = `恭喜！完成第${matchingLevel}關！獲得100分！`;
                             
                             if (matchingLevel < 3) {
-                                document.getElementById('next-btn').disabled = false;
+                                document.getElementById('matching-next-btn').disabled = false;
                             } else {
-                                document.getElementById('feedback').textContent += ' 你已完成所有關卡！成為環保配對達人！';
+                                document.getElementById('matching-feedback').textContent += ' 你已完成所有關卡！獲得300分滿分！成為環保配對達人！';
                             }
                         }
                     } else {
                         // 配對錯誤
-                        document.getElementById('feedback').textContent = '配對錯誤，再試試看！';
-                        document.getElementById('feedback').className = 'feedback incorrect';
+                        document.getElementById('matching-feedback').textContent = '配對錯誤，再試試看！';
+                        document.getElementById('matching-feedback').className = 'feedback incorrect';
                         
-                        matchingScore = Math.max(0, matchingScore - 5);
-                        document.getElementById('score').textContent = matchingScore;
-                        
+                        // 錯誤不扣分，鼓勵嘗試
                         selectedItem.classList.remove('selected');
                     }
                     
@@ -1320,17 +1557,17 @@
         function startMatchingGame() {
             matchingGameActive = true;
             correctMatches = 0;
-            document.getElementById('progress-bar').style.width = '0%';
+            document.getElementById('matching-progress-bar').style.width = '0%';
             
             // 重置所有項目狀態
             document.querySelectorAll('.matching-item').forEach(item => {
                 item.classList.remove('matched', 'selected');
             });
             
-            document.getElementById('feedback').textContent = '遊戲開始！點擊問題，再點擊解決方案來配對！';
-            document.getElementById('feedback').className = 'feedback';
+            document.getElementById('matching-feedback').textContent = '遊戲開始！點擊問題，再點擊解決方案來配對！';
+            document.getElementById('matching-feedback').className = 'feedback';
             
-            document.getElementById('next-btn').disabled = true;
+            document.getElementById('matching-next-btn').disabled = true;
         }
         
         function resetMatchingGame() {
@@ -1341,8 +1578,8 @@
             
             renderMatchingGame();
             
-            document.getElementById('feedback').textContent = '點擊「開始遊戲」按鈕開始遊戲！';
-            document.getElementById('feedback').className = 'feedback';
+            document.getElementById('matching-feedback').textContent = '點擊「開始遊戲」按鈕開始遊戲！';
+            document.getElementById('matching-feedback').className = 'feedback';
         }
         
         function nextMatchingLevel() {
@@ -1351,23 +1588,80 @@
             startMatchingGame();
         }
         
-        // ========== 節電挑戰遊戲 ==========
+        // ========== 節電挑戰遊戲 - 修正版 ==========
         let energyGameActive = false;
-        let energySaved = 0;
-        let energyCost = 800;
-        let energyLevel = 50; // 50% 初始能源使用
-        let appliances = [];
+        let energyScore = 0;
+        let energyTimeLeft = 60;
+        let energyGameTimer;
+        
+        // 電器數據 - 修正電費計算
+        let appliances = [
+            { 
+                id: 1, 
+                name: "冷氣", 
+                power: 1500, // 瓦特
+                x: 20, y: 30, 
+                on: true, 
+                icon: "fas fa-snowflake",
+                hoursPerDay: 8, // 每天使用8小時
+                description: "耗電量大，設定26°C最省電"
+            },
+            { 
+                id: 2, 
+                name: "電視", 
+                power: 200, 
+                x: 120, y: 40, 
+                on: true, 
+                icon: "fas fa-tv",
+                hoursPerDay: 4,
+                description: "待機也會耗電，看完要關閉"
+            },
+            { 
+                id: 3, 
+                name: "電燈", 
+                power: 100, 
+                x: 220, y: 30, 
+                on: true, 
+                icon: "fas fa-lightbulb",
+                hoursPerDay: 5,
+                description: "離開房間要隨手關燈"
+            },
+            { 
+                id: 4, 
+                name: "電腦", 
+                power: 300, 
+                x: 40, y: 120, 
+                on: true, 
+                icon: "fas fa-desktop",
+                hoursPerDay: 6,
+                description: "不用時關機或休眠"
+            },
+            { 
+                id: 5, 
+                name: "電風扇", 
+                power: 80, 
+                x: 140, y: 130, 
+                on: true, 
+                icon: "fas fa-fan",
+                hoursPerDay: 6,
+                description: "比冷氣省電很多"
+            },
+            { 
+                id: 6, 
+                name: "充電器", 
+                power: 50, 
+                x: 220, y: 120, 
+                on: true, 
+                icon: "fas fa-charging-station",
+                hoursPerDay: 3,
+                description: "充飽電要拔掉插頭"
+            }
+        ];
+        
+        // 電價：每度電3元
+        const electricityPrice = 3;
         
         function initEnergyGame() {
-            appliances = [
-                { id: 1, name: "冷氣", power: 1500, x: 20, y: 30, on: true, icon: "fas fa-snowflake" },
-                { id: 2, name: "電視", power: 200, x: 120, y: 40, on: true, icon: "fas fa-tv" },
-                { id: 3, name: "電燈", power: 100, x: 220, y: 30, on: true, icon: "fas fa-lightbulb" },
-                { id: 4, name: "電腦", power: 300, x: 40, y: 120, on: true, icon: "fas fa-desktop" },
-                { id: 5, name: "電風扇", power: 80, x: 140, y: 130, on: true, icon: "fas fa-fan" },
-                { id: 6, name: "充電器", power: 50, x: 220, y: 120, on: true, icon: "fas fa-charging-station" }
-            ];
-            
             renderEnergyGame();
         }
         
@@ -1384,6 +1678,7 @@
                     <div class="appliance-icon"><i class="${appliance.icon}"></i></div>
                     <div>${appliance.name}</div>
                 `;
+                applianceElement.title = appliance.description;
                 applianceElement.addEventListener('click', () => toggleAppliance(appliance.id));
                 container.appendChild(applianceElement);
             });
@@ -1391,88 +1686,204 @@
             updateEnergyDisplay();
         }
         
+        // 計算用電度數：功率(W) × 時間(小時) ÷ 1000
+        function calculateElectricityUsage() {
+            let totalKwh = 0;
+            let totalCost = 0;
+            
+            appliances.forEach(appliance => {
+                if (appliance.on) {
+                    // 計算每月用電度數
+                    const dailyKwh = (appliance.power * appliance.hoursPerDay) / 1000;
+                    const monthlyKwh = dailyKwh * 30; // 一個月30天
+                    totalKwh += monthlyKwh;
+                }
+            });
+            
+            // 計算電費
+            totalCost = totalKwh * electricityPrice;
+            
+            return { totalKwh, totalCost };
+        }
+        
         function toggleAppliance(id) {
             if (!energyGameActive) return;
             
             const appliance = appliances.find(a => a.id === id);
+            const wasOn = appliance.on;
             appliance.on = !appliance.on;
             
-            // 計算能源使用
-            let totalPower = 0;
-            appliances.forEach(a => {
-                if (a.on) totalPower += a.power;
-            });
-            
-            // 更新能源等級 (0-100%，越低越好)
-            energyLevel = Math.min(100, Math.max(10, (totalPower / 2500) * 100));
-            
-            // 計算節省能源
-            if (!appliance.on) {
-                energySaved += appliance.power * 0.001; // 假設關閉1小時
-                energyCost = Math.max(200, 800 - energySaved * 5); // 每節省1度電省5元
-            } else {
-                energySaved = Math.max(0, energySaved - appliance.power * 0.001);
-                energyCost = Math.min(1200, 800 + (appliance.power * 0.001 * 5));
+            // 計算分數：關閉電器得10分
+            if (!appliance.on && wasOn) {
+                energyScore += 10;
+            } else if (appliance.on && !wasOn) {
+                energyScore = Math.max(0, energyScore - 10);
             }
             
+            // 更新顯示
             updateEnergyDisplay();
             renderEnergyGame();
             
             // 檢查是否完成挑戰
-            if (energyLevel <= 30) {
-                energyGameActive = false;
-                document.getElementById('energy-feedback').textContent = '太棒了！你成功節能，將能源使用降到綠色區域！';
-                document.getElementById('energy-feedback').className = 'feedback correct';
-            }
+            checkEnergyGameCompletion();
         }
         
         function updateEnergyDisplay() {
+            const usage = calculateElectricityUsage();
+            const totalKwh = usage.totalKwh;
+            const totalCost = usage.totalCost;
+            
+            // 計算能源使用率 (0-100%)
+            let maxPossibleKwh = 0;
+            appliances.forEach(appliance => {
+                const dailyKwh = (appliance.power * appliance.hoursPerDay) / 1000;
+                maxPossibleKwh += dailyKwh * 30;
+            });
+            
+            const energyLevel = (totalKwh / maxPossibleKwh) * 100;
+            
+            // 更新能源表
             document.getElementById('energy-level').style.width = `${energyLevel}%`;
-            document.getElementById('energy-saved').textContent = energySaved.toFixed(1);
-            document.getElementById('energy-cost').textContent = `$${Math.round(energyCost)}`;
+            
+            // 更新電費顯示
+            document.getElementById('energy-cost').textContent = `$${Math.round(totalCost)}`;
+            
+            // 計算節省電費 (假設全部關閉為最佳狀態)
+            let minPossibleKwh = 0;
+            appliances.forEach(appliance => {
+                // 只計算必要電器（假設電燈和充電器是必要的）
+                if (appliance.id === 3 || appliance.id === 6) {
+                    const dailyKwh = (appliance.power * appliance.hoursPerDay) / 1000;
+                    minPossibleKwh += dailyKwh * 30;
+                }
+            });
+            
+            const minCost = minPossibleKwh * electricityPrice;
+            const savedCost = Math.max(0, 1200 - totalCost); // 假設原本電費1200元
+            
+            document.getElementById('energy-saved').textContent = `$${Math.round(savedCost)}`;
+            document.getElementById('energy-kwh').textContent = `${totalKwh.toFixed(1)} 度`;
+            
+            // 更新分數顯示
+            document.getElementById('energy-score').textContent = energyScore;
+            
+            // 更新時間顯示
+            document.getElementById('energy-time').textContent = energyTimeLeft;
             
             // 更新反饋
-            if (energyLevel <= 30) {
-                document.getElementById('energy-feedback').textContent = '優秀！能源使用在節能範圍！';
-                document.getElementById('energy-feedback').className = 'feedback correct';
-            } else if (energyLevel <= 60) {
-                document.getElementById('energy-feedback').textContent = '還可以，試著關閉更多電器！';
-                document.getElementById('energy-feedback').className = 'feedback';
+            let feedback = '';
+            let feedbackClass = 'feedback';
+            
+            if (energyLevel <= 30 && savedCost >= 300) {
+                feedback = '優秀！能源使用在節能範圍且節省大量電費！';
+                feedbackClass = 'feedback correct';
+            } else if (energyLevel <= 50 && savedCost >= 150) {
+                feedback = '還可以，繼續努力關閉更多電器！';
             } else {
-                document.getElementById('energy-feedback').textContent = '用電太多了！快關掉一些電器！';
-                document.getElementById('energy-feedback').className = 'feedback incorrect';
+                feedback = '用電太多了！快關掉一些不必要的電器！';
+                feedbackClass = 'feedback incorrect';
+            }
+            
+            document.getElementById('energy-feedback').textContent = feedback;
+            document.getElementById('energy-feedback').className = feedbackClass;
+        }
+        
+        function checkEnergyGameCompletion() {
+            const usage = calculateElectricityUsage();
+            const totalKwh = usage.totalKwh;
+            const totalCost = usage.totalCost;
+            
+            // 計算能源使用率
+            let maxPossibleKwh = 0;
+            appliances.forEach(appliance => {
+                const dailyKwh = (appliance.power * appliance.hoursPerDay) / 1000;
+                maxPossibleKwh += dailyKwh * 30;
+            });
+            
+            const energyLevel = (totalKwh / maxPossibleKwh) * 100;
+            
+            // 計算節省電費
+            let minPossibleKwh = 0;
+            appliances.forEach(appliance => {
+                if (appliance.id === 3 || appliance.id === 6) {
+                    const dailyKwh = (appliance.power * appliance.hoursPerDay) / 1000;
+                    minPossibleKwh += dailyKwh * 30;
+                }
+            });
+            
+            const minCost = minPossibleKwh * electricityPrice;
+            const savedCost = Math.max(0, 1200 - totalCost);
+            
+            // 計算額外加分
+            let bonusScore = 0;
+            
+            // 能源使用率低於30%得30分
+            if (energyLevel <= 30) {
+                bonusScore += 30;
+            }
+            
+            // 每月節省電費超過$300得30分
+            if (savedCost >= 300) {
+                bonusScore += 30;
+            }
+            
+            // 時間內完成得30分 (如果時間還剩10秒以上)
+            if (energyTimeLeft >= 10) {
+                bonusScore += 30;
+            }
+            
+            // 更新總分數
+            const totalScore = Math.min(100, energyScore + bonusScore);
+            document.getElementById('energy-score').textContent = totalScore;
+            
+            // 如果達到100分，遊戲結束
+            if (totalScore >= 100) {
+                energyGameActive = false;
+                clearInterval(energyGameTimer);
+                document.getElementById('energy-feedback').textContent = '太棒了！你獲得100分滿分！成為節電達人！';
+                document.getElementById('energy-feedback').className = 'feedback correct';
             }
         }
         
         function startEnergyGame() {
             energyGameActive = true;
-            energySaved = 0;
-            energyCost = 800;
-            energyLevel = 50;
+            energyScore = 0;
+            energyTimeLeft = 60;
             
-            // 隨機開啟一些電器
+            // 重置所有電器為開啟狀態
             appliances.forEach(appliance => {
-                appliance.on = Math.random() > 0.3;
+                appliance.on = true;
             });
-            
-            // 重新計算能源使用
-            let totalPower = 0;
-            appliances.forEach(a => {
-                if (a.on) totalPower += a.power;
-            });
-            energyLevel = (totalPower / 2500) * 100;
             
             renderEnergyGame();
             
-            document.getElementById('energy-feedback').textContent = '遊戲開始！點擊電器來開啟或關閉它，目標是將能源使用降到綠色區域！';
+            // 開始計時器
+            clearInterval(energyGameTimer);
+            energyGameTimer = setInterval(() => {
+                energyTimeLeft--;
+                document.getElementById('energy-time').textContent = energyTimeLeft;
+                
+                if (energyTimeLeft <= 0) {
+                    clearInterval(energyGameTimer);
+                    energyGameActive = false;
+                    
+                    // 最終計分
+                    checkEnergyGameCompletion();
+                    
+                    document.getElementById('energy-feedback').textContent = `時間到！你的最終得分是${document.getElementById('energy-score').textContent}分！`;
+                    document.getElementById('energy-feedback').className = 'feedback';
+                }
+            }, 1000);
+            
+            document.getElementById('energy-feedback').textContent = '遊戲開始！點擊電器來開啟或關閉它，目標是獲得100分滿分！';
             document.getElementById('energy-feedback').className = 'feedback';
         }
         
         function resetEnergyGame() {
             energyGameActive = false;
-            energySaved = 0;
-            energyCost = 800;
-            energyLevel = 50;
+            energyScore = 0;
+            energyTimeLeft = 60;
+            clearInterval(energyGameTimer);
             
             appliances.forEach(appliance => {
                 appliance.on = true;
@@ -1484,93 +1895,213 @@
             document.getElementById('energy-feedback').className = 'feedback';
         }
         
+        // ========== 碳匯挑戰賽 - 修正版 ==========
+        let carbonGameActive = false;
+        let carbonScore = 0;
+        let carbonEmission = 100; // 初始碳排放100公斤
+        let carbonSinkAmount = 0; // 初始碳匯吸收0公斤
+        
+        function initCarbonGame() {
+            renderCarbonGame();
+        }
+        
+        function renderCarbonGame() {
+            const sourcesContainer = document.getElementById('carbon-sources-container');
+            const sinksContainer = document.getElementById('carbon-sinks-container');
+            
+            sourcesContainer.innerHTML = '';
+            sinksContainer.innerHTML = '';
+            
+            // 碳排放源 - 合理的碳排放量
+            const carbonSources = [
+                { id: 1, name: "開車10公里", emission: 2.4, icon: "fas fa-car", description: "產生2.4公斤二氧化碳" },
+                { id: 2, name: "冷氣1小時", emission: 0.6, icon: "fas fa-snowflake", description: "產生0.6公斤二氧化碳" },
+                { id: 3, name: "丟棄1kg垃圾", emission: 1.2, icon: "fas fa-trash", description: "產生1.2公斤二氧化碳" },
+                { id: 4, name: "用1度電", emission: 0.5, icon: "fas fa-bolt", description: "產生0.5公斤二氧化碳" }
+            ];
+            
+            // 碳匯吸收 - 合理的碳吸收量
+            const carbonSinks = [
+                { id: 1, name: "種一棵樹", sink: 12, icon: "fas fa-tree", description: "每年吸收12公斤二氧化碳" },
+                { id: 2, name: "保護1公頃森林", sink: 22, icon: "fas fa-forest", description: "每年吸收22噸二氧化碳" },
+                { id: 3, name: "保護海洋生態", sink: 15, icon: "fas fa-water", description: "每年吸收15公斤二氧化碳" },
+                { id: 4, name: "植樹造林", sink: 18, icon: "fas fa-seedling", description: "每年吸收18公斤二氧化碳" }
+            ];
+            
+            carbonSources.forEach(source => {
+                const sourceElement = document.createElement('div');
+                sourceElement.className = 'carbon-source';
+                sourceElement.innerHTML = `
+                    <i class="${source.icon}"></i> ${source.name}
+                `;
+                sourceElement.title = source.description;
+                sourceElement.addEventListener('click', () => addCarbonEmission(source.id));
+                sourcesContainer.appendChild(sourceElement);
+            });
+            
+            carbonSinks.forEach(sink => {
+                const sinkElement = document.createElement('div');
+                sinkElement.className = 'carbon-sink';
+                sinkElement.innerHTML = `
+                    <i class="${sink.icon}"></i> ${sink.name}
+                `;
+                sinkElement.title = sink.description;
+                sinkElement.addEventListener('click', () => addCarbonSink(sink.id));
+                sinksContainer.appendChild(sinkElement);
+            });
+            
+            updateCarbonDisplay();
+        }
+        
+        function addCarbonEmission(sourceId) {
+            if (!carbonGameActive) return;
+            
+            const sources = [
+                { id: 1, emission: 2.4, name: "開車10公里" },
+                { id: 2, emission: 0.6, name: "冷氣1小時" },
+                { id: 3, emission: 1.2, name: "丟棄1kg垃圾" },
+                { id: 4, emission: 0.5, name: "用1度電" }
+            ];
+            
+            const source = sources.find(s => s.id === sourceId);
+            carbonEmission += source.emission;
+            
+            // 計算分數：減少碳排放得5分 (但增加排放會扣分)
+            carbonScore = Math.max(0, carbonScore - 5);
+            
+            updateCarbonDisplay();
+            
+            document.getElementById('carbon-feedback').textContent = `增加了${source.emission}公斤碳排放！`;
+            document.getElementById('carbon-feedback').className = 'feedback incorrect';
+            
+            checkCarbonGameCompletion();
+        }
+        
+        function addCarbonSink(sinkId) {
+            if (!carbonGameActive) return;
+            
+            const sinks = [
+                { id: 1, sink: 12, name: "種一棵樹" },
+                { id: 2, sink: 22, name: "保護1公頃森林" },
+                { id: 3, sink: 15, name: "保護海洋生態" },
+                { id: 4, sink: 18, name: "植樹造林" }
+            ];
+            
+            const sink = sinks.find(s => s.id === sinkId);
+            carbonSinkAmount += sink.sink;
+            
+            // 計算分數：增加碳匯得5分
+            carbonScore += 5;
+            
+            updateCarbonDisplay();
+            
+            document.getElementById('carbon-feedback').textContent = `增加了${sink.sink}公斤碳匯吸收！`;
+            document.getElementById('carbon-feedback').className = 'feedback correct';
+            
+            checkCarbonGameCompletion();
+        }
+        
+        function updateCarbonDisplay() {
+            // 計算碳平衡
+            const carbonBalance = carbonSinkAmount - carbonEmission;
+            
+            // 更新顯示
+            document.getElementById('carbon-emission').textContent = `${carbonEmission.toFixed(1)} 公斤`;
+            document.getElementById('carbon-sink-amount').textContent = `${carbonSinkAmount.toFixed(1)} 公斤`;
+            document.getElementById('carbon-balance').textContent = `${carbonBalance.toFixed(1)} 公斤`;
+            
+            // 更新分數顯示
+            document.getElementById('carbon-score').textContent = carbonScore;
+            
+            // 更新碳平衡指示器
+            // 碳平衡範圍：-100到+100，轉換為0-100%
+            let carbonPercentage = (carbonBalance + 100) / 2;
+            carbonPercentage = Math.max(0, Math.min(100, carbonPercentage));
+            document.getElementById('carbon-level').style.width = `${carbonPercentage}%`;
+            
+            // 更新地球表情
+            const earthIcon = document.getElementById('earth-icon');
+            if (carbonBalance >= 50) {
+                earthIcon.className = "fas fa-globe-americas";
+                earthIcon.style.color = "#1E88E5";
+            } else if (carbonBalance >= 0) {
+                earthIcon.className = "fas fa-globe-asia";
+                earthIcon.style.color = "#4CAF50";
+            } else if (carbonBalance >= -50) {
+                earthIcon.className = "fas fa-globe-europe";
+                earthIcon.style.color = "#FF9800";
+            } else {
+                earthIcon.className = "fas fa-globe-africa";
+                earthIcon.style.color = "#F44336";
+            }
+        }
+        
+        function checkCarbonGameCompletion() {
+            const carbonBalance = carbonSinkAmount - carbonEmission;
+            
+            // 計算額外加分
+            let bonusScore = 0;
+            
+            // 碳平衡達到正值得30分
+            if (carbonBalance >= 0) {
+                bonusScore += 30;
+            }
+            
+            // 碳平衡達到+50得20分
+            if (carbonBalance >= 50) {
+                bonusScore += 20;
+            }
+            
+            // 每增加10公斤碳匯得5分 (已在增加時計算)
+            // 每減少10公斤碳排放得5分 (已在減少時計算)
+            
+            // 更新總分數 (基礎分數已包含在carbonScore中)
+            const totalScore = Math.min(100, carbonScore + bonusScore);
+            document.getElementById('carbon-score').textContent = totalScore;
+            
+            // 如果達到100分，遊戲結束
+            if (totalScore >= 100) {
+                carbonGameActive = false;
+                document.getElementById('carbon-feedback').textContent = '太棒了！你獲得100分滿分！碳匯吸收遠超過碳排放！';
+                document.getElementById('carbon-feedback').className = 'feedback correct';
+            }
+        }
+        
+        function startCarbonGame() {
+            carbonGameActive = true;
+            carbonScore = 0;
+            carbonEmission = 100;
+            carbonSinkAmount = 0;
+            
+            updateCarbonDisplay();
+            
+            document.getElementById('carbon-feedback').textContent = '遊戲開始！點擊碳源增加排放，點擊碳匯增加吸收！';
+            document.getElementById('carbon-feedback').className = 'feedback';
+        }
+        
+        function resetCarbonGame() {
+            carbonGameActive = false;
+            carbonScore = 0;
+            carbonEmission = 100;
+            carbonSinkAmount = 0;
+            
+            updateCarbonDisplay();
+            
+            document.getElementById('carbon-feedback').textContent = '點擊「開始遊戲」按鈕開始遊戲！';
+            document.getElementById('carbon-feedback').className = 'feedback';
+        }
+        
         // ========== 拯救北極熊遊戲 ==========
         let polarBearGameActive = false;
         let polarBearHealth = 100;
         let iceThickness = 100;
-        let threats = [];
-        let solutions = [];
         
         function initPolarBearGame() {
-            threats = [
-                { id: 1, name: "全球暖化", damage: 15, icon: "fas fa-temperature-high" },
-                { id: 2, name: "海冰融化", damage: 20, icon: "fas fa-icicles" },
-                { id: 3, name: "海洋污染", damage: 10, icon: "fas fa-trash" },
-                { id: 4, name: "過度捕魚", damage: 10, icon: "fas fa-fish" }
-            ];
-            
-            solutions = [
-                { id: 1, name: "種樹", heal: 15, cost: 10, icon: "fas fa-tree" },
-                { id: 2, name: "節約用電", heal: 10, cost: 5, icon: "fas fa-bolt" },
-                { id: 3, name: "減少塑膠", heal: 10, cost: 5, icon: "fas fa-recycle" },
-                { id: 4, name: "綠色能源", heal: 20, cost: 15, icon: "fas fa-solar-panel" }
-            ];
-            
             renderPolarBearGame();
         }
         
         function renderPolarBearGame() {
-            const threatsContainer = document.getElementById('threats-container');
-            const solutionsContainer = document.getElementById('solutions-container');
-            
-            threatsContainer.innerHTML = '';
-            solutionsContainer.innerHTML = '';
-            
-            threats.forEach(threat => {
-                const threatElement = document.createElement('div');
-                threatElement.className = 'threat';
-                threatElement.innerHTML = `
-                    <i class="${threat.icon}"></i> ${threat.name}
-                `;
-                threatElement.addEventListener('click', () => applyThreat(threat.id));
-                threatsContainer.appendChild(threatElement);
-            });
-            
-            solutions.forEach(solution => {
-                const solutionElement = document.createElement('div');
-                solutionElement.className = 'solution';
-                solutionElement.innerHTML = `
-                    <i class="${solution.icon}"></i> ${solution.name}
-                `;
-                solutionElement.addEventListener('click', () => applySolution(solution.id));
-                solutionsContainer.appendChild(solutionElement);
-            });
-            
             updatePolarBearDisplay();
-        }
-        
-        function applyThreat(threatId) {
-            if (!polarBearGameActive) return;
-            
-            const threat = threats.find(t => t.id === threatId);
-            
-            // 減少冰層厚度和北極熊健康度
-            iceThickness = Math.max(0, iceThickness - threat.damage);
-            polarBearHealth = Math.max(0, polarBearHealth - threat.damage / 2);
-            
-            updatePolarBearDisplay();
-            
-            document.getElementById('polar-bear-feedback').textContent = `哦不！${threat.name}讓冰層融化了${threat.damage}%！`;
-            document.getElementById('polar-bear-feedback').className = 'feedback incorrect';
-            
-            checkGameOver();
-        }
-        
-        function applySolution(solutionId) {
-            if (!polarBearGameActive) return;
-            
-            const solution = solutions.find(s => s.id === solutionId);
-            
-            // 恢復冰層厚度和北極熊健康度
-            iceThickness = Math.min(100, iceThickness + solution.heal);
-            polarBearHealth = Math.min(100, polarBearHealth + solution.heal / 2);
-            
-            updatePolarBearDisplay();
-            
-            document.getElementById('polar-bear-feedback').textContent = `太好了！${solution.name}幫助恢復了冰層${solution.heal}%！`;
-            document.getElementById('polar-bear-feedback').className = 'feedback correct';
-            
-            checkGameWin();
         }
         
         function updatePolarBearDisplay() {
@@ -1595,7 +2126,107 @@
             }
         }
         
-        function checkGameOver() {
+        function startPolarBearGame() {
+            polarBearGameActive = true;
+            polarBearHealth = 100;
+            iceThickness = 100;
+            
+            // 設置威脅和解決方案
+            const threatsContainer = document.getElementById('threats-container');
+            const solutionsContainer = document.getElementById('solutions-container');
+            
+            threatsContainer.innerHTML = '';
+            solutionsContainer.innerHTML = '';
+            
+            const threats = [
+                { id: 1, name: "全球暖化", damage: 15, icon: "fas fa-temperature-high" },
+                { id: 2, name: "海冰融化", damage: 20, icon: "fas fa-icicles" },
+                { id: 3, name: "海洋污染", damage: 10, icon: "fas fa-trash" },
+                { id: 4, name: "過度捕魚", damage: 10, icon: "fas fa-fish" }
+            ];
+            
+            const solutions = [
+                { id: 1, name: "種樹", heal: 15, icon: "fas fa-tree" },
+                { id: 2, name: "節約用電", heal: 10, icon: "fas fa-bolt" },
+                { id: 3, name: "減少塑膠", heal: 10, icon: "fas fa-recycle" },
+                { id: 4, name: "綠色能源", heal: 20, icon: "fas fa-solar-panel" }
+            ];
+            
+            threats.forEach(threat => {
+                const threatElement = document.createElement('div');
+                threatElement.className = 'threat';
+                threatElement.innerHTML = `
+                    <i class="${threat.icon}"></i> ${threat.name}
+                `;
+                threatElement.addEventListener('click', () => applyThreat(threat.id));
+                threatsContainer.appendChild(threatElement);
+            });
+            
+            solutions.forEach(solution => {
+                const solutionElement = document.createElement('div');
+                solutionElement.className = 'solution';
+                solutionElement.innerHTML = `
+                    <i class="${solution.icon}"></i> ${solution.name}
+                `;
+                solutionElement.addEventListener('click', () => applySolution(solution.id));
+                solutionsContainer.appendChild(solutionElement);
+            });
+            
+            updatePolarBearDisplay();
+            
+            document.getElementById('polar-bear-feedback').textContent = '遊戲開始！點擊威脅了解問題，點擊解決方案幫助北極熊！';
+            document.getElementById('polar-bear-feedback').className = 'feedback';
+        }
+        
+        function applyThreat(threatId) {
+            if (!polarBearGameActive) return;
+            
+            const threats = [
+                { id: 1, name: "全球暖化", damage: 15 },
+                { id: 2, name: "海冰融化", damage: 20 },
+                { id: 3, name: "海洋污染", damage: 10 },
+                { id: 4, name: "過度捕魚", damage: 10 }
+            ];
+            
+            const threat = threats.find(t => t.id === threatId);
+            
+            // 減少冰層厚度和北極熊健康度
+            iceThickness = Math.max(0, iceThickness - threat.damage);
+            polarBearHealth = Math.max(0, polarBearHealth - threat.damage / 2);
+            
+            updatePolarBearDisplay();
+            
+            document.getElementById('polar-bear-feedback').textContent = `哦不！${threat.name}讓冰層融化了${threat.damage}%！`;
+            document.getElementById('polar-bear-feedback').className = 'feedback incorrect';
+            
+            checkPolarBearGameOver();
+        }
+        
+        function applySolution(solutionId) {
+            if (!polarBearGameActive) return;
+            
+            const solutions = [
+                { id: 1, name: "種樹", heal: 15 },
+                { id: 2, name: "節約用電", heal: 10 },
+                { id: 3, name: "減少塑膠", heal: 10 },
+                { id: 4, name: "綠色能源", heal: 20 }
+            ];
+            
+            const solution = solutions.find(s => s.id === solutionId);
+            
+            // 恢復冰層厚度和北極熊健康度
+            iceThickness = Math.min(100, iceThickness + solution.heal);
+            polarBearHealth = Math.min(100, polarBearHealth + solution.heal / 2);
+            
+            updatePolarBearDisplay();
+            
+            document.getElementById('polar-bear-feedback').textContent = `太好了！${solution.name}幫助恢復了冰層${solution.heal}%！`;
+            document.getElementById('polar-bear-feedback').className = 'feedback correct';
+            
+            checkPolarBearGameWin();
+        }
+        
+        function checkPolarBearGameOver() {
             if (iceThickness <= 0 || polarBearHealth <= 0) {
                 polarBearGameActive = false;
                 document.getElementById('polar-bear-feedback').textContent = '遊戲結束！冰層完全融化了，北極熊失去家園了...再試一次吧！';
@@ -1603,23 +2234,12 @@
             }
         }
         
-        function checkGameWin() {
+        function checkPolarBearGameWin() {
             if (iceThickness >= 80 && polarBearHealth >= 80) {
                 polarBearGameActive = false;
                 document.getElementById('polar-bear-feedback').textContent = '恭喜！你成功拯救了北極熊和它的家園！';
                 document.getElementById('polar-bear-feedback').className = 'feedback correct';
             }
-        }
-        
-        function startPolarBearGame() {
-            polarBearGameActive = true;
-            polarBearHealth = 100;
-            iceThickness = 100;
-            
-            updatePolarBearDisplay();
-            
-            document.getElementById('polar-bear-feedback').textContent = '遊戲開始！點擊威脅了解問題，點擊解決方案幫助北極熊！';
-            document.getElementById('polar-bear-feedback').className = 'feedback';
         }
         
         function resetPolarBearGame() {
