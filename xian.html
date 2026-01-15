@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用電量儀表板</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        h3 {
+            font-size: 1.5em;
+        }
+        /* 链接的样式 */
+        a {
+            text-decoration: none; /* 去除默认的下划线 */
+            color: #007BFF; /* 设置链接颜色 */
+            font-size: 1.2em; /* 增大字体 */
+        }
+
+        /* 鼠标悬停时的高亮效果 */
+        a:hover {
+            color: white; /* 悬停时文本颜色为白色 */
+            background-color: #007BFF; /* 悬停时背景颜色 */
+            padding: 5px; /* 增加内边距 */
+            border-radius: 5px; /* 设置圆角 */
+        }
+    </style>
+</head>
+<body>
+
+    <h1>用電量儀表板</h1>
+    <iframe src="power_consumption_chart.html" width="100%" height="1000px" frameborder="0"></iframe>
+    <iframe src="total_power_consumption_and_carbon_emission_sum_chart.html" width="100%" height="600px" frameborder="0"></iframe>
+   
+
+    <h3>查看設備用電分析圖：</h3>
+    <p><a href="total_power_consumption_chart.html" target="_blank">點此查看各設備總用電量直方圖</a></p>
+    <p><a href="power_consumption_pie_chart.html" target="_blank">點此查看各設備總用電量圓餅圖</a></p>
+    <p><a href="total_and_avg_power_consumption_chart.html" target="_blank">點此查看用電趨勢與平均值</a></p>
+    <p><a href="total_power_consumption_and_carbon_emission_bar_chart.html" target="_blank">點此查看每日用電與碳足跡</a></p>
+    <p><a href="static_power_consumption_with_alerts.html" target="_blank">點此設定所有設備警示範圍</a></p>
+    <p><a href="static_power_consumption_with_alerts_left_aligned.html" target="_blank">點此設定各設備警示範圍</a></p>
+
+    <h3>有線偵測系統冰水主機與水塔碳排</h3>
+    <p><a href="water_carbon_emissions_report.html" target="_blank">水碳排與冰水主機碳排</a></p>
+    <!-- 緊急諮詢區域 -->
+
+<div>
+    <h3>相關諮詢</h3>
+    <p>如有EMS諮詢問題，請隨時聯繫我們：</p>
+
+    <!-- UDM Logo 放在最上方 -->
+    <a href="https://sethjesus.github.io/Maincarbon/Maincarbon.html" target="_blank">
+        <img src="https://github.com/Sethjesus/Photo/blob/main/UDM%20Logo.png?raw=true" alt="UDM Logo" style="width: 120px; height: auto; display: block; margin: 0 auto;">
+    </a>
+
+    <!-- 使用指定的Skype圖片作為連結 -->
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="skype:jackyliaosutra?call" target="_blank" style="display: inline-block; margin-right: 20px;">
+            <img src="https://github.com/Sethjesus/Photo/blob/main/Skype.jpg?raw=true" alt="Skype Logo" style="width: 100px; height: auto;">
+        </a>
+
+        <!-- 移除 Line 的連結，只顯示圖片並加入放大效果 -->
+         <div style="display: inline-block; margin-right: 20px;">
+         <img src="https://github.com/Sethjesus/Photo/blob/main/Line.jpg?raw=true" alt="Line Barcode" style="width: 110px; height: auto; transition: transform 0.3s ease;">
+         <p style="text-align: center; font-size: 1.2em; margin-top: 5px;"><sub>掃描Line條碼</sub></p> <!-- 添加說明文字 -->
+         </div>
+
+
+        <!-- 電話撥打連結 -->
+        <a href="tel:+886952316596" target="_blank" style="display: inline-block; margin-right: 20px;">
+            <img src="https://github.com/Sethjesus/Photo/blob/main/Whatsapp.jpg?raw=true" alt="Call Icon" style="width: 100px; height: auto;">
+        </a>
+
+        <!-- Instagram 圖標 -->
+        <a href="https://www.instagram.com/udmesg/">
+            <img src="https://github.com/Sethjesus/Photo/blob/main/IG.jpg?raw=true" alt="Instagram Logo" style="width: 100px; height: auto; display: inline-block; margin-right: 20px;">
+        </a>
+
+        <!-- Facebook 圖標 -->
+        <a href="https://www.facebook.com/groups/2933690666774064">
+            <img src="https://github.com/Sethjesus/Photo/blob/main/Facebook.jpg?raw=true" alt="Facebook Logo" style="width: 100px; height: auto; display: inline-block;">
+        </a>
+    </div>
+</div>
+
+
+ <h3>深入統計分析結構方程式模型(SEM)</h3>
+<p>
+    本頁面提供設備結構方程模型（SEM），專業人員可參考以下連結，了解更深入的統計檢測細節：
+</p>
+<p>
+    <a href="equipment_analysis_report.html" target="_blank" style="color: blue; text-decoration: underline;">
+        點此進入專業統計分析報告
+    </a>
+</p>
+
+<br><br>
+
+
+<h2>節電建議</h2>
+
+<H3>1. 操作變化</H3>
+工作時間變動：電力消耗的變異性可能與人員在設施中的數量變化有關（例如工作時間、班次、假期或停工等）。
+機械/設備使用情況：工廠或辦公室的設備可能根據生產排程、維護計劃或使用模式進行變化，這會導致電力消耗的波動。
+<h3>2. 外部天氣條件</H3>
+氣溫與氣候：加熱和冷卻系統通常是電力的主要消耗者。突如其來的氣溫變化或極端天氣條件（如炎熱的夏天或寒冷的冬天）會導致電力需求的大幅波動。
+濕度：例如，較高的濕度可能會增加空調需求，從而導致電力使用增加。
+<h3>3. 外部需求或供應的變化</H3>
+尖峰需求時期：在某些時段，電力網可能面臨更高的需求，這會導致價格波動和能源使用的變異，尤其是在對電力價格敏感的行業或地區。
+電力網不穩定：如果當地電力網經歷停電、干擾或負荷分配，使用者可能會改變消耗行為，從而導致不規則的電力使用。
+<H3>4. 行為因素</h3>
+人類行為：個人或工作人員的習慣和偏好可能會導致能耗變化。例如，關閉不使用的設備或在特定活動期間使用更多電器，會導致電力消耗的波動。
+節能意識：積極進行節能措施的組織或個體可能顯示出較少的變異性，而缺乏節能措施的情況則可能導致不穩定的消耗。 
+<h3>5. 設備和基礎設施問題</h3>
+設備的年齡與效率：舊的或效率低下的電力設備（如六色機、冷氣、空壓機）可能會導致更多的電力需求波動，而較新的高效系統如加裝變頻則可能會穩定用電模式。
+負荷變動：某些過程或機械設備（如使用設備或空壓機）的能耗需求可能會根據負載、維護或操作狀況發生變化。
+<h3>6. 特殊事件與假期</h3>
+特殊活動：某些事件或促銷（例如產品需求旺盛、特殊旺淡季）可能會導致暫時性的電力消耗增減，從而引起變異性。
+假期和休假：在假期或休假期間，尤其是在辦公室或人員較少的設施，電力使用可能大幅下降。
+<h3>7. 經濟與市場因素</h3>
+電力成本：高昂的電力價格可能會使使用者更加關注其消耗，從而減少變異性，尤其是當他們決定限制用電時。
+能源供應與需求：能源供應的變動（如新發電廠投入使用、可再生能源比重增高或能源短缺）可能會影響價格和使用量的波動。
+<h3>8. 政策與法規變化</h3>
+政府激勵措施：政府政策，如節能計劃或對高效電器的補貼，會導致用電行為的變化，從而減少變異性。
+能源使用規範：某些政策要求特定的用電行為，例如高峰時段的工業限電，可能會調整消耗模式。
+<h3>9. 技術進步</h3>
+智能電表與自動化系統：智能電表和能源管理系統的採用，通過根據實時數據自動調整用電，可能有助於穩定用電，從而減少變異性。
+可再生能源的集成：太陽能板、風能或其他可再生能源的使用可能會導致電力使用的波動，具體取決於自然資源的可用性以及備用電源的需求。
+<h3>10. 節能措施</h3>
+節能設備與做法：使用節能燈具、變頻系統加裝和變頻冷卻系統可以減少對電網的負荷，並穩定用電模式。
+能源審計：定期進行能源審計以追蹤用電情況並實施減少浪費或提升效率的建議，有助於長期減少變異性。
+總結來說，電力使用變異性是由操作、行為、環境、技術與經濟等多重因素共同驅動的。透過分析這些因素，可以識別出異常波動的原因，並進行更好的預測、能源管理，從而減少效率損失。
+</P>
+</body>
+</html>
