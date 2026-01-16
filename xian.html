@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>仙洞國小環保小衛士 - 最終優化版</title>
+    <title>仙洞國小環保小衛士 - 能源監控版</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -204,6 +204,19 @@
         
         .knowledge-card.climate {
             border-left-color: #607D8B;
+        }
+        
+        /* 新增知識卡片樣式 */
+        .knowledge-card.meter {
+            border-left-color: #2196F3;
+        }
+        
+        .knowledge-card.gateway {
+            border-left-color: #9C27B0;
+        }
+        
+        .knowledge-card.ems {
+            border-left-color: #FF5722;
         }
         
         .card-icon {
@@ -802,6 +815,139 @@
             color: #333;
         }
         
+        /* 新增設備圖示樣式 */
+        .device-illustration {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .device-item {
+            text-align: center;
+            width: 140px;
+        }
+        
+        .device-icon {
+            font-size: 3rem;
+            color: #2196F3;
+            margin-bottom: 10px;
+        }
+        
+        .device-name {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .device-desc {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        /* 能源監控流程圖 */
+        .monitoring-flow {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 25px 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            border: 2px dashed #4CAF50;
+        }
+        
+        .flow-step {
+            text-align: center;
+            min-width: 120px;
+        }
+        
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: #FF9800;
+        }
+        
+        .flow-icon {
+            font-size: 2.5rem;
+            color: #2196F3;
+            margin-bottom: 10px;
+        }
+        
+        .flow-text {
+            font-weight: bold;
+            color: #333;
+        }
+        
+        /* 電表模擬遊戲樣式 */
+        .meter-simulation {
+            background-color: #f5f5f5;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #2196F3;
+        }
+        
+        .meter-display {
+            background-color: #333;
+            color: #0f0;
+            padding: 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.5rem;
+            text-align: center;
+            margin: 15px 0;
+            border: 3px solid #666;
+        }
+        
+        .meter-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .appliance-control {
+            background-color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid #ddd;
+            min-width: 120px;
+        }
+        
+        .appliance-control.on {
+            background-color: #FFEB3B;
+            border-color: #FF9800;
+        }
+        
+        .appliance-control.off {
+            background-color: #f5f5f5;
+            border-color: #9E9E9E;
+        }
+        
+        .power-consumption {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #ddd;
+        }
+        
+        .consumption-item {
+            text-align: center;
+        }
+        
+        .consumption-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2196F3;
+        }
+        
         @media (max-width: 768px) {
             .main-content {
                 flex-direction: column;
@@ -842,6 +988,22 @@
                 align-items: center;
                 gap: 10px;
             }
+            
+            .monitoring-flow {
+                flex-direction: column;
+            }
+            
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+            
+            .device-item {
+                width: 100px;
+            }
+            
+            .meter-controls {
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
@@ -851,8 +1013,8 @@
             <div class="logo">
                 <i class="fas fa-earth-asia"></i>
             </div>
-            <h1>仙洞國小環保小衛士 - 最終優化版</h1>
-            <p>學習環境保護知識，從節約用電、碳匯到認識臭氧破洞、ESG、拯救北極熊，一起守護地球！</p>
+            <h1>仙洞國小環保小衛士 - 能源監控版</h1>
+            <p>學習環境保護知識，從節約用電、碳匯到認識能源監控設備，一起守護地球！</p>
             <div class="timer">
                 <i class="fas fa-clock"></i> <span id="time">30:00</span>
             </div>
@@ -861,6 +1023,9 @@
         <div class="tabs">
             <button class="tab-button active" data-tab="knowledge">
                 <i class="fas fa-graduation-cap"></i> 環保知識學堂
+            </button>
+            <button class="tab-button" data-tab="energy-tech">
+                <i class="fas fa-tachometer-alt"></i> 能源監控科技
             </button>
             <button class="tab-button" data-tab="matching-game">
                 <i class="fas fa-puzzle-piece"></i> 環保配對遊戲
@@ -876,6 +1041,7 @@
             </button>
         </div>
         
+        <!-- 環保知識學堂標籤頁 -->
         <div class="tab-content active" id="knowledge-tab">
             <div class="teaching-section">
                 <h2 class="section-title"><i class="fas fa-book-open"></i> 環保知識大全</h2>
@@ -956,7 +1122,7 @@
                         <div class="card-content">
                             <p>北極熊依賴海冰捕食海豹，但全球暖化導致：</p>
                             <ul>
-                                <li>北極海冰每年減少13%</li>
+                                <li>北極海冰每10年減少13%</li>
                                 <li>北極熊覓食困難，體重下降</li>
                                 <li>生存區域縮小，數量減少</li>
                             </ul>
@@ -1003,6 +1169,276 @@
             </div>
         </div>
         
+        <!-- 新增的能源監控科技標籤頁 -->
+        <div class="tab-content" id="energy-tech-tab">
+            <div class="teaching-section">
+                <h2 class="section-title"><i class="fas fa-tachometer-alt"></i> 能源監控科技小學堂</h2>
+                <p>小朋友，讓我們認識現代能源監控的科技設備，了解如何用智慧工具來節約用電！</p>
+                
+                <div class="knowledge-cards">
+                    <div class="knowledge-card meter" onclick="showFact('clamp-meter')">
+                        <div class="card-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <h3>電流鉤表（夾式電表）<span class="badge">新設備</span></h3>
+                        <div class="card-content">
+                            <p><strong>什麼是電流鉤表？</strong></p>
+                            <p>就像醫生的聽診器，可以「夾住」電線來測量電流，不需要切斷電線！</p>
+                            <p><strong>特點：</strong></p>
+                            <ul>
+                                <li>安全方便，不用接觸電線內部</li>
+                                <li>可以測量電器實際用電量</li>
+                                <li>像夾子一樣夾住電線即可</li>
+                                <li>測量單位：安培(A)</li>
+                            </ul>
+                            <p><strong>小朋友可以學：</strong>電流就像水流，鉤表就像水流計！</p>
+                        </div>
+                        <div class="card-tip">
+                            <strong>小實驗：</strong>請老師示範用鉤表測量教室電燈的電流！
+                        </div>
+                    </div>
+                    
+                    <div class="knowledge-card meter" onclick="showFact('electric-meter')">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h3>智慧電表</h3>
+                        <div class="card-content">
+                            <p><strong>什麼是智慧電表？</strong></p>
+                            <p>家裡的「用電小秘書」，可以自動記錄用電情況！</p>
+                            <p><strong>功能：</strong></p>
+                            <ul>
+                                <li>每15分鐘記錄一次用電量</li>
+                                <li>自動把數據傳給用戶</li>
+                                <li>不用人工抄電表</li>
+                                <li>可以即時查看用電狀況</li>
+                            </ul>
+                            <p><strong>與傳統電表差別：</strong></p>
+                            <ul>
+                                <li>傳統電表：需要人去看數字</li>
+                                <li>智慧電表：自動傳送數據</li>
+                                <li>傳統：每月知道一次用電量</li>
+                                <li>智慧：隨時知道用電情況</li>
+                            </ul>
+                        </div>
+                        <div class="card-tip">
+                            <strong>觀察任務：</strong>回家找找看家裡的電表在哪裡！
+                        </div>
+                    </div>
+                    
+                    <div class="knowledge-card gateway" onclick="showFact('gateway')">
+                        <div class="card-icon">
+                            <i class="fas fa-wifi"></i>
+                        </div>
+                        <h3>閘道器（通訊小幫手）<span class="badge">新科技</span></h3>
+                        <div class="card-content">
+                            <p><strong>什麼是閘道器？</strong></p>
+                            <p>就像能源數據的「郵差」，負責傳送用電訊息！</p>
+                            <p><strong>兩種閘道器：</strong></p>
+                            <ul>
+                                <li><strong>無線閘道器：</strong>用Wi-Fi或藍牙傳輸，像無線對講機</li>
+                                <li><strong>有線閘道器：</strong>用網路線傳輸，像固定電話</li>
+                            </ul>
+                            <p><strong>工作流程：</strong></p>
+                            <ol>
+                                <li>電表收集用電數據</li>
+                                <li>閘道器接收數據</li>
+                                <li>閘道器傳送到雲端</li>
+                                <li>我們從手機或電腦查看</li>
+                            </ol>
+                        </div>
+                        <div class="card-tip">
+                            <strong>比喻：</strong>閘道器就像學校的廣播系統，把訊息傳給每間教室！
+                        </div>
+                    </div>
+                    
+                    <div class="knowledge-card ems" onclick="showFact('ems')">
+                        <div class="card-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <h3>雲端能源管理系統(EMS)<span class="badge">智慧系統</span></h3>
+                        <div class="card-content">
+                            <p><strong>什麼是EMS？</strong></p>
+                            <p>能源的「大腦」，在雲端分析用電情況，幫助我們節電！</p>
+                            <p><strong>功能：</strong></p>
+                            <ul>
+                                <li>收集所有電表的數據</li>
+                                <li>分析哪裡用電最多</li>
+                                <li>找出浪費電的地方</li>
+                                <li>建議節電方法</li>
+                                <li>可以手機APP查看</li>
+                            </ul>
+                            <p><strong>EMS如何幫助我們：</strong></p>
+                            <ul>
+                                <li>發現冷氣開太冷</li>
+                                <li>提醒關閉沒用的電燈</li>
+                                <li>比較今天和昨天用電量</li>
+                                <li>設定用電目標</li>
+                            </ul>
+                        </div>
+                        <div class="card-tip">
+                            <strong>想像：</strong>EMS就像能源醫生，幫我們的用電習慣做健康檢查！
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 設備圖示展示 -->
+                <div class="device-illustration">
+                    <div class="device-item">
+                        <div class="device-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="device-name">電流鉤表</div>
+                        <div class="device-desc">測量電流</div>
+                    </div>
+                    <div class="device-item">
+                        <div class="device-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="device-name">智慧電表</div>
+                        <div class="device-desc">記錄用電</div>
+                    </div>
+                    <div class="device-item">
+                        <div class="device-icon">
+                            <i class="fas fa-wifi"></i>
+                        </div>
+                        <div class="device-name">無線閘道器</div>
+                        <div class="device-desc">無線傳輸</div>
+                    </div>
+                    <div class="device-item">
+                        <div class="device-icon">
+                            <i class="fas fa-ethernet"></i>
+                        </div>
+                        <div class="device-name">有線閘道器</div>
+                        <div class="device-desc">有線傳輸</div>
+                    </div>
+                    <div class="device-item">
+                        <div class="device-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <div class="device-name">雲端EMS</div>
+                        <div class="device-desc">分析管理</div>
+                    </div>
+                </div>
+                
+                <!-- 能源監控流程圖 -->
+                <div class="monitoring-flow">
+                    <div class="flow-step">
+                        <div class="flow-icon">
+                            <i class="fas fa-plug"></i>
+                        </div>
+                        <div class="flow-text">電器用電</div>
+                    </div>
+                    <div class="flow-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="flow-text">電流鉤表測量</div>
+                    </div>
+                    <div class="flow-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <div class="flow-text">智慧電表記錄</div>
+                    </div>
+                    <div class="flow-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-icon">
+                            <i class="fas fa-wifi"></i>
+                        </div>
+                        <div class="flow-text">閘道器傳送</div>
+                    </div>
+                    <div class="flow-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <div class="flow-text">雲端EMS分析</div>
+                    </div>
+                    <div class="flow-arrow">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                    <div class="flow-step">
+                        <div class="flow-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="flow-text">手機APP查看</div>
+                    </div>
+                </div>
+                
+                <!-- 電表模擬遊戲 -->
+                <div class="meter-simulation">
+                    <h3><i class="fas fa-gamepad"></i> 電表模擬小遊戲</h3>
+                    <p>模擬智慧電表如何記錄用電，試試開關電器看看用電變化！</p>
+                    
+                    <div class="meter-display" id="meter-display">
+                        <div>⚡ 即時用電監控 ⚡</div>
+                        <div>總用電量: <span id="total-kwh">0.0</span> 度</div>
+                        <div>即時功率: <span id="current-watt">0</span> 瓦特</div>
+                        <div>估算電費: <span id="estimated-cost">$0</span> 元</div>
+                    </div>
+                    
+                    <div class="meter-controls">
+                        <div class="appliance-control off" id="light-control" onclick="toggleAppliance('light')">
+                            <i class="fas fa-lightbulb"></i>
+                            <div>電燈</div>
+                            <div>100W</div>
+                        </div>
+                        <div class="appliance-control off" id="fan-control" onclick="toggleAppliance('fan')">
+                            <i class="fas fa-fan"></i>
+                            <div>電風扇</div>
+                            <div>80W</div>
+                        </div>
+                        <div class="appliance-control off" id="tv-control" onclick="toggleAppliance('tv')">
+                            <i class="fas fa-tv"></i>
+                            <div>電視</div>
+                            <div>200W</div>
+                        </div>
+                        <div class="appliance-control off" id="computer-control" onclick="toggleAppliance('computer')">
+                            <i class="fas fa-desktop"></i>
+                            <div>電腦</div>
+                            <div>300W</div>
+                        </div>
+                    </div>
+                    
+                    <div class="power-consumption">
+                        <div class="consumption-item">
+                            <div>開啟電器數</div>
+                            <div class="consumption-value" id="appliance-count">0</div>
+                        </div>
+                        <div class="consumption-item">
+                            <div>每小時用電</div>
+                            <div class="consumption-value" id="hourly-use">0.0 度</div>
+                        </div>
+                        <div class="consumption-item">
+                            <div>每日電費</div>
+                            <div class="consumption-value" id="daily-cost">$0</div>
+                        </div>
+                    </div>
+                    
+                    <div class="game-instruction">
+                        <p><i class="fas fa-lightbulb"></i> <strong>遊戲說明：</strong> 點擊電器圖示開關電器，觀察電表數據變化！</p>
+                        <p>智慧電表就像這樣自動記錄用電，EMS系統分析後會告訴我們如何節電！</p>
+                    </div>
+                </div>
+                
+                <div class="game-instruction">
+                    <p><i class="fas fa-graduation-cap"></i> <strong>能源監控小口訣：</strong> 鉤表量電流，電表記度數，閘道傳數據，雲端幫分析，手機隨時看，節電真簡單！</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 原有其他標籤頁內容 -->
         <div class="tab-content" id="matching-game-tab">
             <div class="game-section">
                 <h2 class="section-title"><i class="fas fa-puzzle-piece"></i> 環保配對遊戲</h2>
@@ -1059,7 +1495,7 @@
                         <p>關閉不必要的電器，節省能源！點擊電器來開啟或關閉它。</p>
                         <p><strong>計分規則：</strong></p>
                         <ul>
-                           
+                       
                         </ul>
                         <p>目標：在60秒內關閉所有不必要電器，獲得100分滿分！</p>
                     </div>
@@ -1260,6 +1696,7 @@
             initEnergyGame();
             initCarbonGame();
             initPolarBearGame();
+            initMeterSimulation(); // 新增電表模擬遊戲初始化
             startTimer();
             
             // 顯示歡迎訊息
@@ -1307,6 +1744,11 @@
                     document.getElementById(`${tabId}-tab`).classList.add('active');
                     
                     currentTab = tabId;
+                    
+                    // 如果切換到能源監控標籤，重新開始電表遊戲
+                    if (tabId === 'energy-tech') {
+                        resetMeterGame();
+                    }
                 });
             });
         }
@@ -1337,6 +1779,31 @@
                     icon: '<i class="fas fa-tree"></i>',
                     content: '<p><strong>碳匯是什麼？</strong>能夠吸收二氧化碳的自然系統。</p><p><strong>樹木碳匯：</strong></p><ul><li>一棵樹每年可吸收12公斤二氧化碳</li><li>一棵樹一生可吸收約1噸二氧化碳</li><li>1公頃森林每年吸收22噸二氧化碳</li><li>全球森林每年吸收約29億噸二氧化碳</li></ul><p><strong>海洋碳匯：</strong></p><ul><li>海洋吸收約30%人類排放的二氧化碳</li><li>浮游植物通過光合作用吸收二氧化碳</li><li>1平方公里的健康海洋每年吸收150公斤二氧化碳</li><li>全球海洋每年吸收約25億噸二氧化碳</li></ul><p><strong>保護碳匯：</strong>減少森林砍伐、保護海洋生態、植樹造林！</p>',
                     tip: '種植一棵樹，它一生可以吸收1噸的二氧化碳！'
+                },
+                // 新增能源監控相關facts
+                'clamp-meter': {
+                    title: '電流鉤表（夾式電表）',
+                    icon: '<i class="fas fa-bolt"></i>',
+                    content: '<p><strong>電流鉤表的秘密：</strong></p><p>電流鉤表又叫做夾式電表，因為它長得像一個大夾子！</p><p><strong>工作原理：</strong></p><ul><li>利用電磁感應原理測量電流</li><li>夾住電線就能測量，不用接觸電線內部</li><li>非常安全，不會觸電</li><li>可以測量從0.1A到幾百A的電流</li></ul><p><strong>實際應用：</strong></p><ul><li>檢查家裡電器是否耗電</li><li>找出「電器吸血鬼」（待機耗電的電器）</li><li>幫助工廠節約能源</li><li>維修電器時檢測電流</li></ul>',
+                    tip: '電流就像水流，安培(A)就是水流的「水量」單位！'
+                },
+                'electric-meter': {
+                    title: '智慧電表',
+                    icon: '<i class="fas fa-chart-bar"></i>',
+                    content: '<p><strong>智慧電表的進化：</strong></p><p>從傳統機械式電表變成智慧電子式電表！</p><p><strong>傳統電表：</strong></p><ul><li>需要人工抄表</li><li>每月只知道一次用電量</li><li>無法知道何時用電最多</li><li>像老式時鐘，需要人去看</li></ul><p><strong>智慧電表：</strong></p><ul><li>自動記錄用電數據</li><li>每15分鐘記錄一次</li><li>可以分析用電習慣</li><li>像智慧手錶，自動記錄</li><li>幫助我們找出浪費電的時間</li></ul><p><strong>好處：</strong>可以隨時在手機上看用電情況，就像看天氣預報一樣方便！</p>',
+                    tip: '家裡安裝智慧電表後，試著觀察每天的用電曲線圖！'
+                },
+                'gateway': {
+                    title: '閘道器（能源數據的郵差）',
+                    icon: '<i class="fas fa-wifi"></i>',
+                    content: '<p><strong>閘道器的重要工作：</strong></p><p>閘道器是能源監控系統中的「通訊中心」！</p><p><strong>兩種傳輸方式：</strong></p><ul><li><strong>無線閘道器：</strong>使用Wi-Fi、藍牙、LoRa等無線技術，像無線電對講機</li><li><strong>有線閘道器：</strong>使用網路線(乙太網路)傳輸，像固定電話線</li></ul><p><strong>選擇哪種好？</strong></p><ul><li>無線：安裝方便，不用拉線</li><li>有線：信號穩定，不怕干擾</li><li>學校通常用有線，比較穩定</li><li>家裡可以用無線，比較方便</li></ul><p><strong>比喻：</strong>閘道器就像學校的廣播系統，把訊息從校長室傳到每間教室！</p>',
+                    tip: '觀察學校的網路設備，說不定就能看到閘道器！'
+                },
+                'ems': {
+                    title: '雲端能源管理系統(EMS)',
+                    icon: '<i class="fas fa-cloud"></i>',
+                    content: '<p><strong>EMS：能源的智慧大腦</strong></p><p>EMS在雲端分析我們的用電數據，幫助我們節約能源！</p><p><strong>主要功能：</strong></p><ul><li><strong>數據收集：</strong>收集所有電表的數據</li><li><strong>數據分析：</strong>分析用電模式，找出浪費</li><li><strong>異常警報：</strong>用電異常時自動提醒</li><li><strong>節能建議：</strong>提供具體的節電方法</li><li><strong>報告生成：</strong>產生用電報告，就像成績單</li></ul><p><strong>實際應用：</strong></p><ul><li>學校：監控教室用電，放學後自動關閉電源</li><li>家庭：手機APP查看用電，設定節電目標</li><li>工廠：優化生產用電，節省電費</li><li>商店：分析營業時間用電，減少浪費</li></ul><p><strong>比喻：</strong>EMS就像能源醫生，幫我們的用電習慣做健康檢查並開出節電處方！</p>',
+                    tip: '試著用手機搜尋「家庭能源管理APP」，體驗一下EMS的功能！'
                 }
             };
             
@@ -1354,6 +1821,113 @@
             document.getElementById('fact-popup').style.display = 'none';
         }
         
+        // ========== 電表模擬遊戲 ==========
+        let meterApplianceState = {
+            light: { on: false, power: 100 },
+            fan: { on: false, power: 80 },
+            tv: { on: false, power: 200 },
+            computer: { on: false, power: 300 }
+        };
+        
+        let totalKwh = 0;
+        let meterGameInterval;
+        let gameStartTime = Date.now();
+        
+        // 初始化電表模擬遊戲
+        function initMeterSimulation() {
+            // 每5秒更新一次用電量（模擬電表記錄）
+            clearInterval(meterGameInterval);
+            meterGameInterval = setInterval(updateMeterDisplay, 5000);
+            
+            // 初始顯示
+            updateMeterDisplay();
+        }
+        
+        // 開關電器
+        function toggleAppliance(appliance) {
+            const control = document.getElementById(`${appliance}-control`);
+            meterApplianceState[appliance].on = !meterApplianceState[appliance].on;
+            
+            if (meterApplianceState[appliance].on) {
+                control.classList.remove('off');
+                control.classList.add('on');
+            } else {
+                control.classList.remove('on');
+                control.classList.add('off');
+            }
+            
+            updateMeterDisplay();
+        }
+        
+        // 更新電表顯示
+        function updateMeterDisplay() {
+            // 計算總功率
+            let totalWatt = 0;
+            let applianceCount = 0;
+            
+            for (const appliance in meterApplianceState) {
+                if (meterApplianceState[appliance].on) {
+                    totalWatt += meterApplianceState[appliance].power;
+                    applianceCount++;
+                }
+            }
+            
+            // 計算用電量（度 = 瓦特 × 小時 ÷ 1000）
+            // 假設每5秒模擬真實時間的1小時
+            const hoursPassed = (Date.now() - gameStartTime) / (5 * 1000); // 每5秒算1小時
+            totalKwh = (totalWatt * hoursPassed) / 1000;
+            
+            // 計算電費（每度3元）
+            const estimatedCost = totalKwh * 3;
+            
+            // 更新顯示
+            document.getElementById('current-watt').textContent = totalWatt;
+            document.getElementById('total-kwh').textContent = totalKwh.toFixed(2);
+            document.getElementById('estimated-cost').textContent = `$${Math.round(estimatedCost)}`;
+            document.getElementById('appliance-count').textContent = applianceCount;
+            
+            // 計算每小時用電和每日電費
+            const hourlyKwh = totalWatt / 1000; // 瓦特轉換為千瓦
+            const dailyCost = (hourlyKwh * 24 * 3).toFixed(1); // 24小時 × 每度3元
+            
+            document.getElementById('hourly-use').textContent = `${hourlyKwh.toFixed(2)} 度`;
+            document.getElementById('daily-cost').textContent = `$${dailyCost}`;
+            
+            // 根據用電量改變電表顯示顏色
+            const meterDisplay = document.getElementById('meter-display');
+            if (totalWatt > 500) {
+                meterDisplay.style.color = '#ff4444'; // 紅色：用電太多
+                meterDisplay.style.backgroundColor = '#222';
+            } else if (totalWatt > 200) {
+                meterDisplay.style.color = '#ffaa00'; // 橙色：用電中等
+                meterDisplay.style.backgroundColor = '#222';
+            } else {
+                meterDisplay.style.color = '#44ff44'; // 綠色：用電節約
+                meterDisplay.style.backgroundColor = '#222';
+            }
+        }
+        
+        // 重置電表遊戲
+        function resetMeterGame() {
+            // 重置所有電器狀態
+            for (const appliance in meterApplianceState) {
+                meterApplianceState[appliance].on = false;
+                const control = document.getElementById(`${appliance}-control`);
+                if (control) {
+                    control.classList.remove('on');
+                    control.classList.add('off');
+                }
+            }
+            
+            // 重置用電量
+            totalKwh = 0;
+            gameStartTime = Date.now();
+            
+            // 更新顯示
+            updateMeterDisplay();
+        }
+        
+        // ========== 原有遊戲的JavaScript代碼保持不變 ==========
         // ========== 配對遊戲 ==========
         let matchingGameData = [];
         let matchingScore = 0;
@@ -1582,22 +2156,22 @@
             startMatchingGame();
         }
         
-        // ========== 節電挑戰遊戲 - 修正版 ==========
+        // ========== 節電挑戰遊戲 ==========
         let energyGameActive = false;
         let energyScore = 0;
         let energyTimeLeft = 60;
         let energyGameTimer;
         
-        // 電器數據 - 修正電費計算
+        // 電器數據
         let appliances = [
             { 
                 id: 1, 
                 name: "冷氣", 
-                power: 1500, // 瓦特
+                power: 1500,
                 x: 20, y: 30, 
                 on: true, 
                 icon: "fas fa-snowflake",
-                hoursPerDay: 8, // 每天使用8小時
+                hoursPerDay: 8,
                 description: "耗電量大，設定26°C最省電"
             },
             { 
@@ -1673,52 +2247,47 @@
                     <div>${appliance.name}</div>
                 `;
                 applianceElement.title = appliance.description;
-                applianceElement.addEventListener('click', () => toggleAppliance(appliance.id));
+                applianceElement.addEventListener('click', () => toggleEnergyAppliance(appliance.id));
                 container.appendChild(applianceElement);
             });
             
             updateEnergyDisplay();
         }
         
-        // 計算用電度數：功率(W) × 時間(小時) ÷ 1000
+        // 計算用電度數
         function calculateElectricityUsage() {
             let totalKwh = 0;
             let totalCost = 0;
             
             appliances.forEach(appliance => {
                 if (appliance.on) {
-                    // 計算每月用電度數
                     const dailyKwh = (appliance.power * appliance.hoursPerDay) / 1000;
-                    const monthlyKwh = dailyKwh * 30; // 一個月30天
+                    const monthlyKwh = dailyKwh * 30;
                     totalKwh += monthlyKwh;
                 }
             });
             
-            // 計算電費
             totalCost = totalKwh * electricityPrice;
             
             return { totalKwh, totalCost };
         }
         
-        function toggleAppliance(id) {
+        function toggleEnergyAppliance(id) {
             if (!energyGameActive) return;
             
             const appliance = appliances.find(a => a.id === id);
             const wasOn = appliance.on;
             appliance.on = !appliance.on;
             
-            // 計算分數：關閉電器得10分
             if (!appliance.on && wasOn) {
                 energyScore += 10;
             } else if (appliance.on && !wasOn) {
                 energyScore = Math.max(0, energyScore - 10);
             }
             
-            // 更新顯示
             updateEnergyDisplay();
             renderEnergyGame();
             
-            // 檢查是否完成挑戰
             checkEnergyGameCompletion();
         }
         
@@ -1727,7 +2296,6 @@
             const totalKwh = usage.totalKwh;
             const totalCost = usage.totalCost;
             
-            // 計算能源使用率 (0-100%)
             let maxPossibleKwh = 0;
             appliances.forEach(appliance => {
                 const dailyKwh = (appliance.power * appliance.hoursPerDay) / 1000;
@@ -1736,35 +2304,24 @@
             
             const energyLevel = (totalKwh / maxPossibleKwh) * 100;
             
-            // 更新能源表
             document.getElementById('energy-level').style.width = `${energyLevel}%`;
-            
-            // 更新電費顯示
             document.getElementById('energy-cost').textContent = `$${Math.round(totalCost)}`;
             
-            // 計算節省電費 (假設全部關閉為最佳狀態)
             let minPossibleKwh = 0;
             appliances.forEach(appliance => {
-                // 只計算必要電器（假設電燈和充電器是必要的）
                 if (appliance.id === 3 || appliance.id === 6) {
                     const dailyKwh = (appliance.power * appliance.hoursPerDay) / 1000;
                     minPossibleKwh += dailyKwh * 30;
                 }
             });
             
-            const minCost = minPossibleKwh * electricityPrice;
-            const savedCost = Math.max(0, 1200 - totalCost); // 假設原本電費1200元
+            const savedCost = Math.max(0, 1200 - totalCost);
             
             document.getElementById('energy-saved').textContent = `$${Math.round(savedCost)}`;
             document.getElementById('energy-kwh').textContent = `${totalKwh.toFixed(1)} 度`;
-            
-            // 更新分數顯示
             document.getElementById('energy-score').textContent = energyScore;
-            
-            // 更新時間顯示
             document.getElementById('energy-time').textContent = energyTimeLeft;
             
-            // 更新反饋
             let feedback = '';
             let feedbackClass = 'feedback';
             
@@ -1787,7 +2344,6 @@
             const totalKwh = usage.totalKwh;
             const totalCost = usage.totalCost;
             
-            // 計算能源使用率
             let maxPossibleKwh = 0;
             appliances.forEach(appliance => {
                 const dailyKwh = (appliance.power * appliance.hoursPerDay) / 1000;
@@ -1796,7 +2352,6 @@
             
             const energyLevel = (totalKwh / maxPossibleKwh) * 100;
             
-            // 計算節省電費
             let minPossibleKwh = 0;
             appliances.forEach(appliance => {
                 if (appliance.id === 3 || appliance.id === 6) {
@@ -1805,32 +2360,25 @@
                 }
             });
             
-            const minCost = minPossibleKwh * electricityPrice;
             const savedCost = Math.max(0, 1200 - totalCost);
             
-            // 計算額外加分
             let bonusScore = 0;
             
-            // 能源使用率低於30%得30分
             if (energyLevel <= 30) {
                 bonusScore += 30;
             }
             
-            // 每月節省電費超過$300得30分
             if (savedCost >= 300) {
                 bonusScore += 30;
             }
             
-            // 時間內完成得30分 (如果時間還剩10秒以上)
             if (energyTimeLeft >= 10) {
                 bonusScore += 30;
             }
             
-            // 更新總分數
             const totalScore = Math.min(100, energyScore + bonusScore);
             document.getElementById('energy-score').textContent = totalScore;
             
-            // 如果達到100分，遊戲結束
             if (totalScore >= 100) {
                 energyGameActive = false;
                 clearInterval(energyGameTimer);
@@ -1844,14 +2392,12 @@
             energyScore = 0;
             energyTimeLeft = 60;
             
-            // 重置所有電器為開啟狀態
             appliances.forEach(appliance => {
                 appliance.on = true;
             });
             
             renderEnergyGame();
             
-            // 開始計時器
             clearInterval(energyGameTimer);
             energyGameTimer = setInterval(() => {
                 energyTimeLeft--;
@@ -1861,7 +2407,6 @@
                     clearInterval(energyGameTimer);
                     energyGameActive = false;
                     
-                    // 最終計分
                     checkEnergyGameCompletion();
                     
                     document.getElementById('energy-feedback').textContent = `時間到！你的最終得分是${document.getElementById('energy-score').textContent}分！`;
@@ -1889,11 +2434,11 @@
             document.getElementById('energy-feedback').className = 'feedback';
         }
         
-        // ========== 碳匯挑戰賽 - 修正版 ==========
+        // ========== 碳匯挑戰賽 ==========
         let carbonGameActive = false;
         let carbonScore = 0;
-        let carbonEmission = 100; // 初始碳排放100公斤
-        let carbonSinkAmount = 0; // 初始碳匯吸收0公斤
+        let carbonEmission = 100;
+        let carbonSinkAmount = 0;
         
         function initCarbonGame() {
             renderCarbonGame();
@@ -1906,7 +2451,6 @@
             sourcesContainer.innerHTML = '';
             sinksContainer.innerHTML = '';
             
-            // 碳排放源 - 合理的碳排放量
             const carbonSources = [
                 { id: 1, name: "開車10公里", emission: 2.4, icon: "fas fa-car", description: "產生2.4公斤二氧化碳" },
                 { id: 2, name: "冷氣1小時", emission: 0.6, icon: "fas fa-snowflake", description: "產生0.6公斤二氧化碳" },
@@ -1914,7 +2458,6 @@
                 { id: 4, name: "用1度電", emission: 0.5, icon: "fas fa-bolt", description: "產生0.5公斤二氧化碳" }
             ];
             
-            // 碳匯吸收 - 合理的碳吸收量
             const carbonSinks = [
                 { id: 1, name: "種一棵樹", sink: 12, icon: "fas fa-tree", description: "每年吸收12公斤二氧化碳" },
                 { id: 2, name: "保護1公頃森林", sink: 22, icon: "fas fa-forest", description: "每年吸收22噸二氧化碳" },
@@ -1960,7 +2503,6 @@
             const source = sources.find(s => s.id === sourceId);
             carbonEmission += source.emission;
             
-            // 計算分數：減少碳排放得5分 (但增加排放會扣分)
             carbonScore = Math.max(0, carbonScore - 5);
             
             updateCarbonDisplay();
@@ -1984,7 +2526,6 @@
             const sink = sinks.find(s => s.id === sinkId);
             carbonSinkAmount += sink.sink;
             
-            // 計算分數：增加碳匯得5分
             carbonScore += 5;
             
             updateCarbonDisplay();
@@ -1996,24 +2537,17 @@
         }
         
         function updateCarbonDisplay() {
-            // 計算碳平衡
             const carbonBalance = carbonSinkAmount - carbonEmission;
             
-            // 更新顯示
             document.getElementById('carbon-emission').textContent = `${carbonEmission.toFixed(1)} 公斤`;
             document.getElementById('carbon-sink-amount').textContent = `${carbonSinkAmount.toFixed(1)} 公斤`;
             document.getElementById('carbon-balance').textContent = `${carbonBalance.toFixed(1)} 公斤`;
-            
-            // 更新分數顯示
             document.getElementById('carbon-score').textContent = carbonScore;
             
-            // 更新碳平衡指示器
-            // 碳平衡範圍：-100到+100，轉換為0-100%
             let carbonPercentage = (carbonBalance + 100) / 2;
             carbonPercentage = Math.max(0, Math.min(100, carbonPercentage));
             document.getElementById('carbon-level').style.width = `${carbonPercentage}%`;
             
-            // 更新地球表情
             const earthIcon = document.getElementById('earth-icon');
             if (carbonBalance >= 50) {
                 earthIcon.className = "fas fa-globe-americas";
@@ -2033,27 +2567,19 @@
         function checkCarbonGameCompletion() {
             const carbonBalance = carbonSinkAmount - carbonEmission;
             
-            // 計算額外加分
             let bonusScore = 0;
             
-            // 碳平衡達到正值得30分
             if (carbonBalance >= 0) {
                 bonusScore += 30;
             }
             
-            // 碳平衡達到+50得20分
             if (carbonBalance >= 50) {
                 bonusScore += 20;
             }
             
-            // 每增加10公斤碳匯得5分 (已在增加時計算)
-            // 每減少10公斤碳排放得5分 (已在減少時計算)
-            
-            // 更新總分數 (基礎分數已包含在carbonScore中)
             const totalScore = Math.min(100, carbonScore + bonusScore);
             document.getElementById('carbon-score').textContent = totalScore;
             
-            // 如果達到100分，遊戲結束
             if (totalScore >= 100) {
                 carbonGameActive = false;
                 document.getElementById('carbon-feedback').textContent = '太棒了！你獲得100分滿分！碳匯吸收遠超過碳排放！';
@@ -2102,15 +2628,12 @@
             document.getElementById('ice-thickness').textContent = iceThickness;
             document.getElementById('polar-bear-health').textContent = polarBearHealth;
             
-            // 更新冰層視覺效果
             document.getElementById('ice-level').style.height = `${iceThickness}%`;
             
-            // 更新北極熊位置
             const bearElement = document.getElementById('polar-bear');
             const bottomPosition = 10 + (100 - iceThickness) * 0.5;
             bearElement.style.bottom = `${bottomPosition}px`;
             
-            // 更新北極熊表情
             if (polarBearHealth >= 70) {
                 bearElement.textContent = "🐻‍❄️";
             } else if (polarBearHealth >= 30) {
@@ -2125,7 +2648,6 @@
             polarBearHealth = 100;
             iceThickness = 100;
             
-            // 設置威脅和解決方案
             const threatsContainer = document.getElementById('threats-container');
             const solutionsContainer = document.getElementById('solutions-container');
             
@@ -2184,7 +2706,6 @@
             
             const threat = threats.find(t => t.id === threatId);
             
-            // 減少冰層厚度和北極熊健康度
             iceThickness = Math.max(0, iceThickness - threat.damage);
             polarBearHealth = Math.max(0, polarBearHealth - threat.damage / 2);
             
@@ -2208,7 +2729,6 @@
             
             const solution = solutions.find(s => s.id === solutionId);
             
-            // 恢復冰層厚度和北極熊健康度
             iceThickness = Math.min(100, iceThickness + solution.heal);
             polarBearHealth = Math.min(100, polarBearHealth + solution.heal / 2);
             
