@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仙洞國小 ESG水資源守護者</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', 'Microsoft JhengHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #e6f7ff 0%, #f0f9ff 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 100, 200, 0.1);
+            overflow: hidden;
+            border: 5px solid #4a90e2;
+        }
+        
+        header {
+            background: linear-gradient(to right, #1e6fd9, #22a7f0);
+            color: white;
+            padding: 25px;
+            text-align: center;
+            border-bottom: 5px solid #0d4d9c;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .game-area {
+            padding: 30px;
+        }
+        
+        .game-title {
+            color: #1e6fd9;
+            border-bottom: 3px solid #4a90e2;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            font-size: 1.8rem;
+        }
+        
+        .water-game {
+            text-align: center;
+        }
+        
+        .player-info {
+            background-color: #f0f9ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: left;
+        }
+        
+        .player-info label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #1e6fd9;
+        }
+        
+        .player-info input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #cce7ff;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+        
+        .water-container {
+            width: 300px;
+            height: 400px;
+            margin: 20px auto;
+            position: relative;
+            background-color: #e1f5fe;
+            border-radius: 10px;
+            border: 5px solid #4a90e2;
+            overflow: hidden;
+        }
+        
+        .water-faucet {
+            width: 60px;
+            height: 40px;
+            background-color: #aaa;
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .water-faucet::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #4a90e2;
+            border-radius: 50%;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .water-stream {
+            width: 10px;
+            height: 0;
+            background-color: #4a90e2;
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: height 0.3s;
+        }
+        
+        .water-cup {
+            width: 180px;
+            height: 200px;
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 5px solid #FF9800;
+            border-radius: 10px 10px 40px 40px;
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            overflow: hidden;
+        }
+        
+        .water-in-cup {
+            width: 100%;
+            height: 0%;
+            background-color: rgba(33, 150, 243, 0.7);
+            position: absolute;
+            bottom: 0;
+            transition: height 0.5s;
+        }
+        
+        .water-level {
+            position: absolute;
+            right: -40px;
+            height: 100%;
+            width: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        
+        .level-mark {
+            width: 20px;
+            border-top: 2px solid #666;
+            text-align: right;
+            padding-right: 5px;
+            font-size: 0.8rem;
+            color: #333;
+        }
+        
+        .timer {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2196F3;
+            margin: 20px 0;
+        }
+        
+        .game-btn {
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: all 0.3s;
+        }
+        
+        .game-btn:hover {
+            background-color: #0D47A1;
+        }
+        
+        .game-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .real-time-feedback {
+            margin: 15px 0;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .feedback-good {
+            background-color: #E8F5E9;
+            color: #2E7D32;
+            border: 2px solid #4CAF50;
+        }
+        
+        .feedback-warning {
+            background-color: #FFF3E0;
+            color: #EF6C00;
+            border: 2px solid #FF9800;
+        }
+        
+        .feedback-danger {
+            background-color: #FFEBEE;
+            color: #C62828;
+            border: 2px solid #F44336;
+        }
+        
+        .result {
+            font-size: 1.5rem;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+        
+        .result.success {
+            background-color: #E8F5E9;
+            color: #2E7D32;
+            border: 2px solid #4CAF50;
+            display: block;
+        }
+        
+        .result.warning {
+            background-color: #FFF3E0;
+            color: #EF6C00;
+            border: 2px solid #FF9800;
+            display: block;
+        }
+        
+        .result.error {
+            background-color: #FFEBEE;
+            color: #C62828;
+            border: 2px solid #F44336;
+            display: block;
+        }
+        
+        .records-container {
+            margin-top: 40px;
+            background-color: #f5fbff;
+            border-radius: 15px;
+            padding: 25px;
+        }
+        
+        .records-title {
+            color: #1e6fd9;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        
+        th {
+            background-color: #1e6fd9;
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+        
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f0f9ff;
+        }
+        
+        .rank-1 { background-color: #FFF8E1; }
+        .rank-2 { background-color: #F5F5F5; }
+        .rank-3 { background-color: #FFF3E0; }
+        
+        .water-drop {
+            color: #2196F3;
+            font-size: 1.5rem;
+            margin-right: 5px;
+        }
+        
+        @media (max-width: 600px) {
+            .water-container {
+                width: 250px;
+                height: 350px;
+            }
+            
+            .game-btn {
+                padding: 10px 15px;
+                margin: 5px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-tint"></i> 仙洞國小 ESG水資源守護者</h1>
+            <p class="subtitle">好學生接水省水大計畫互動遊戲</p>
+        </header>
+        
+        <div class="game-area">
+            <h2 class="game-title"><i class="fas fa-faucet"></i> 接水挑戰賽</h2>
+            <p style="margin-bottom: 20px; font-size: 1.1rem; text-align: center;">
+                目標：在30秒內接取剛好一杯水 (250ml)，培養精準用水的好習慣！
+            </p>
+            
+            <div class="water-game">
+                <div class="player-info">
+                    <label for="player-name"><i class="fas fa-user"></i> 請輸入您的姓名：</label>
+                    <input type="text" id="player-name" placeholder="例如：王小明" maxlength="10" value="郭台銘">
+                    <p style="font-size: 0.9rem; color: #666;">輸入姓名後，您的成績將會記錄在排行榜上！</p>
+                </div>
+                
+                <div class="water-container">
+                    <div class="water-faucet"></div>
+                    <div class="water-stream" id="water-stream"></div>
+                    <div class="water-cup">
+                        <div class="water-in-cup" id="water-in-cup"></div>
+                        <div class="water-level">
+                            <div class="level-mark" style="top: 0%;">300ml</div>
+                            <div class="level-mark" style="top: 20%;">250ml</div>
+                            <div class="level-mark" style="top: 40%;">200ml</div>
+                            <div class="level-mark" style="top: 60%;">150ml</div>
+                            <div class="level-mark" style="top: 80%;">100ml</div>
+                            <div class="level-mark" style="top: 100%;">0ml</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="timer" id="timer">30.0 秒</div>
+                
+                <!-- 即時反饋區域 -->
+                <div class="real-time-feedback" id="real-time-feedback">
+                    等待遊戲開始...
+                </div>
+                
+                <div class="game-controls">
+                    <button class="game-btn" id="start-btn"><i class="fas fa-play"></i> 開始接水</button>
+                    <button class="game-btn" id="stop-btn" disabled><i class="fas fa-stop"></i> 停止接水</button>
+                    <button class="game-btn" id="reset-btn"><i class="fas fa-redo"></i> 重新開始</button>
+                </div>
+                
+                <div class="result" id="result"></div>
+                
+                <div class="records-container">
+                    <h3 class="records-title"><i class="fas fa-trophy"></i> 接水挑戰賽排行榜 (前10名)</h3>
+                    <div id="records-list">
+                        <!-- 排行榜紀錄會動態顯示在這裡 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 遊戲狀態變數
+        let gameState = {
+            timer: 30.0,
+            timerInterval: null,
+            waterLevel: 0,
+            isRunning: false,
+            waterStreamInterval: null,
+            playerName: "",
+            records: [],
+            lastAlertLevel: 0, // 記錄上次顯示警示的水位
+            showAlerts: true // 控制是否顯示警示
+        };
+
+        // 警示訊息定義
+        const alertMessages = {
+            tooLittle: [
+                { level: 50, message: "水量太少囉！繼續加油！", type: "danger" },
+                { level: 100, message: "水量還不夠喔，至少要200ml才能洗手！", type: "warning" },
+                { level: 150, message: "快接近了，再堅持一下！", type: "warning" }
+            ],
+            good: [
+                { level: 200, message: "太好了！達到基本洗手水量！", type: "good" },
+                { level: 220, message: "接近完美水量！", type: "good" },
+                { level: 240, message: "非常接近目標250ml！準備停止！", type: "good" }
+            ],
+            perfect: [
+                { level: 245, message: "完美！接近250ml！", type: "good" },
+                { level: 250, message: "完美水量！趕快停止！", type: "good" }
+            ],
+            tooMuch: [
+                { level: 260, message: "稍微超過一點了！", type: "warning" },
+                { level: 280, message: "水有點多囉！", type: "warning" },
+                { level: 300, message: "嚴重浪費！已經超過300ml了！", type: "danger" }
+            ]
+        };
+
+        // 頁面載入時初始化
+        window.onload = function() {
+            console.log("遊戲載入中...");
+            
+            // 載入紀錄
+            loadRecordsFromStorage();
+            
+            // 設定按鈕事件
+            document.getElementById('start-btn').addEventListener('click', startWaterGame);
+            document.getElementById('stop-btn').addEventListener('click', stopWaterGame);
+            document.getElementById('reset-btn').addEventListener('click', resetWaterGame);
+            
+            // 顯示排行榜
+            displayRecords();
+            
+            // 初始化即時反饋
+            updateRealTimeFeedback("等待遊戲開始...", "good");
+            
+            console.log("遊戲載入完成！");
+        };
+
+        // 更新即時反饋
+        function updateRealTimeFeedback(message, type) {
+            const feedbackElement = document.getElementById('real-time-feedback');
+            feedbackElement.textContent = message;
+            feedbackElement.className = "real-time-feedback";
+            
+            if (type === "good") {
+                feedbackElement.classList.add("feedback-good");
+            } else if (type === "warning") {
+                feedbackElement.classList.add("feedback-warning");
+            } else if (type === "danger") {
+                feedbackElement.classList.add("feedback-danger");
+            }
+        }
+
+        // 檢查並顯示水位警示
+        function checkWaterLevelAlerts(currentLevel) {
+            if (!gameState.showAlerts) return;
+            
+            // 計算距離上次警示的水位變化
+            const levelChange = Math.abs(currentLevel - gameState.lastAlertLevel);
+            
+            // 只有水位變化超過15ml才顯示新的警示（避免太頻繁）
+            if (levelChange < 15 && currentLevel < 240) return;
+            
+            let message = "";
+            let type = "good";
+            
+            // 檢查不同階段的警示
+            if (currentLevel < 200) {
+                // 水量不足階段的警示
+                for (const alert of alertMessages.tooLittle) {
+                    if (currentLevel >= alert.level && currentLevel < alert.level + 10) {
+                        message = alert.message;
+                        type = alert.type;
+                        break;
+                    }
+                }
+            } else if (currentLevel >= 200 && currentLevel < 245) {
+                // 良好水量階段的警示
+                for (const alert of alertMessages.good) {
+                    if (currentLevel >= alert.level && currentLevel < alert.level + 10) {
+                        message = alert.message;
+                        type = alert.type;
+                        break;
+                    }
+                }
+            } else if (currentLevel >= 245 && currentLevel <= 255) {
+                // 完美水量階段的警示
+                for (const alert of alertMessages.perfect) {
+                    if (currentLevel >= alert.level && currentLevel < alert.level + 5) {
+                        message = alert.message;
+                        type = alert.type;
+                        break;
+                    }
+                }
+            } else if (currentLevel > 255) {
+                // 水量過多階段的警示
+                for (const alert of alertMessages.tooMuch) {
+                    if (currentLevel >= alert.level && currentLevel < alert.level + 10) {
+                        message = alert.message;
+                        type = alert.type;
+                        break;
+                    }
+                }
+            }
+            
+            // 如果有警示訊息，顯示它
+            if (message) {
+                updateRealTimeFeedback(message, type);
+                gameState.lastAlertLevel = currentLevel;
+                
+                // 如果水量超過300ml，發出特別警告
+                if (currentLevel >= 300) {
+                    updateRealTimeFeedback("⚠️ 嚴重浪費！已經超過300ml了！請立即停止！", "danger");
+                }
+            }
+        }
+
+        // 開始遊戲
+        function startWaterGame() {
+            console.log("點擊開始按鈕");
+            
+            // 檢查是否已輸入姓名
+            const playerName = document.getElementById('player-name').value.trim();
+            if (!playerName) {
+                alert("請先輸入您的姓名，才能開始遊戲！");
+                document.getElementById('player-name').focus();
+                return;
+            }
+            
+            gameState.playerName = playerName;
+            gameState.showAlerts = true;
+            gameState.lastAlertLevel = 0;
+            
+            if (gameState.isRunning) {
+                console.log("遊戲已在進行中");
+                return;
+            }
+            
+            // 重置遊戲狀態
+            gameState.isRunning = true;
+            gameState.waterLevel = 0;
+            gameState.timer = 30.0;
+            
+            // 更新按鈕狀態
+            document.getElementById('start-btn').disabled = true;
+            document.getElementById('stop-btn').disabled = false;
+            document.getElementById('player-name').disabled = true;
+            
+            // 更新水杯顯示
+            document.getElementById('water-in-cup').style.height = '0%';
+            
+            // 開始水流動畫
+            document.getElementById('water-stream').style.height = '100px';
+            
+            // 隱藏最終結果
+            document.getElementById('result').style.display = 'none';
+            
+            // 顯示初始訊息
+            updateRealTimeFeedback("遊戲開始！開始接水...", "good");
+            
+            // 開始計時器
+            gameState.timerInterval = setInterval(() => {
+                gameState.timer -= 0.1;
+                document.getElementById('timer').textContent = gameState.timer.toFixed(1) + ' 秒';
+                
+                // 時間到自動停止
+                if (gameState.timer <= 0) {
+                    console.log("時間到!");
+                    stopWaterGame();
+                }
+            }, 100);
+            
+            // 模擬水流增加
+            gameState.waterStreamInterval = setInterval(() => {
+                if (gameState.isRunning) {
+                    // 每次增加2-5ml的水
+                    const increase = 2 + Math.random() * 3;
+                    gameState.waterLevel += increase;
+                    
+                    // 更新水杯顯示（最高300ml）
+                    const waterPercentage = Math.min(gameState.waterLevel / 300 * 100, 100);
+                    document.getElementById('water-in-cup').style.height = waterPercentage + '%';
+                    
+                    console.log("目前水量:", gameState.waterLevel.toFixed(1), "ml");
+                    
+                    // 檢查並顯示水位警示
+                    checkWaterLevelAlerts(gameState.waterLevel);
+                    
+                    // 如果水量超過300ml，強制停止
+                    if (gameState.waterLevel >= 350) {
+                        updateRealTimeFeedback("❌ 嚴重浪費！強制停止遊戲！", "danger");
+                        setTimeout(() => stopWaterGame(), 500);
+                    }
+                }
+            }, 200);
+            
+            console.log("遊戲開始成功!");
+        }
+
+        // 停止遊戲
+        function stopWaterGame() {
+            console.log("點擊停止按鈕");
+            
+            if (!gameState.isRunning) {
+                console.log("遊戲未在進行中");
+                return;
+            }
+            
+            // 停止計時器和水流
+            clearInterval(gameState.timerInterval);
+            clearInterval(gameState.waterStreamInterval);
+            gameState.isRunning = false;
+            gameState.showAlerts = false;
+            
+            // 更新按鈕狀態
+            document.getElementById('start-btn').disabled = false;
+            document.getElementById('stop-btn').disabled = true;
+            document.getElementById('player-name').disabled = false;
+            
+            // 停止水流
+            document.getElementById('water-stream').style.height = '0';
+            
+            // 計算結果
+            const waterLevel = gameState.waterLevel;
+            const error = Math.abs(waterLevel - 250);
+            let resultClass, resultText, score, dropsEarned;
+            
+            // 計算分數和顯示最終結果
+            if (waterLevel < 200) {
+                score = Math.max(10, Math.floor(waterLevel / 2));
+                resultClass = 'error';
+                resultText = `水量不足！只接了 ${waterLevel.toFixed(1)}ml，需要至少 200ml 才能洗手。`;
+                dropsEarned = 1;
+                updateRealTimeFeedback("❌ 水量不足，再接再厲！", "danger");
+            } else if (waterLevel > 300) {
+                score = Math.max(5, 60 - Math.floor((waterLevel - 250) / 10));
+                resultClass = 'error';
+                resultText = `嚴重浪費！接了 ${waterLevel.toFixed(1)}ml，超過目標 ${(waterLevel-250).toFixed(1)}ml。`;
+                dropsEarned = 1;
+                updateRealTimeFeedback("💧 浪費太多水了！", "danger");
+            } else if (error <= 10) {
+                score = 100;
+                resultClass = 'success';
+                resultText = `完美！接了 ${waterLevel.toFixed(1)}ml，誤差僅 ${error.toFixed(1)}ml！`;
+                dropsEarned = 5;
+                updateRealTimeFeedback("🎉 完美接水！太棒了！", "good");
+            } else if (error <= 30) {
+                score = 80 + Math.floor((30 - error) / 30 * 20);
+                resultClass = 'success';
+                resultText = `很好！接了 ${waterLevel.toFixed(1)}ml，誤差 ${error.toFixed(1)}ml。`;
+                dropsEarned = 3;
+                updateRealTimeFeedback("👍 表現不錯！", "good");
+            } else {
+                score = 60 + Math.floor((50 - error) / 50 * 20);
+                resultClass = 'warning';
+                resultText = `還可以更好！接了 ${waterLevel.toFixed(1)}ml，誤差 ${error.toFixed(1)}ml。`;
+                dropsEarned = 2;
+                updateRealTimeFeedback("👌 還可以更好，繼續練習！", "warning");
+            }
+            
+            score = Math.round(score);
+            
+            // 顯示最終結果
+            const resultElement = document.getElementById('result');
+            resultElement.className = 'result ' + resultClass;
+            resultElement.textContent = resultText + ` 得分：${score}分`;
+            resultElement.style.display = 'block';
+            
+            // 儲存紀錄
+            saveRecord(gameState.playerName, score, waterLevel, error);
+            
+            // 顯示獎勵訊息
+            setTimeout(() => {
+                alert(`${gameState.playerName} 同學，獲得 ${score} 分！\n獎勵 ${dropsEarned} 顆水滴！\n${resultText}`);
+            }, 500);
+            
+            console.log("遊戲結束，分數:", score);
+        }
+
+        // 重置遊戲
+        function resetWaterGame() {
+            console.log("點擊重置按鈕");
+            
+            // 停止遊戲
+            clearInterval(gameState.timerInterval);
+            clearInterval(gameState.waterStreamInterval);
+            gameState.isRunning = false;
+            gameState.showAlerts = false;
+            
+            // 重置狀態
+            gameState.timer = 30.0;
+            gameState.waterLevel = 0;
+            gameState.lastAlertLevel = 0;
+            
+            // 更新顯示
+            document.getElementById('timer').textContent = '30.0 秒';
+            document.getElementById('water-in-cup').style.height = '0%';
+            document.getElementById('water-stream').style.height = '0';
+            
+            // 更新按鈕狀態
+            document.getElementById('start-btn').disabled = false;
+            document.getElementById('stop-btn').disabled = true;
+            document.getElementById('player-name').disabled = false;
+            
+            // 隱藏結果
+            document.getElementById('result').style.display = 'none';
+            
+            // 重置即時反饋
+            updateRealTimeFeedback("遊戲已重置，準備開始新挑戰！", "good");
+        }
+
+        // 儲存紀錄
+        function saveRecord(playerName, score, waterLevel, error) {
+            console.log("儲存紀錄:", playerName, score);
+            
+            const record = {
+                name: playerName,
+                score: score,
+                waterLevel: waterLevel,
+                error: error,
+                date: new Date().toLocaleString('zh-TW')
+            };
+            
+            // 加入新紀錄
+            gameState.records.push(record);
+            
+            // 按分數排序
+            gameState.records.sort((a, b) => b.score - a.score);
+            
+            // 只保留前10名
+            if (gameState.records.length > 10) {
+                gameState.records = gameState.records.slice(0, 10);
+            }
+            
+            // 儲存到本地
+            localStorage.setItem('waterGameRecords', JSON.stringify(gameState.records));
+            
+            // 更新排行榜
+            displayRecords();
+        }
+
+        // 載入紀錄
+        function loadRecordsFromStorage() {
+            console.log("載入紀錄...");
+            const savedRecords = localStorage.getItem('waterGameRecords');
+            if (savedRecords) {
+                try {
+                    gameState.records = JSON.parse(savedRecords);
+                    console.log("載入成功，共", gameState.records.length, "筆紀錄");
+                } catch (e) {
+                    console.error("解析紀錄失敗:", e);
+                    gameState.records = [];
+                }
+            }
+        }
+
+        // 顯示排行榜
+        function displayRecords() {
+            console.log("顯示排行榜...");
+            const recordsList = document.getElementById('records-list');
+            const records = gameState.records;
+            
+            if (records.length === 0) {
+                recordsList.innerHTML = '<div style="text-align: center; padding: 30px; color: #666; font-style: italic;">還沒有任何紀錄，快來挑戰吧！</div>';
+                return;
+            }
+            
+            let html = '<table>';
+            html += '<thead><tr><th>排名</th><th>姓名</th><th>分數</th><th>水量</th><th>誤差</th><th>日期</th></tr></thead><tbody>';
+            
+            records.forEach((record, index) => {
+                let rankClass = '';
+                if (index === 0) rankClass = 'rank-1';
+                else if (index === 1) rankClass = 'rank-2';
+                else if (index === 2) rankClass = 'rank-3';
+                
+                // 計算星級
+                let stars = '';
+                if (record.score >= 90) stars = '★★★★★';
+                else if (record.score >= 80) stars = '★★★★';
+                else if (record.score >= 70) stars = '★★★';
+                else if (record.score >= 60) stars = '★★';
+                else stars = '★';
+                
+                html += `
+                    <tr class="${rankClass}">
+                        <td>
+                            <span style="display: inline-block; width: 30px; height: 30px; line-height: 30px; text-align: center; border-radius: 50%; background-color: ${
+                                index === 0 ? '#FFD700' : 
+                                index === 1 ? '#C0C0C0' : 
+                                index === 2 ? '#CD7F32' : '#2196F3'
+                            }; color: white; font-weight: bold;">
+                                ${index + 1}
+                            </span>
+                        </td>
+                        <td>
+                            <strong>${record.name}</strong>
+                            <br><small>${stars}</small>
+                        </td>
+                        <td>
+                            <i class="fas fa-tint water-drop"></i>
+                            <span style="color: #2196F3; font-weight: bold; font-size: 1.2rem;">${record.score}</span> 分
+                        </td>
+                        <td>${record.waterLevel.toFixed(1)} ml</td>
+                        <td>${record.error.toFixed(1)} ml</td>
+                        <td>${record.date}</td>
+                    </tr>
+                `;
+            });
+            
+            html += '</tbody></table>';
+            recordsList.innerHTML = html;
+            console.log("排行榜更新完成");
+        }
+    </script>
+</body>
+</html>
