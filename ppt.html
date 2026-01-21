@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>仙洞國小 - 海洋與樹木碳匯教育</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: #333;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        header {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-img {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #4CAF50, #2196F3);
+            border-radius: 50%;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+        
+        .school-name {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1rem;
+            margin-top: 3px;
+        }
+        
+        .nav-controls {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .nav-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .nav-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-3px);
+        }
+        
+        .nav-btn:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .slide-container {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .slides {
+            display: flex;
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
+        
+        .slide {
+            min-width: 100vw;
+            height: 100%;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .slide-content {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 900px;
+            width: 90%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+        
+        .slide-title {
+            color: #2c3e50;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .slide-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 5px;
+            background: linear-gradient(to right, #4CAF50, #2196F3);
+            border-radius: 5px;
+        }
+        
+        .slide-body {
+            font-size: 1.4rem;
+            line-height: 1.6;
+            color: #34495e;
+        }
+        
+        .highlight {
+            color: #e74c3c;
+            font-weight: 700;
+        }
+        
+        .carbon-icon {
+            font-size: 2rem;
+            color: #4CAF50;
+            margin: 0 10px;
+        }
+        
+        .features {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 30px;
+            gap: 20px;
+        }
+        
+        .feature {
+            background: linear-gradient(135deg, #f9f9f9, #e8f5e9);
+            border-radius: 15px;
+            padding: 20px;
+            width: 250px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .feature:hover {
+            transform: translateY(-10px);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #27ae60;
+        }
+        
+        .feature-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .comparison {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 30px;
+        }
+        
+        .compare-item {
+            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+            border-radius: 15px;
+            padding: 25px;
+            width: 45%;
+            text-align: center;
+        }
+        
+        .compare-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .ocean-bg {
+            background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), 
+                        url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80');
+            background-size: cover;
+        }
+        
+        .forest-bg {
+            background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), 
+                        url('https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80');
+            background-size: cover;
+        }
+        
+        .fact-box {
+            background: linear-gradient(135deg, #ffeb3b, #ff9800);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+            color: #333;
+        }
+        
+        .fact-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+        }
+        
+        .quiz-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .quiz-question {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .quiz-option {
+            background-color: #f1f1f1;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .quiz-option:hover {
+            background-color: #e0f7fa;
+            border-color: #00bcd4;
+        }
+        
+        .correct {
+            background-color: #c8e6c9 !important;
+            border-color: #4CAF50 !important;
+        }
+        
+        .incorrect {
+            background-color: #ffcdd2 !important;
+            border-color: #f44336 !important;
+        }
+        
+        .slide-counter {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 1.2rem;
+            z-index: 5;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: #ecf0f1;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 5;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(to right, #4CAF50, #2196F3);
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .decoration {
+            position: absolute;
+            z-index: 1;
+        }
+        
+        .fish {
+            width: 60px;
+            height: 30px;
+            background-color: #3498db;
+            border-radius: 50%;
+            position: absolute;
+            animation: swim 20s linear infinite;
+        }
+        
+        .tree {
+            width: 40px;
+            height: 80px;
+            background-color: #8b4513;
+            position: absolute;
+            bottom: 0;
+        }
+        
+        .tree:before {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background-color: #27ae60;
+            border-radius: 50%;
+            top: -40px;
+            left: -20px;
+        }
+        
+        @keyframes swim {
+            0% { transform: translateX(-100px) translateY(0); }
+            50% { transform: translateX(calc(100vw + 100px)) translateY(-50px); }
+            100% { transform: translateX(calc(100vw + 100px)) translateY(0); }
+        }
+        
+        @media (max-width: 768px) {
+            .slide-title {
+                font-size: 1.8rem;
+            }
+            
+            .slide-body {
+                font-size: 1.2rem;
+            }
+            
+            .features, .comparison {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .feature, .compare-item {
+                width: 90%;
+            }
+            
+            .nav-controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .nav-btn {
+                padding: 8px 15px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-img">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <div>
+                    <div class="school-name">仙洞國小環境教育</div>
+                    <div class="subtitle">海洋與樹木碳匯 - 地球的天然空調</div>
+                </div>
+            </div>
+            <div class="nav-controls">
+                <button class="nav-btn" id="prev-btn">
+                    <i class="fas fa-arrow-left"></i> 上一頁
+                </button>
+                <button class="nav-btn" id="next-btn">
+                    下一頁 <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </header>
+        
+        <div class="slide-container">
+            <div class="slides" id="slides">
+                <!-- 第1頁 -->
+                <div class="slide" id="slide1">
+                    <div class="slide-content">
+                        <h1 class="slide-title">海洋與樹木碳匯</h1>
+                        <div class="slide-body">
+                            <p>歡迎來到仙洞國小的環境教育課程！</p>
+                            <p>今天我們要學習的主題是：<span class="highlight">海洋與樹木碳匯</span>。</p>
+                            <div class="fact-box">
+                                <h3 class="fact-title">你知道嗎？</h3>
+                                <p>碳匯就像地球的「天然空調」，可以吸收大氣中的二氧化碳，幫助減緩全球暖化。</p>
+                            </div>
+                            <p>讓我們一起探索海洋和樹木如何幫助我們對抗氣候變遷！</p>
+                        </div>
+                    </div>
+                    <div class="decoration fish" style="top: 20%; animation-delay: 0s;"></div>
+                    <div class="decoration fish" style="top: 60%; animation-delay: 5s;"></div>
+                    <div class="decoration fish" style="top: 80%; animation-delay: 10s;"></div>
+                </div>
+                
+                <!-- 第2頁 -->
+                <div class="slide" id="slide2">
+                    <div class="slide-content">
+                        <h1 class="slide-title">什麼是碳匯？</h1>
+                        <div class="slide-body">
+                            <p><span class="highlight">碳匯</span>是指能夠吸收和儲存大氣中二氧化碳的自然或人工系統。</p>
+                            <p>就像一個巨大的「碳倉庫」，把二氧化碳從大氣中「吸走」並儲存起來。</p>
+                            <div class="features">
+                                <div class="feature">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-tree"></i>
+                                    </div>
+                                    <h3 class="feature-title">陸地碳匯</h3>
+                                    <p>森林、土壤、草原等</p>
+                                </div>
+                                <div class="feature">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-water"></i>
+                                    </div>
+                                    <h3 class="feature-title">海洋碳匯</h3>
+                                    <p>海水、海洋生物、海底沉積物</p>
+                                </div>
+                                <div class="feature">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-industry"></i>
+                                    </div>
+                                    <h3 class="feature-title">人工碳匯</h3>
+                                    <p>碳捕捉與儲存技術</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 第3頁 -->
+                <div class="slide forest-bg" id="slide3">
+                    <div class="slide-content">
+                        <h1 class="slide-title">樹木碳匯</h1>
+                        <div class="slide-body">
+                            <p>樹木通過光合作用吸收二氧化碳，釋放氧氣，並將碳儲存在樹幹、樹枝、樹葉和根部。</p>
+                            <div class="fact-box">
+                                <h3 class="fact-title">樹木的小秘密</h3>
+                                <p>一棵大樹每年可以吸收約<span class="highlight">22公斤</span>的二氧化碳！</p>
+                                <p>森林儲存的碳量約佔全球陸地碳匯的<span class="highlight">45%</span>！</p>
+                            </div>
+                            <div class="comparison">
+                                <div class="compare-item">
+                                    <h3 class="compare-title">樹木如何儲存碳？</h3>
+                                    <p>1. 光合作用吸收CO₂</p>
+                                    <p>2. 碳轉化為木材</p>
+                                    <p>3. 儲存在樹幹、樹根</p>
+                                    <p>4. 部分碳進入土壤</p>
+                                </div>
+                                <div class="compare-item">
+                                    <h3 class="compare-title">森林的好處</h3>
+                                    <p>✓ 淨化空氣</p>
+                                    <p>✓ 調節氣候</p>
+                                    <p>✓ 保護生物多樣性</p>
+                                    <p>✓ 防止土壤侵蝕</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 第4頁 -->
+                <div class="slide ocean-bg" id="slide4">
+                    <div class="slide-content">
+                        <h1 class="slide-title">海洋碳匯</h1>
+                        <div class="slide-body">
+                            <p>海洋是地球上最大的碳匯，吸收了大約<span class="highlight">30%</span>人類活動排放的二氧化碳！</p>
+                            <p>海洋碳匯主要通過兩種方式運作：</p>
+                            <div class="comparison">
+                                <div class="compare-item">
+                                    <h3 class="compare-title">物理作用</h3>
+                                    <p>海水直接溶解大氣中的二氧化碳</p>
+                                    <p>海洋環流將碳帶到深海</p>
+                                </div>
+                                <div class="compare-item">
+                                    <h3 class="compare-title">生物作用</h3>
+                                    <p>浮游植物通過光合作用吸收碳</p>
+                                    <p>海洋生物將碳轉化為碳酸鈣外殼</p>
+                                </div>
+                            </div>
+                            <div class="fact-box">
+                                <h3 class="fact-title">海洋碳匯的小知識</h3>
+                                <p>雖然海洋碳匯很大，但過多的二氧化碳會導致海水酸化，危害海洋生態！</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 第5頁 -->
+                <div class="slide" id="slide5">
+                    <div class="slide-content">
+                        <h1 class="slide-title">樹木 vs. 海洋碳匯</h1>
+                        <div class="slide-body">
+                            <p>讓我們來比較一下這兩種重要的碳匯：</p>
+                            <div class="comparison">
+                                <div class="compare-item">
+                                    <h3 class="compare-title">樹木碳匯</h3>
+                                    <p><i class="fas fa-check-circle carbon-icon"></i> 儲存時間：數十年到數百年</p>
+                                    <p><i class="fas fa-check-circle carbon-icon"></i> 儲存形式：木材、土壤有機質</p>
+                                    <p><i class="fas fa-check-circle carbon-icon"></i> 優點：可見、可觸摸、多功能</p>
+                                    <p><i class="fas fa-times-circle carbon-icon" style="color:#e74c3c;"></i> 限制：需要土地、生長緩慢</p>
+                                </div>
+                                <div class="compare-item">
+                                    <h3 class="compare-title">海洋碳匯</h3>
+                                    <p><i class="fas fa-check-circle carbon-icon"></i> 儲存時間：數百年到數千年</p>
+                                    <p><i class="fas fa-check-circle carbon-icon"></i> 儲存形式：溶解無機碳、生物碳酸鈣</p>
+                                    <p><i class="fas fa-check-circle carbon-icon"></i> 優點：容量巨大、自動調節</p>
+                                    <p><i class="fas fa-times-circle carbon-icon" style="color:#e74c3c;"></i> 限制：可能導致海水酸化</p>
+                                </div>
+                            </div>
+                            <div class="fact-box">
+                                <h3 class="fact-title">重要結論</h3>
+                                <p>樹木和海洋碳匯都是地球生態系統不可或缺的一部分，我們需要同時保護兩者！</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 第6頁 -->
+                <div class="slide" id="slide6">
+                    <div class="slide-content">
+                        <h1 class="slide-title">我們可以怎麼做？</h1>
+                        <div class="slide-body">
+                            <p>作為仙洞國小的一員，我們可以為保護碳匯做出貢獻：</p>
+                            <div class="features">
+                                <div class="feature">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-seedling"></i>
+                                    </div>
+                                    <h3 class="feature-title">保護樹木</h3>
+                                    <p>參與植樹活動</p>
+                                    <p>節約用紙</p>
+                                    <p>愛護校園樹木</p>
+                                </div>
+                                <div class="feature">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-recycle"></i>
+                                    </div>
+                                    <h3 class="feature-title">減少碳排</h3>
+                                    <p>節能節電</p>
+                                    <p>多走路、騎單車</p>
+                                    <p>減少使用塑膠</p>
+                                </div>
+                                <div class="feature">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-hands-helping"></i>
+                                    </div>
+                                    <h3 class="feature-title">保護海洋</h3>
+                                    <p>不亂丟垃圾</p>
+                                    <p>減少使用化學清潔劑</p>
+                                    <p>支持海洋保護區</p>
+                                </div>
+                            </div>
+                            <div class="fact-box">
+                                <h3 class="fact-title">仙洞國小的行動</h3>
+                                <p>讓我們一起承諾：每月至少做一件保護地球碳匯的事情！</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 第7頁 -->
+                <div class="slide" id="slide7">
+                    <div class="slide-content">
+                        <h1 class="slide-title">小測驗時間！</h1>
+                        <div class="slide-body">
+                            <div class="quiz-container">
+                                <div class="quiz-question" id="question">哪一個是地球上最大的碳匯？</div>
+                                <div class="quiz-options" id="options">
+                                    <div class="quiz-option" data-correct="true">海洋</div>
+                                    <div class="quiz-option" data-correct="false">森林</div>
+                                    <div class="quiz-option" data-correct="false">草原</div>
+                                    <div class="quiz-option" data-correct="false">土壤</div>
+                                </div>
+                                <div id="quiz-feedback" style="margin-top: 20px; font-size: 1.4rem; min-height: 30px;"></div>
+                            </div>
+                            <div class="fact-box" style="margin-top: 40px;">
+                                <h3 class="fact-title">課程總結</h3>
+                                <p>樹木和海洋都是地球重要的碳匯，幫助我們對抗氣候變遷。保護它們就是保護我們的未來！</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+            <div class="slide-counter" id="slide-counter">1 / 7</div>
+        </div>
+    </div>
+
+    <script>
+        // 簡報控制
+        let currentSlide = 0;
+        const totalSlides = document.querySelectorAll('.slide').length;
+        const slidesContainer = document.getElementById('slides');
+        const progressBar = document.getElementById('progress');
+        const slideCounter = document.getElementById('slide-counter');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        
+        // 更新簡報狀態
+        function updatePresentation() {
+            // 移動簡報到正確位置
+            slidesContainer.style.transform = `translateX(-${currentSlide * 100}vw)`;
+            
+            // 更新進度條
+            const progressPercentage = ((currentSlide + 1) / totalSlides) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+            
+            // 更新頁碼顯示
+            slideCounter.textContent = `${currentSlide + 1} / ${totalSlides}`;
+            
+            // 更新按鈕狀態
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+            
+            // 如果是測驗頁，重置測驗
+            if (currentSlide === 6) {
+                resetQuiz();
+            }
+        }
+        
+        // 下一頁
+        nextBtn.addEventListener('click', () => {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updatePresentation();
+            }
+        });
+        
+        // 上一頁
+        prevBtn.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updatePresentation();
+            }
+        });
+        
+        // 鍵盤控制
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < totalSlides - 1) {
+                    currentSlide++;
+                    updatePresentation();
+                }
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updatePresentation();
+                }
+            }
+        });
+        
+        // 測驗功能
+        function resetQuiz() {
+            const options = document.querySelectorAll('.quiz-option');
+            const feedback = document.getElementById('quiz-feedback');
+            
+            options.forEach(option => {
+                option.classList.remove('correct', 'incorrect');
+                option.style.cursor = 'pointer';
+                option.onclick = checkAnswer;
+            });
+            
+            feedback.textContent = '';
+        }
+        
+        function checkAnswer(e) {
+            const selectedOption = e.target;
+            const isCorrect = selectedOption.getAttribute('data-correct') === 'true';
+            const options = document.querySelectorAll('.quiz-option');
+            const feedback = document.getElementById('quiz-feedback');
+            
+            // 顯示正確/錯誤
+            options.forEach(option => {
+                option.style.cursor = 'default';
+                option.onclick = null;
+                
+                if (option.getAttribute('data-correct') === 'true') {
+                    option.classList.add('correct');
+                } else if (option === selectedOption && !isCorrect) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            // 顯示反饋
+            if (isCorrect) {
+                feedback.textContent = '答對了！海洋是地球上最大的碳匯，吸收了約30%人類排放的二氧化碳。';
+                feedback.style.color = '#27ae60';
+            } else {
+                feedback.textContent = '再想想看喔！雖然森林也很重要，但海洋才是地球上最大的碳匯。';
+                feedback.style.color = '#e74c3c';
+            }
+        }
+        
+        // 點擊測驗選項
+        document.querySelectorAll('.quiz-option').forEach(option => {
+            option.onclick = checkAnswer;
+        });
+        
+        // 添加裝飾元素
+        function addDecorations() {
+            // 在首頁添加魚兒
+            const slide1 = document.getElementById('slide1');
+            for (let i = 0; i < 5; i++) {
+                const fish = document.createElement('div');
+                fish.className = 'decoration fish';
+                fish.style.top = `${20 + Math.random() * 70}%`;
+                fish.style.left = `${-100}px`;
+                fish.style.animationDelay = `${Math.random() * 15}s`;
+                fish.style.backgroundColor = `hsl(${Math.random() * 60 + 180}, 70%, 50%)`;
+                slide1.appendChild(fish);
+            }
+            
+            // 在森林頁添加樹木
+            const slide3 = document.getElementById('slide3');
+            for (let i = 0; i < 8; i++) {
+                const tree = document.createElement('div');
+                tree.className = 'decoration tree';
+                tree.style.left = `${10 + i * 12}%`;
+                tree.style.bottom = '0';
+                tree.style.transform = `scale(${0.5 + Math.random() * 0.7})`;
+                tree.style.zIndex = '1';
+                slide3.appendChild(tree);
+            }
+        }
+        
+        // 初始化
+        updatePresentation();
+        addDecorations();
+        
+        // 添加觸控滑動手勢支援
+        let startX = 0;
+        let endX = 0;
+        
+        slidesContainer.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        });
+        
+        slidesContainer.addEventListener('touchend', (e) => {
+            endX = e.changedTouches[0].clientX;
+            handleSwipe();
+        });
+        
+        function handleSwipe() {
+            const threshold = 50;
+            const diff = startX - endX;
+            
+            if (Math.abs(diff) > threshold) {
+                if (diff > 0 && currentSlide < totalSlides - 1) {
+                    // 向左滑動，下一頁
+                    currentSlide++;
+                } else if (diff < 0 && currentSlide > 0) {
+                    // 向右滑動，上一頁
+                    currentSlide--;
+                }
+                updatePresentation();
+            }
+        }
+    </script>
+</body>
+</html>
