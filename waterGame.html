@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>💧 仙洞小天才 | 環保大作戰 🌟</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&family=Fredoka+One&display=swap" rel="stylesheet">
@@ -218,7 +218,7 @@
             backdrop-filter: blur(5px);
             cursor: pointer;
             transition: all 0.3s;
-            max-width: calc(100% - 20px);
+            max-width: calc(100% - 80px);
         }
 
         .leaderboard-icon {
@@ -380,7 +380,7 @@
             gap: 10px;
             border: 2px solid #FFD700;
             backdrop-filter: blur(5px);
-            max-width: 150px;
+            width: 150px;
         }
         
         .level-icon {
@@ -468,6 +468,9 @@
             text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
             min-height: 120px;
             width: 100%;
+            min-height: 60px;
+            min-width: 44px;
+            touch-action: manipulation;
         }
         
         .level-btn:active {
@@ -497,9 +500,12 @@
         
         /* 遊戲內容區 */
         .game-content {
-            padding: 20px 15px;
+            padding: 20px 15px 120px;
             display: none;
             animation: contentAppear 0.6s ease-out;
+            position: relative;
+            z-index: 10;
+            margin-bottom: 20px;
         }
         
         /* 遊戲區標題 */
@@ -731,6 +737,9 @@
             overflow: hidden;
             z-index: 1;
             width: 100%;
+            min-height: 60px;
+            min-width: 44px;
+            touch-action: manipulation;
         }
         
         .water-btn:active {
@@ -871,6 +880,8 @@
             font-size: 1.1rem;
             color: white;
             min-height: 60px;
+            min-width: 44px;
+            touch-action: manipulation;
         }
         
         .quiz-option-btn:active {
@@ -988,6 +999,9 @@
             box-shadow: 0 5px 15px rgba(156, 39, 176, 0.4);
             width: 100%;
             max-width: 300px;
+            min-height: 60px;
+            min-width: 44px;
+            touch-action: manipulation;
         }
         
         .quiz-btn:active {
@@ -1069,10 +1083,11 @@
         }
         
         .trash-item {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 90px;
             border-radius: 12px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             font-size: 2rem;
@@ -1081,12 +1096,15 @@
             border: 2px solid;
             position: relative;
             box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
-            touch-action: none;
+            touch-action: manipulation;
             user-select: none;
+            padding: 5px;
+            text-align: center;
         }
         
         .trash-item:active {
-            transform: scale(1.1);
+            transform: scale(0.95);
+            opacity: 0.9;
         }
         
         .trash-item.recyclable {
@@ -1102,6 +1120,14 @@
         .trash-item.hazardous {
             background: rgba(255, 152, 0, 0.3);
             border-color: #FF9800;
+        }
+        
+        .trash-item-name {
+            font-size: 0.7rem;
+            margin-top: 5px;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
         }
         
         .eco-stats {
@@ -1180,6 +1206,9 @@
             color: white;
             box-shadow: 0 5px 15px rgba(156, 39, 176, 0.4);
             width: 100%;
+            min-height: 60px;
+            min-width: 44px;
+            touch-action: manipulation;
         }
         
         .eco-btn:active {
@@ -1288,7 +1317,7 @@
         /* 返回按鈕 - 手機優化 */
         .magic-back-btn {
             position: fixed;
-            top: 10px;
+            top: 70px;
             left: 10px;
             padding: 12px 20px;
             background: linear-gradient(135deg, #FF5722, #D32F2F);
@@ -1474,6 +1503,9 @@
             justify-content: center;
             gap: 12px;
             width: 100%;
+            min-height: 60px;
+            min-width: 44px;
+            touch-action: manipulation;
         }
         
         .final-victory-btn:active {
@@ -1588,6 +1620,9 @@
             transition: all 0.3s;
             box-shadow: 0 8px 20px rgba(76, 175, 80, 0.5);
             width: 100%;
+            min-height: 60px;
+            min-width: 44px;
+            touch-action: manipulation;
         }
         
         .victory-button:active {
@@ -1605,7 +1640,7 @@
             padding: 12px;
             color: white;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            z-index: 100;
+            z-index: 5;
             border: 2px solid #FFD700;
             backdrop-filter: blur(5px);
             max-width: calc(100% - 20px);
@@ -1744,6 +1779,39 @@
             100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
         }
         
+        /* 分類選擇按鈕樣式 */
+        .category-btn {
+            padding: 18px 25px;
+            border: none;
+            border-radius: 20px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: 'Fredoka One', cursive;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            min-height: 60px;
+            min-width: 44px;
+            touch-action: manipulation;
+        }
+        
+        .category-btn:active {
+            transform: scale(0.95);
+        }
+        
+        /* 動畫定義 */
+        @keyframes feedbackFade {
+            0% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+            20% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            80% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+        }
+        
         /* 橫向模式適配 */
         @media (orientation: landscape) and (max-height: 600px) {
             .universe-container {
@@ -1790,6 +1858,10 @@
             
             .ability-value {
                 min-width: 35px;
+            }
+            
+            .game-content {
+                padding-bottom: 80px;
             }
         }
         
@@ -2460,7 +2532,7 @@
                 ]
             },
             
-            // 環保遊戲狀態
+            // 環保遊戲狀態 - 已修改為點擊選擇方式
             ecoGame: {
                 isRunning: false,
                 timer: 60,
@@ -2500,6 +2572,11 @@
                 btn.addEventListener('click', function() {
                     const level = parseInt(this.getAttribute('data-level'));
                     startLevel(level);
+                    
+                    // 確保按鈕在可見區域
+                    setTimeout(() => {
+                        ensureButtonVisible(this);
+                    }, 100);
                 });
                 
                 // 觸摸回饋
@@ -2548,7 +2625,7 @@
             // 優化手機輸入體驗
             document.getElementById('playerNameInput').addEventListener('focus', function() {
                 setTimeout(() => {
-                    this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    ensureButtonVisible(this);
                 }, 300);
             });
             
@@ -2557,6 +2634,18 @@
             initLeaderboard();
             
             console.log("🎮 遊戲初始化完成！");
+        }
+
+        // 確保按鈕在可見區域
+        function ensureButtonVisible(element) {
+            if (element) {
+                setTimeout(() => {
+                    element.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center' 
+                    });
+                }, 100);
+            }
         }
 
         // 初始化玩家系統
@@ -3197,7 +3286,7 @@
             document.getElementById('quizFeedbackCard').style.display = 'block';
         }
 
-        // 開始環保關卡
+        // 開始環保關卡 - 第四關
         function startEcoLevel(levelNum) {
             const level = gameState.levels[levelNum];
             
@@ -3221,7 +3310,7 @@
             document.getElementById('ecoTargetScore').textContent = level.targetScore;
         }
 
-        // 重置環保遊戲
+        // 重置環保遊戲 - 第四關
         function resetEcoGame(level) {
             const ecoGame = gameState.ecoGame;
             
@@ -3243,7 +3332,7 @@
             document.getElementById('ecoStartBtn').disabled = false;
         }
 
-        // 更新環保物品 - 手機觸摸優化
+        // 更新環保物品 - 第四關，使用點擊選擇方式
         function updateEcoItems() {
             const container = document.getElementById('trashItemsContainer');
             container.innerHTML = '';
@@ -3253,84 +3342,193 @@
                 itemElement.className = `trash-item ${item.type}`;
                 itemElement.setAttribute('data-id', item.id);
                 itemElement.setAttribute('data-type', item.type);
-                itemElement.innerHTML = `<div>${item.icon}</div>`;
+                itemElement.innerHTML = `
+                    <div>${item.icon}</div>
+                    <div class="trash-item-name">${item.name}</div>
+                `;
                 
-                // 觸摸事件代替拖曳
-                itemElement.addEventListener('touchstart', handleTouchStart);
-                itemElement.addEventListener('touchend', handleTouchEnd);
+                // 點擊事件（更適合手機）
+                itemElement.addEventListener('click', () => {
+                    handleEcoItemClick(item);
+                });
+                
+                // 添加觸摸回饋
+                itemElement.addEventListener('touchstart', function() {
+                    if (gameState.ecoGame.isRunning) {
+                        this.style.transform = 'scale(0.95)';
+                        this.style.opacity = '0.9';
+                    }
+                });
+                
+                itemElement.addEventListener('touchend', function() {
+                    this.style.transform = 'scale(1)';
+                    this.style.opacity = '1';
+                });
                 
                 container.appendChild(itemElement);
             });
-            
-            // 設置垃圾桶觸摸事件
-            const trashCan = document.getElementById('trashCan');
-            trashCan.addEventListener('touchend', handleTrashCanTouch);
         }
 
-        let selectedItem = null;
-
-        function handleTouchStart(e) {
+        // 處理物品點擊 - 第四關
+        function handleEcoItemClick(item) {
             if (!gameState.ecoGame.isRunning) return;
             
-            e.preventDefault();
-            const itemId = e.target.closest('.trash-item').getAttribute('data-id');
-            const itemType = e.target.closest('.trash-item').getAttribute('data-type');
-            
-            selectedItem = {
-                id: itemId,
-                type: itemType,
-                element: e.target.closest('.trash-item')
-            };
-            
-            selectedItem.element.classList.add('dragging');
-            selectedItem.element.style.transform = 'scale(1.1)';
+            // 顯示分類選項彈窗
+            showEcoCategorySelection(item);
         }
 
-        function handleTouchEnd(e) {
-            if (!selectedItem) return;
+        // 顯示分類選項彈窗 - 第四關
+        function showEcoCategorySelection(item) {
+            // 創建選擇彈窗
+            const modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.top = '0';
+            modal.style.left = '0';
+            modal.style.width = '100%';
+            modal.style.height = '100%';
+            modal.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+            modal.style.zIndex = '3000';
+            modal.style.display = 'flex';
+            modal.style.flexDirection = 'column';
+            modal.style.alignItems = 'center';
+            modal.style.justifyContent = 'center';
+            modal.style.padding = '20px';
             
-            e.preventDefault();
-            selectedItem.element.classList.remove('dragging');
-            selectedItem.element.style.transform = 'scale(1)';
-            selectedItem = null;
+            modal.innerHTML = `
+                <div style="background: linear-gradient(135deg, #0f3460, #1a1a2e); 
+                            border-radius: 20px; 
+                            padding: 25px; 
+                            border: 5px solid #FFD700;
+                            max-width: 400px;
+                            width: 100%;
+                            text-align: center;">
+                    <div style="font-size: 2.5rem; margin-bottom: 15px;">${item.icon}</div>
+                    <div style="font-size: 1.5rem; color: #FFD700; margin-bottom: 10px; font-family: 'Fredoka One', cursive;">
+                        請選擇正確的分類：
+                    </div>
+                    <div style="font-size: 1.2rem; color: #a1c4fd; margin-bottom: 20px;">
+                        ${item.name}
+                    </div>
+                    
+                    <div style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px;">
+                        <button class="category-btn" data-type="recyclable" 
+                                style="background: linear-gradient(135deg, #4CAF50, #2E7D32);">
+                            <i class="fas fa-recycle"></i> 可回收垃圾
+                        </button>
+                        <button class="category-btn" data-type="non-recyclable"
+                                style="background: linear-gradient(135deg, #FF5722, #D32F2F);">
+                            <i class="fas fa-trash-alt"></i> 不可回收垃圾
+                        </button>
+                        <button class="category-btn" data-type="hazardous"
+                                style="background: linear-gradient(135deg, #FF9800, #EF6C00);">
+                            <i class="fas fa-exclamation-triangle"></i> 有害垃圾
+                        </button>
+                    </div>
+                    
+                    <button id="cancelEcoSelection" 
+                            style="background: rgba(255, 255, 255, 0.1); 
+                                   color: white; 
+                                   border: 2px solid #36D1DC;
+                                   padding: 12px 25px;
+                                   border-radius: 15px;
+                                   font-size: 1.1rem;
+                                   cursor: pointer;
+                                   width: 100%;">
+                        取消
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // 為按鈕添加事件
+            modal.querySelectorAll('.category-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const selectedType = this.getAttribute('data-type');
+                    checkEcoAnswer(item, selectedType);
+                    document.body.removeChild(modal);
+                });
+            });
+            
+            modal.querySelector('#cancelEcoSelection').addEventListener('click', function() {
+                document.body.removeChild(modal);
+            });
+            
+            // 確保彈窗在視野內
+            setTimeout(() => {
+                modal.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
         }
 
-        function handleTrashCanTouch(e) {
-            if (!selectedItem || !gameState.ecoGame.isRunning) return;
-            
-            e.preventDefault();
-            
-            // 隨機決定是否正確分類（模擬遊戲）
-            const isCorrect = Math.random() > 0.3; // 70% 正確率
+        // 檢查答案 - 第四關
+        function checkEcoAnswer(item, selectedType) {
+            const isCorrect = item.type === selectedType;
+            const ecoGame = gameState.ecoGame;
             
             if (isCorrect) {
-                gameState.ecoGame.correctCount++;
-                gameState.ecoGame.currentScore += 10;
+                ecoGame.correctCount++;
+                ecoGame.currentScore += 10;
                 showEcoFeedback('✅ 正確分類！', 'success');
+                
+                // 根據能力值給予額外獎勵
+                const abilityBonus = 10 * (gameState.abilities.ecoSkill / 100);
+                ecoGame.currentScore += abilityBonus;
+                gameState.abilities.ecoSkill = Math.min(100, gameState.abilities.ecoSkill + 2);
             } else {
-                gameState.ecoGame.wrongCount++;
-                gameState.ecoGame.currentScore = Math.max(0, gameState.ecoGame.currentScore - 5);
+                ecoGame.wrongCount++;
+                ecoGame.currentScore = Math.max(0, ecoGame.currentScore - 5);
                 showEcoFeedback('❌ 分類錯誤！', 'error');
             }
             
             // 移除物品
-            const itemIndex = gameState.ecoGame.remainingItems.findIndex(item => item.id == selectedItem.id);
+            const itemIndex = ecoGame.remainingItems.findIndex(i => i.id === item.id);
             if (itemIndex > -1) {
-                gameState.ecoGame.remainingItems.splice(itemIndex, 1);
+                ecoGame.remainingItems.splice(itemIndex, 1);
             }
             
             // 更新顯示
             updateEcoDisplay();
+            updateAbilitiesDisplay();
             
             // 檢查是否所有物品都已分類
-            if (gameState.ecoGame.remainingItems.length === 0) {
+            if (ecoGame.remainingItems.length === 0) {
                 completeEcoChallenge();
             }
-            
-            selectedItem = null;
         }
 
-        // 更新環保遊戲顯示
+        // 顯示環保遊戲反饋 - 第四關
+        function showEcoFeedback(text, type) {
+            const feedback = document.createElement('div');
+            feedback.textContent = text;
+            feedback.style.position = 'fixed';
+            feedback.style.top = '20%';
+            feedback.style.left = '50%';
+            feedback.style.transform = 'translateX(-50%)';
+            feedback.style.fontSize = '1.8rem';
+            feedback.style.fontWeight = 'bold';
+            feedback.style.color = type === 'success' ? '#4CAF50' : '#F44336';
+            feedback.style.textShadow = '2px 2px 0 rgba(0,0,0,0.5)';
+            feedback.style.zIndex = '1000';
+            feedback.style.pointerEvents = 'none';
+            feedback.style.backgroundColor = 'rgba(0,0,0,0.8)';
+            feedback.style.padding = '20px 30px';
+            feedback.style.borderRadius = '15px';
+            feedback.style.border = '3px solid ' + (type === 'success' ? '#4CAF50' : '#F44336');
+            feedback.style.boxShadow = '0 5px 20px rgba(0,0,0,0.5)';
+            
+            document.body.appendChild(feedback);
+            
+            // 添加動畫
+            feedback.style.animation = 'feedbackFade 2s forwards';
+            
+            setTimeout(() => {
+                if (feedback.parentNode) {
+                    feedback.parentNode.removeChild(feedback);
+                }
+            }, 2000);
+        }
+
+        // 更新環保遊戲顯示 - 第四關
         function updateEcoDisplay() {
             const ecoGame = gameState.ecoGame;
             
@@ -3345,32 +3543,7 @@
             updateEcoItems();
         }
 
-        // 顯示環保遊戲反饋
-        function showEcoFeedback(text, type) {
-            const feedback = document.createElement('div');
-            feedback.textContent = text;
-            feedback.style.position = 'fixed';
-            feedback.style.top = '50%';
-            feedback.style.left = '50%';
-            feedback.style.transform = 'translate(-50%, -50%)';
-            feedback.style.fontSize = '1.5rem';
-            feedback.style.fontWeight = 'bold';
-            feedback.style.color = type === 'success' ? '#4CAF50' : '#F44336';
-            feedback.style.textShadow = '1px 1px 0 rgba(0,0,0,0.3)';
-            feedback.style.zIndex = '1000';
-            feedback.style.pointerEvents = 'none';
-            feedback.style.backgroundColor = 'rgba(0,0,0,0.7)';
-            feedback.style.padding = '15px';
-            feedback.style.borderRadius = '10px';
-            
-            document.body.appendChild(feedback);
-            
-            setTimeout(() => {
-                feedback.remove();
-            }, 1000);
-        }
-
-        // 開始環保挑戰
+        // 開始環保挑戰 - 第四關
         function startEcoChallenge() {
             const ecoGame = gameState.ecoGame;
             const level = gameState.levels[gameState.currentLevel];
@@ -3392,7 +3565,7 @@
             }, 1000);
         }
 
-        // 完成環保挑戰
+        // 完成環保挑戰 - 第四關
         function completeEcoChallenge() {
             const ecoGame = gameState.ecoGame;
             const level = gameState.levels[gameState.currentLevel];
@@ -3443,7 +3616,7 @@
             }
         }
 
-        // 重啟環保挑戰
+        // 重啟環保挑戰 - 第四關
         function restartEcoChallenge() {
             const level = gameState.levels[gameState.currentLevel];
             resetEcoGame(level);
@@ -3824,7 +3997,7 @@
         // 遊戲啟動
         window.addEventListener('DOMContentLoaded', initGame);
         
-        // 防止手機縮放
+        // 防止手機多點觸控縮放
         document.addEventListener('touchstart', function(event) {
             if (event.touches.length > 1) {
                 event.preventDefault();
@@ -3839,11 +4012,6 @@
             }
             lastTouchEnd = now;
         }, false);
-
-        // 防止雙擊縮放
-        document.addEventListener('dblclick', function(event) {
-            event.preventDefault();
-        }, { passive: false });
     </script>
 </body>
 </html>
