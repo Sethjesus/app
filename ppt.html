@@ -2,102 +2,138 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>仙洞國小 - 海洋與樹木碳匯教育</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>仙洞國小 - 海洋與樹木碳匯</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* 重置樣式 */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', 'Microsoft JhengHei', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
         
+        /* 手機優先設計 */
         body {
             background: linear-gradient(135deg, #1a2980, #26d0ce);
             color: #333;
             min-height: 100vh;
             overflow-x: hidden;
+            padding: 0;
+            margin: 0;
+            touch-action: pan-y;
         }
         
+        /* 簡報容器 */
         .container {
-            width: 100vw;
+            width: 100%;
             height: 100vh;
             display: flex;
             flex-direction: column;
             position: relative;
+            background-color: rgba(255, 255, 255, 0.1);
+            overflow: hidden;
         }
         
+        /* 手機版標頭 */
         header {
-            background-color: rgba(255, 255, 255, 0.95);
-            padding: 15px 30px;
+            background-color: rgba(255, 255, 255, 0.98);
+            padding: 12px 15px;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             z-index: 10;
+            position: relative;
         }
         
         .logo {
             display: flex;
             align-items: center;
+            width: 100%;
+            margin-bottom: 10px;
         }
         
         .logo-img {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             background: linear-gradient(45deg, #4CAF50, #2196F3);
             border-radius: 50%;
-            margin-right: 15px;
+            margin-right: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 24px;
+            font-size: 22px;
+            flex-shrink: 0;
+        }
+        
+        .logo-text {
+            flex: 1;
+            min-width: 0; /* 防止文字溢出 */
         }
         
         .school-name {
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             color: #2c3e50;
             font-weight: 700;
+            line-height: 1.2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
         
         .subtitle {
             color: #7f8c8d;
-            font-size: 1rem;
+            font-size: 0.9rem;
             margin-top: 3px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
         
         .nav-controls {
             display: flex;
-            gap: 15px;
+            width: 100%;
+            justify-content: space-between;
+            gap: 10px;
         }
         
         .nav-btn {
             background-color: #3498db;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 50px;
+            padding: 10px 15px;
+            border-radius: 25px;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            gap: 6px;
+            font-size: 0.95rem;
+            flex: 1;
+            min-height: 44px; /* 手機觸控友好尺寸 */
         }
         
         .nav-btn:hover {
             background-color: #2980b9;
-            transform: translateY(-3px);
+        }
+        
+        .nav-btn:active {
+            transform: scale(0.98);
         }
         
         .nav-btn:disabled {
-            background-color: #95a5a6;
+            background-color: #bdc3c7;
             cursor: not-allowed;
             transform: none;
         }
         
+        /* 簡報區域 */
         .slide-container {
             flex: 1;
             overflow: hidden;
@@ -107,39 +143,47 @@
         .slides {
             display: flex;
             height: 100%;
-            transition: transform 0.5s ease-in-out;
+            transition: transform 0.4s ease-in-out;
+            will-change: transform;
         }
         
         .slide {
-            min-width: 100vw;
+            min-width: 100%;
             height: 100%;
-            padding: 40px;
+            padding: 15px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             align-items: center;
             position: relative;
             overflow: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch; /* iOS平滑滾動 */
         }
         
         .slide-content {
-            background-color: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 900px;
-            width: 90%;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            background-color: rgba(255, 255, 255, 0.98);
+            border-radius: 15px;
+            padding: 20px;
+            width: 100%;
+            max-width: 100%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             position: relative;
             z-index: 2;
+            max-height: 100%;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-bottom: 20px;
         }
         
         .slide-title {
             color: #2c3e50;
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
             text-align: center;
             position: relative;
-            padding-bottom: 15px;
+            padding-bottom: 10px;
+            line-height: 1.3;
         }
         
         .slide-title:after {
@@ -148,125 +192,139 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 100px;
-            height: 5px;
+            width: 70px;
+            height: 4px;
             background: linear-gradient(to right, #4CAF50, #2196F3);
             border-radius: 5px;
         }
         
         .slide-body {
-            font-size: 1.4rem;
+            font-size: 1.05rem;
             line-height: 1.6;
             color: #34495e;
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin: 20px 0 12px;
+            padding-left: 12px;
+            border-left: 4px solid #4CAF50;
+            line-height: 1.3;
         }
         
         .highlight {
             color: #e74c3c;
             font-weight: 700;
+            background-color: #fff9e6;
+            padding: 2px 5px;
+            border-radius: 4px;
         }
         
-        .carbon-icon {
-            font-size: 2rem;
-            color: #4CAF50;
-            margin: 0 10px;
+        .keyword {
+            color: #2980b9;
+            font-weight: 700;
         }
         
+        /* 手機版特徵區塊 */
         .features {
             display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            margin-top: 30px;
-            gap: 20px;
+            flex-direction: column;
+            margin-top: 20px;
+            gap: 15px;
         }
         
         .feature {
             background: linear-gradient(135deg, #f9f9f9, #e8f5e9);
-            border-radius: 15px;
-            padding: 20px;
-            width: 250px;
+            border-radius: 12px;
+            padding: 18px 15px;
+            width: 100%;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s;
-        }
-        
-        .feature:hover {
-            transform: translateY(-10px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
         }
         
         .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
+            font-size: 2.2rem;
+            margin-bottom: 12px;
             color: #27ae60;
         }
         
         .feature-title {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             margin-bottom: 10px;
             color: #2c3e50;
         }
         
+        /* 比較區塊 */
         .comparison {
             display: flex;
-            justify-content: space-around;
-            margin-top: 30px;
+            flex-direction: column;
+            margin-top: 20px;
+            gap: 15px;
         }
         
         .compare-item {
             background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
-            border-radius: 15px;
-            padding: 25px;
-            width: 45%;
+            border-radius: 12px;
+            padding: 18px;
+            width: 100%;
             text-align: center;
         }
         
         .compare-title {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
+            font-size: 1.3rem;
+            margin-bottom: 12px;
             color: #2c3e50;
         }
         
+        /* 背景圖片 */
         .ocean-bg {
-            background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), 
-                        url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80');
+            background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), 
+                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300"><rect width="400" height="300" fill="%2300bcd4"/><circle cx="100" cy="80" r="20" fill="%2300acc1"/><circle cx="250" cy="120" r="25" fill="%2300acc1"/><circle cx="180" cy="200" r="15" fill="%2300acc1"/></svg>');
             background-size: cover;
+            background-position: center;
         }
         
         .forest-bg {
-            background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), 
-                        url('https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80');
+            background: linear-gradient(rgba(255,255,255,0.9), rgba(255,255,255,0.9)), 
+                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300" viewBox="0 0 400 300"><rect width="400" height="300" fill="%238bc34a"/><rect x="180" y="150" width="40" height="150" fill="%238b4513"/><circle cx="200" cy="120" r="50" fill="%234caf50"/></svg>');
             background-size: cover;
+            background-position: center;
         }
         
+        /* 事實框 */
         .fact-box {
             background: linear-gradient(135deg, #ffeb3b, #ff9800);
-            border-radius: 15px;
-            padding: 25px;
-            margin: 30px 0;
+            border-radius: 12px;
+            padding: 18px;
+            margin: 20px 0;
             text-align: center;
             color: #333;
         }
         
         .fact-title {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
         }
         
+        /* 測驗容器 */
         .quiz-container {
             text-align: center;
-            margin-top: 30px;
+            margin-top: 20px;
         }
         
         .quiz-question {
-            font-size: 1.6rem;
-            margin-bottom: 20px;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
             color: #2c3e50;
+            line-height: 1.4;
         }
         
         .quiz-options {
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            max-width: 600px;
+            gap: 10px;
+            width: 100%;
             margin: 0 auto;
         }
         
@@ -274,15 +332,21 @@
             background-color: #f1f1f1;
             border: 2px solid #ddd;
             border-radius: 10px;
-            padding: 15px;
-            font-size: 1.3rem;
+            padding: 14px;
+            font-size: 1.05rem;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
+            text-align: left;
+            padding-left: 20px;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
         }
         
-        .quiz-option:hover {
+        .quiz-option:active {
             background-color: #e0f7fa;
             border-color: #00bcd4;
+            transform: scale(0.99);
         }
         
         .correct {
@@ -295,20 +359,21 @@
             border-color: #f44336 !important;
         }
         
+        /* 頁碼顯示 */
         .slide-counter {
             position: absolute;
-            bottom: 20px;
-            right: 20px;
+            bottom: 10px;
+            right: 10px;
             background-color: rgba(0, 0, 0, 0.7);
             color: white;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 1.2rem;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
             z-index: 5;
         }
         
         .progress-bar {
-            height: 8px;
+            height: 4px;
             background-color: #ecf0f1;
             position: absolute;
             bottom: 0;
@@ -324,23 +389,25 @@
             transition: width 0.3s;
         }
         
+        /* 裝飾元素 */
         .decoration {
             position: absolute;
             z-index: 1;
+            pointer-events: none;
         }
         
         .fish {
-            width: 60px;
-            height: 30px;
+            width: 40px;
+            height: 20px;
             background-color: #3498db;
             border-radius: 50%;
             position: absolute;
-            animation: swim 20s linear infinite;
+            animation: swim 25s linear infinite;
         }
         
         .tree {
-            width: 40px;
-            height: 80px;
+            width: 25px;
+            height: 50px;
             background-color: #8b4513;
             position: absolute;
             bottom: 0;
@@ -349,46 +416,597 @@
         .tree:before {
             content: '';
             position: absolute;
-            width: 80px;
-            height: 80px;
+            width: 50px;
+            height: 50px;
             background-color: #27ae60;
             border-radius: 50%;
-            top: -40px;
-            left: -20px;
+            top: -25px;
+            left: -12px;
         }
         
+        /* 資訊表格 */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.95rem;
+            display: block;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            white-space: nowrap;
+        }
+        
+        .info-table th, .info-table td {
+            border: 1px solid #ddd;
+            padding: 8px 10px;
+            text-align: left;
+            min-width: 80px;
+        }
+        
+        .info-table th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .info-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        /* 碳循環 */
+        .carbon-cycle {
+            display: flex;
+            flex-direction: column;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f0f8ff;
+            border-radius: 12px;
+            gap: 15px;
+        }
+        
+        .cycle-step {
+            text-align: center;
+            width: 100%;
+        }
+        
+        .cycle-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 50%;
+            line-height: 30px;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+        
+        .cycle-arrow {
+            font-size: 1.5rem;
+            color: #3498db;
+            text-align: center;
+            display: none;
+        }
+        
+        /* 互動圖表 */
+        .interactive-diagram {
+            width: 100%;
+            height: 200px;
+            background-color: #f0f8ff;
+            border-radius: 12px;
+            margin: 15px 0;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid #3498db;
+        }
+        
+        .diagram-element {
+            position: absolute;
+            cursor: pointer;
+            transition: transform 0.2s;
+            text-align: center;
+            font-size: 0.9rem;
+            padding: 5px;
+            width: 70px;
+        }
+        
+        .diagram-element:active {
+            transform: scale(1.05);
+        }
+        
+        .element-info {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.98);
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            max-width: 250px;
+            display: none;
+            z-index: 10;
+            font-size: 0.95rem;
+            border: 1px solid #3498db;
+        }
+        
+        /* 行動清單 */
+        .action-list {
+            list-style-type: none;
+            padding-left: 10px;
+        }
+        
+        .action-list li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+            font-size: 1.05rem;
+            line-height: 1.5;
+        }
+        
+        .action-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #27ae60;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        /* SDGs相關樣式 */
+        .sdgs-section {
+            margin: 20px 0;
+        }
+        
+        .sdgs-title {
+            font-size: 1.4rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 8px;
+        }
+        
+        .sdgs-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(to right, #e5243b, #2196F3);
+            border-radius: 5px;
+        }
+        
+        .sdgs-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+        
+        .sdg-goal {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+        }
+        
+        .sdg-goal:active {
+            transform: scale(1.05) rotate(5deg);
+        }
+        
+        .sdg-info {
+            background-color: #f9f9f9;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+            border-left: 4px solid #4CAF50;
+            font-size: 0.95rem;
+        }
+        
+        .sdg-highlight {
+            color: #e5243b;
+            font-weight: bold;
+        }
+        
+        .sdg-connection {
+            display: flex;
+            flex-direction: column;
+            margin: 15px 0;
+            padding: 12px;
+            background-color: #e8f5e9;
+            border-radius: 10px;
+        }
+        
+        .sdg-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #4CAF50;
+            text-align: center;
+        }
+        
+        .sdg-text {
+            flex: 1;
+        }
+        
+        /* 互動問答樣式 */
+        .interactive-qa {
+            background-color: #f0f8ff;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+        
+        .qa-question {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            color: #2c3e50;
+            line-height: 1.4;
+        }
+        
+        .qa-answer {
+            display: none;
+            background-color: #e8f5e9;
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 12px;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        
+        .qa-show-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            margin-top: 8px;
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        .qa-show-btn:active {
+            background-color: #2980b9;
+            transform: scale(0.98);
+        }
+        
+        /* 遊戲與活動樣式 */
+        .activity-box {
+            background-color: #fff9e6;
+            border-radius: 12px;
+            padding: 15px;
+            margin: 20px 0;
+            border: 2px dashed #ff9800;
+        }
+        
+        .activity-title {
+            font-size: 1.3rem;
+            color: #e67e22;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        
+        .drag-drop-area {
+            display: flex;
+            flex-direction: column;
+            margin: 15px 0;
+            gap: 15px;
+        }
+        
+        .drag-items, .drop-zone {
+            background-color: #e8f5e9;
+            border-radius: 10px;
+            padding: 12px;
+            width: 100%;
+        }
+        
+        .drop-zone {
+            background-color: #e3f2fd;
+            min-height: 150px;
+            border: 2px dashed #3498db;
+        }
+        
+        .drag-item {
+            background-color: white;
+            padding: 10px;
+            margin: 6px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 1px solid #ddd;
+            text-align: center;
+            touch-action: none;
+            user-select: none;
+            font-size: 1rem;
+        }
+        
+        .drag-item:active {
+            background-color: #f0f0f0;
+            transform: scale(0.98);
+        }
+        
+        .game-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 15px auto;
+            max-width: 100%;
+        }
+        
+        .game-card {
+            background-color: #f1f1f1;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-align: center;
+            word-break: break-word;
+        }
+        
+        .game-card:active {
+            transform: scale(0.97);
+        }
+        
+        .game-card.flipped {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .matching-game {
+            display: flex;
+            flex-direction: column;
+            margin: 20px 0;
+            gap: 15px;
+        }
+        
+        .matching-column {
+            width: 100%;
+            padding: 12px;
+        }
+        
+        .matching-item {
+            background-color: #f1f1f1;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            border: 2px solid transparent;
+            font-size: 1rem;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .matching-item:active {
+            border-color: #3498db;
+            background-color: #e3f2fd;
+        }
+        
+        .matching-item.selected {
+            border-color: #3498db;
+            background-color: #e3f2fd;
+        }
+        
+        .matching-item.matched {
+            background-color: #c8e6c9;
+            border-color: #4CAF50;
+        }
+        
+        /* 承諾卡樣式 */
+        .promise-checkbox {
+            display: flex;
+            align-items: flex-start;
+            margin: 12px 0;
+            font-size: 1.05rem;
+            line-height: 1.5;
+        }
+        
+        .promise-checkbox input {
+            margin-right: 10px;
+            margin-top: 4px;
+            transform: scale(1.3);
+            flex-shrink: 0;
+        }
+        
+        /* 動畫 */
         @keyframes swim {
-            0% { transform: translateX(-100px) translateY(0); }
-            50% { transform: translateX(calc(100vw + 100px)) translateY(-50px); }
-            100% { transform: translateX(calc(100vw + 100px)) translateY(0); }
+            0% { transform: translateX(-50px) translateY(0); }
+            50% { transform: translateX(calc(100vw + 50px)) translateY(-30px); }
+            100% { transform: translateX(calc(100vw + 50px)) translateY(0); }
         }
         
-        @media (max-width: 768px) {
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* 平板和桌面適配 */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 768px;
+                margin: 0 auto;
+                height: 95vh;
+                border-radius: 15px;
+                overflow: hidden;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            }
+            
+            header {
+                flex-direction: row;
+                padding: 15px 25px;
+            }
+            
+            .logo {
+                margin-bottom: 0;
+                flex: 1;
+            }
+            
+            .nav-controls {
+                width: auto;
+                justify-content: flex-end;
+            }
+            
+            .nav-btn {
+                flex: none;
+                padding: 10px 20px;
+            }
+            
+            .slide {
+                padding: 25px;
+            }
+            
+            .slide-content {
+                padding: 25px;
+                max-width: 700px;
+            }
+            
             .slide-title {
                 font-size: 1.8rem;
             }
             
             .slide-body {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
             }
             
-            .features, .comparison {
-                flex-direction: column;
-                align-items: center;
+            .features {
+                flex-direction: row;
+                flex-wrap: wrap;
             }
             
-            .feature, .compare-item {
-                width: 90%;
+            .feature {
+                width: calc(50% - 10px);
+            }
+            
+            .comparison {
+                flex-direction: row;
+            }
+            
+            .compare-item {
+                width: calc(50% - 10px);
+            }
+            
+            .carbon-cycle {
+                flex-direction: row;
+            }
+            
+            .cycle-step {
+                width: 25%;
+            }
+            
+            .cycle-arrow {
+                display: block;
+                align-self: center;
+            }
+            
+            .matching-game {
+                flex-direction: row;
+            }
+            
+            .matching-column {
+                width: 50%;
+            }
+            
+            .drag-drop-area {
+                flex-direction: row;
+            }
+            
+            .drag-items, .drop-zone {
+                width: 50%;
+            }
+            
+            .game-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .sdg-goal {
+                width: 80px;
+                height: 80px;
+            }
+        }
+        
+        /* 橫屏模式 */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .container {
+                height: 100vh;
+            }
+            
+            header {
+                padding: 8px 15px;
+                flex-direction: row;
+            }
+            
+            .logo {
+                margin-bottom: 0;
             }
             
             .nav-controls {
-                flex-direction: column;
-                gap: 10px;
+                width: auto;
             }
             
-            .nav-btn {
-                padding: 8px 15px;
-                font-size: 0.9rem;
+            .slide {
+                padding: 10px;
+            }
+            
+            .slide-content {
+                padding: 15px;
+                max-height: 75vh;
+            }
+            
+            .slide-title {
+                font-size: 1.4rem;
+                margin-bottom: 10px;
+            }
+            
+            .section-title {
+                font-size: 1.2rem;
+                margin: 12px 0 8px;
+            }
+        }
+        
+        /* 防止文字過小 */
+        @media (max-width: 320px) {
+            .school-name {
+                font-size: 1.2rem;
+            }
+            
+            .slide-title {
+                font-size: 1.4rem;
+            }
+            
+            .slide-body, .quiz-option, .matching-item, .drag-item {
+                font-size: 1rem;
+            }
+            
+            .sdg-goal {
+                width: 60px;
+                height: 60px;
+                font-size: 1.2rem;
             }
         }
     </style>
@@ -400,225 +1018,554 @@
                 <div class="logo-img">
                     <i class="fas fa-leaf"></i>
                 </div>
-                <div>
+                <div class="logo-text">
                     <div class="school-name">仙洞國小環境教育</div>
-                    <div class="subtitle">海洋與樹木碳匯 - 地球的天然空調</div>
+                    <div class="subtitle">海洋與樹木碳匯</div>
                 </div>
             </div>
             <div class="nav-controls">
                 <button class="nav-btn" id="prev-btn">
-                    <i class="fas fa-arrow-left"></i> 上一頁
+                    <i class="fas fa-arrow-left"></i><span class="btn-text">上一頁</span>
                 </button>
                 <button class="nav-btn" id="next-btn">
-                    下一頁 <i class="fas fa-arrow-right"></i>
+                    <span class="btn-text">下一頁</span><i class="fas fa-arrow-right"></i>
                 </button>
             </div>
         </header>
         
         <div class="slide-container">
             <div class="slides" id="slides">
-                <!-- 第1頁 -->
+                <!-- 第1頁：課程介紹 -->
                 <div class="slide" id="slide1">
                     <div class="slide-content">
                         <h1 class="slide-title">海洋與樹木碳匯</h1>
                         <div class="slide-body">
                             <p>歡迎來到仙洞國小的環境教育課程！</p>
-                            <p>今天我們要學習的主題是：<span class="highlight">海洋與樹木碳匯</span>。</p>
+                            <p>今天我們要探索一個非常重要的環境議題：<span class="highlight">海洋與樹木碳匯</span>。</p>
+                            
                             <div class="fact-box">
-                                <h3 class="fact-title">你知道嗎？</h3>
-                                <p>碳匯就像地球的「天然空調」，可以吸收大氣中的二氧化碳，幫助減緩全球暖化。</p>
+                                <h3 class="fact-title">課程目標</h3>
+                                <p>1. 了解碳匯的重要性</p>
+                                <p>2. 認識海洋和樹木如何儲存二氧化碳</p>
+                                <p>3. 學習保護碳匯的方法</p>
+                                <p>4. 了解與SDGs的關聯</p>
                             </div>
-                            <p>讓我們一起探索海洋和樹木如何幫助我們對抗氣候變遷！</p>
+                            
+                            <div class="interactive-qa">
+                                <h4 class="qa-question">想一想：你覺得什麼東西可以吸收二氧化碳？</h4>
+                                <button class="qa-show-btn" onclick="toggleAnswer('answer1')">顯示答案</button>
+                                <div class="qa-answer" id="answer1">
+                                    <p>許多自然系統可以吸收二氧化碳，包括：樹木、海洋、土壤、草原等。其中最重要的兩種是海洋和森林！</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="decoration fish" style="top: 20%; animation-delay: 0s;"></div>
-                    <div class="decoration fish" style="top: 60%; animation-delay: 5s;"></div>
-                    <div class="decoration fish" style="top: 80%; animation-delay: 10s;"></div>
+                    <div class="decoration fish" style="top: 15%; animation-delay: 0s;"></div>
+                    <div class="decoration fish" style="top: 40%; animation-delay: 3s;"></div>
+                    <div class="decoration fish" style="top: 70%; animation-delay: 7s;"></div>
                 </div>
                 
-                <!-- 第2頁 -->
+                <!-- 第2頁：什麼是碳匯？ -->
                 <div class="slide" id="slide2">
                     <div class="slide-content">
                         <h1 class="slide-title">什麼是碳匯？</h1>
                         <div class="slide-body">
-                            <p><span class="highlight">碳匯</span>是指能夠吸收和儲存大氣中二氧化碳的自然或人工系統。</p>
-                            <p>就像一個巨大的「碳倉庫」，把二氧化碳從大氣中「吸走」並儲存起來。</p>
+                            <p><span class="keyword">碳匯</span>是指能夠長期吸收和儲存大氣中二氧化碳的自然或人工系統。簡單來說，就是地球的「碳倉庫」或「碳銀行」。</p>
+                            
+                            <div class="interactive-qa">
+                                <h4 class="qa-question">動動腦：為什麼碳匯被稱為地球的「碳銀行」？</h4>
+                                <button class="qa-show-btn" onclick="toggleAnswer('answer2')">顯示答案</button>
+                                <div class="qa-answer" id="answer2">
+                                    <p>就像銀行可以儲存錢一樣，碳匯可以「儲存」二氧化碳，防止它留在大氣中造成溫室效應。當我們保護碳匯，就像在為地球的氣候「存錢」！</p>
+                                </div>
+                            </div>
+                            
+                            <h3 class="section-title">碳匯的重要性</h3>
+                            <div class="features">
+                                <div class="feature">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-thermometer-half"></i>
+                                    </div>
+                                    <h3 class="feature-title">調節氣候</h3>
+                                    <p>減少溫室效應，穩定地球溫度</p>
+                                </div>
+                                <div class="feature">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-wind"></i>
+                                    </div>
+                                    <h3 class="feature-title">淨化空氣</h3>
+                                    <p>吸收二氧化碳，釋放氧氣</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 第3頁：樹木碳匯詳細介紹 -->
+                <div class="slide forest-bg" id="slide3">
+                    <div class="slide-content">
+                        <h1 class="slide-title">樹木碳匯的奧秘</h1>
+                        <div class="slide-body">
+                            <p>樹木是地球上最古老的碳匯之一，通過光合作用將二氧化碳轉化為有機物質，並儲存在樹體各部位。</p>
+                            
+                            <div class="interactive-qa">
+                                <h4 class="qa-question">考考你：樹木的哪個部分儲存最多的碳？</h4>
+                                <button class="qa-show-btn" onclick="toggleAnswer('answer3')">顯示答案</button>
+                                <div class="qa-answer" id="answer3">
+                                    <p>樹木的不同部位儲存碳的比例不同：樹幹約占44%，樹根約占24%，樹枝和樹葉約占20%，土壤有機質約占12%。所以樹幹儲存了最多的碳！</p>
+                                </div>
+                            </div>
+                            
+                            <h3 class="section-title">樹木如何儲存碳？</h3>
+                            <div class="carbon-cycle">
+                                <div class="cycle-step">
+                                    <div class="cycle-number">1</div>
+                                    <p>吸收二氧化碳</p>
+                                </div>
+                                <div class="cycle-arrow">↓</div>
+                                <div class="cycle-step">
+                                    <div class="cycle-number">2</div>
+                                    <p>光合作用</p>
+                                </div>
+                                <div class="cycle-arrow">↓</div>
+                                <div class="cycle-step">
+                                    <div class="cycle-number">3</div>
+                                    <p>轉化與儲存</p>
+                                </div>
+                                <div class="cycle-arrow">↓</div>
+                                <div class="cycle-step">
+                                    <div class="cycle-number">4</div>
+                                    <p>長期儲存</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 第4頁：海洋碳匯詳細介紹 -->
+                <div class="slide ocean-bg" id="slide4">
+                    <div class="slide-content">
+                        <h1 class="slide-title">海洋碳匯的奇妙世界</h1>
+                        <div class="slide-body">
+                            <p>海洋是地球上最大的碳匯，儲存了約<span class="highlight">38,000億噸</span>的碳，是大氣中碳含量的50倍！</p>
+                            
+                            <div class="interactive-qa">
+                                <h4 class="qa-question">猜一猜：海洋吸收二氧化碳的兩種主要方式是什麼？</h4>
+                                <button class="qa-show-btn" onclick="toggleAnswer('answer4')">顯示答案</button>
+                                <div class="qa-answer" id="answer4">
+                                    <p>1. <strong>物理泵</strong>：海水直接溶解二氧化碳<br>
+                                    2. <strong>生物泵</strong>：浮游植物通過光合作用吸收碳</p>
+                                </div>
+                            </div>
+                            
+                            <h3 class="section-title">海洋如何吸收碳？</h3>
+                            <div class="comparison">
+                                <div class="compare-item">
+                                    <h3 class="compare-title">物理泵</h3>
+                                    <p>海水直接溶解大氣中的二氧化碳</p>
+                                    <p><strong>貢獻：</strong>約30%</p>
+                                </div>
+                                <div class="compare-item">
+                                    <h3 class="compare-title">生物泵</h3>
+                                    <p>浮游植物通過光合作用吸收碳</p>
+                                    <p><strong>貢獻：</strong>約70%</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 第5頁：碳匯配對遊戲 -->
+                <div class="slide" id="slide5">
+                    <div class="slide-content">
+                        <h1 class="slide-title">碳匯配對遊戲</h1>
+                        <div class="slide-body">
+                            <p>請將碳匯類型與描述正確配對：</p>
+                            
+                            <div class="matching-game">
+                                <div class="matching-column" id="matching-left">
+                                    <div class="matching-item" data-match="A">海洋碳匯</div>
+                                    <div class="matching-item" data-match="B">森林碳匯</div>
+                                    <div class="matching-item" data-match="C">土壤碳匯</div>
+                                    <div class="matching-item" data-match="D">濕地碳匯</div>
+                                </div>
+                                <div class="matching-column" id="matching-right">
+                                    <div class="matching-item" data-match="B">通過光合作用吸收二氧化碳</div>
+                                    <div class="matching-item" data-match="A">地球上最大的碳匯</div>
+                                    <div class="matching-item" data-match="D">被稱為「地球之腎」</div>
+                                    <div class="matching-item" data-match="C">儲存穩定但易受破壞</div>
+                                </div>
+                            </div>
+                            
+                            <div style="text-align: center; margin-top: 15px;">
+                                <button class="nav-btn" onclick="checkMatching()" style="margin-bottom: 10px;">檢查答案</button>
+                                <button class="nav-btn" onclick="resetMatching()" style="background-color: #95a5a6;">重新開始</button>
+                            </div>
+                            
+                            <div id="matching-result" style="margin-top: 15px; text-align: center; font-size: 1.1rem;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 第6頁：樹木 vs. 海洋碳匯比較 -->
+                <div class="slide" id="slide6">
+                    <div class="slide-content">
+                        <h1 class="slide-title">樹木 vs. 海洋碳匯</h1>
+                        <div class="slide-body">
+                            <div class="interactive-qa">
+                                <h4 class="qa-question">想一想：你覺得哪一種碳匯對我們日常生活影響更大？</h4>
+                                <button class="qa-show-btn" onclick="toggleAnswer('answer6')">顯示答案</button>
+                                <div class="qa-answer" id="answer6">
+                                    <p>兩種碳匯都很重要！樹木碳匯更「可見」，我們可以親身體驗森林。海洋碳匯雖然看不見，但影響全球氣候，決定天氣模式。兩者缺一不可！</p>
+                                </div>
+                            </div>
+                            
+                            <h3 class="section-title">比較表</h3>
+                            <div class="info-table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>項目</th>
+                                            <th>樹木碳匯</th>
+                                            <th>海洋碳匯</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>儲碳總量</strong></td>
+                                            <td>約6,000億噸</td>
+                                            <td>約38,000億噸</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>每年吸收量</strong></td>
+                                            <td>20-30億噸</td>
+                                            <td>25-30億噸</td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>儲存時間</strong></td>
+                                            <td>數十年至數百年</td>
+                                            <td>數百年至數千年</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 第7頁：碳匯流程拖放遊戲 -->
+                <div class="slide" id="slide7">
+                    <div class="slide-content">
+                        <h1 class="slide-title">碳匯流程遊戲</h1>
+                        <div class="slide-body">
+                            <p>請將步驟拖放到正確的順序：</p>
+                            
+                            <div class="drag-drop-area">
+                                <div class="drag-items">
+                                    <div class="drag-item" draggable="true" data-step="1">樹葉吸收二氧化碳</div>
+                                    <div class="drag-item" draggable="true" data-step="4">碳儲存在樹幹中</div>
+                                    <div class="drag-item" draggable="true" data-step="2">光合作用產生葡萄糖</div>
+                                    <div class="drag-item" draggable="true" data-step="3">葡萄糖轉化為木材</div>
+                                </div>
+                                <div class="drop-zone" id="drop-zone">
+                                    <p>請將步驟拖放到這裡</p>
+                                    <p>正確順序：1 → 2 → 3 → 4</p>
+                                </div>
+                            </div>
+                            
+                            <div style="text-align: center; margin-top: 15px;">
+                                <button class="nav-btn" onclick="checkDragDrop()" style="margin-bottom: 10px;">檢查順序</button>
+                                <button class="nav-btn" onclick="resetDragDrop()" style="background-color: #95a5a6;">重新開始</button>
+                            </div>
+                            
+                            <div id="drag-result" style="margin-top: 15px; text-align: center; font-size: 1.1rem;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 第8頁：碳匯危機 -->
+                <div class="slide" id="slide8">
+                    <div class="slide-content">
+                        <h1 class="slide-title">碳匯面臨的危機</h1>
+                        <div class="slide-body">
+                            <p>碳匯雖然強大，但也面臨著人類活動帶來的威脅：</p>
+                            
+                            <div class="interactive-qa">
+                                <h4 class="qa-question">動動腦：你覺得哪些人類活動會破壞碳匯？</h4>
+                                <button class="qa-show-btn" onclick="toggleAnswer('answer8')">顯示答案</button>
+                                <div class="qa-answer" id="answer8">
+                                    <p>1. <strong>森林砍伐</strong>：減少樹木數量<br>
+                                    2. <strong>海洋污染</strong>：危害海洋生物<br>
+                                    3. <strong>土地開發</strong>：破壞土壤和濕地<br>
+                                    4. <strong>化石燃料使用</strong>：增加二氧化碳排放</p>
+                                </div>
+                            </div>
+                            
+                            <h3 class="section-title">主要威脅</h3>
                             <div class="features">
                                 <div class="feature">
                                     <div class="feature-icon">
                                         <i class="fas fa-tree"></i>
                                     </div>
-                                    <h3 class="feature-title">陸地碳匯</h3>
-                                    <p>森林、土壤、草原等</p>
+                                    <h3 class="feature-title">森林砍伐</h3>
+                                    <p>每年損失大量森林</p>
                                 </div>
+                                <div class="feature">
+                                    <div class="feature-icon">
+                                        <i class="fas fa-tint"></i>
+                                    </div>
+                                    <h3 class="feature-title">海洋酸化</h3>
+                                    <p>危害海洋生物</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 第9頁：SDGs與碳匯 -->
+                <div class="slide" id="slide9">
+                    <div class="slide-content">
+                        <h1 class="slide-title">碳匯與SDGs</h1>
+                        <div class="slide-body">
+                            <p>碳匯保護與聯合國永續發展目標密切相關：</p>
+                            
+                            <div class="interactive-qa">
+                                <h4 class="qa-question">考考你：SDGs是什麼的縮寫？</h4>
+                                <button class="qa-show-btn" onclick="toggleAnswer('answer9')">顯示答案</button>
+                                <div class="qa-answer" id="answer9">
+                                    <p>SDGs是「Sustainable Development Goals」的縮寫，中文是「永續發展目標」。這是聯合國的17個全球目標，旨在2030年前解決全球問題。</p>
+                                </div>
+                            </div>
+                            
+                            <h3 class="sdgs-title">相關的SDGs目標</h3>
+                            <div class="sdgs-grid" id="sdgs-grid">
+                                <!-- SDGs圖標將由JavaScript動態生成 -->
+                            </div>
+                            
+                            <div class="sdg-info" id="sdg-detail">
+                                <h4>點擊上方的SDGs圖標查看詳細資訊</h4>
+                                <p>碳匯保護有助於氣候行動、水下生命、陸域生命等多個目標。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 第10頁：SDGs記憶遊戲 -->
+                <div class="slide" id="slide10">
+                    <div class="slide-content">
+                        <h1 class="slide-title">SDGs記憶遊戲</h1>
+                        <div class="slide-body">
+                            <p>點擊卡片，找出相對應的SDGs目標！</p>
+                            
+                            <div class="game-container">
+                                <div class="game-grid" id="memory-game">
+                                    <!-- 記憶遊戲卡片將由JavaScript動態生成 -->
+                                </div>
+                                
+                                <div style="margin-top: 20px;">
+                                    <p>配對成功數：<span id="match-count">0</span> / 4</p>
+                                    <p>嘗試次數：<span id="attempt-count">0</span></p>
+                                </div>
+                                
+                                <div style="margin-top: 15px;">
+                                    <button class="nav-btn" onclick="resetMemoryGame()">重新開始遊戲</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 第11頁：碳匯計算活動 -->
+                <div class="slide" id="slide11">
+                    <div class="slide-content">
+                        <h1 class="slide-title">碳匯計算活動</h1>
+                        <div class="slide-body">
+                            <p>讓我們計算一下樹木的碳匯能力！</p>
+                            
+                            <div class="activity-box">
+                                <h3 class="activity-title">計算題</h3>
+                                <p>一棵大樹每年可以吸收約22公斤的二氧化碳。</p>
+                                
+                                <div class="interactive-qa">
+                                    <h4 class="qa-question">如果仙洞國小有100棵大樹，一年可以吸收多少公斤二氧化碳？</h4>
+                                    <button class="qa-show-btn" onclick="toggleAnswer('answer11')">顯示答案</button>
+                                    <div class="qa-answer" id="answer11">
+                                        <p>計算：22公斤 × 100棵 = 2,200公斤</p>
+                                        <p>答：2,200公斤二氧化碳</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="fact-box">
+                                <h3 class="fact-title">你知道嗎？</h3>
+                                <p>一棵樹需要生長約40年才能吸收一台汽車行駛一年所排放的二氧化碳！</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 第12頁：我們的行動方案 -->
+                <div class="slide" id="slide12">
+                    <div class="slide-content">
+                        <h1 class="slide-title">仙洞國小行動方案</h1>
+                        <div class="slide-body">
+                            <p>我們可以採取具體行動保護碳匯：</p>
+                            
+                            <div class="interactive-qa">
+                                <h4 class="qa-question">想一想：你可以在學校做什麼來保護碳匯？</h4>
+                                <button class="qa-show-btn" onclick="toggleAnswer('answer12')">顯示答案</button>
+                                <div class="qa-answer" id="answer12">
+                                    <p>1. 節約用紙，雙面使用<br>
+                                    2. 參與校園植樹活動<br>
+                                    3. 做好資源回收<br>
+                                    4. 隨手關燈，節約能源</p>
+                                </div>
+                            </div>
+                            
+                            <h3 class="section-title">校園行動</h3>
+                            <ul class="action-list">
+                                <li><strong>成立碳匯小尖兵</strong>：推廣碳匯知識</li>
+                                <li><strong>校園植樹計畫</strong>：種植台灣原生樹種</li>
+                                <li><strong>紙類回收競賽</strong>：減少樹木砍伐</li>
+                                <li><strong>節能減碳措施</strong>：隨手關燈、節約用水</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 第13頁：碳匯抉擇情境題 -->
+                <div class="slide" id="slide13">
+                    <div class="slide-content">
+                        <h1 class="slide-title">碳匯抉擇情境題</h1>
+                        <div class="slide-body">
+                            <p>面對以下情境，你會怎麼選擇？</p>
+                            
+                            <div class="interactive-qa">
+                                <h4 class="qa-question">學校要擴建操場，需要砍掉10棵大樹。你會怎麼建議？</h4>
+                                <div class="quiz-options" style="margin-top: 10px;">
+                                    <div class="quiz-option" onclick="checkScenario(this, true)">A. 建議保留樹木，尋找其他方案</div>
+                                    <div class="quiz-option" onclick="checkScenario(this, false)">B. 同意砍樹，因為操場更重要</div>
+                                    <div class="quiz-option" onclick="checkScenario(this, false)">C. 砍掉樹木，但承諾以後再種</div>
+                                </div>
+                            </div>
+                            
+                            <div id="scenario-feedback" style="margin-top: 20px; text-align: center; font-size: 1.1rem; min-height: 40px;"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 第14頁：碳匯承諾卡 -->
+                <div class="slide" id="slide14">
+                    <div class="slide-content">
+                        <h1 class="slide-title">我的碳匯承諾卡</h1>
+                        <div class="slide-body">
+                            <p>讓我們許下承諾，為保護地球碳匯貢獻力量！</p>
+                            
+                            <div class="activity-box">
+                                <h3 class="activity-title">承諾項目（請勾選）</h3>
+                                <div style="margin: 15px 0;">
+                                    <div class="promise-checkbox">
+                                        <input type="checkbox" id="promise1">
+                                        <label for="promise1">我承諾每個月至少節約10張紙</label>
+                                    </div>
+                                    <div class="promise-checkbox">
+                                        <input type="checkbox" id="promise2">
+                                        <label for="promise2">我承諾每週至少3天走路或騎腳踏車上學</label>
+                                    </div>
+                                    <div class="promise-checkbox">
+                                        <input type="checkbox" id="promise3">
+                                        <label for="promise3">我承諾減少使用一次性塑膠製品</label>
+                                    </div>
+                                    <div class="promise-checkbox">
+                                        <input type="checkbox" id="promise4">
+                                        <label for="promise4">我承諾隨手關燈、節約用水</label>
+                                    </div>
+                                </div>
+                                
+                                <div style="text-align: center; margin-top: 20px;">
+                                    <button class="nav-btn" onclick="makePromise()">我承諾！</button>
+                                </div>
+                                
+                                <div id="promise-result" style="margin-top: 15px; text-align: center; font-size: 1.1rem;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 第15頁：碳匯知識挑戰賽 -->
+                <div class="slide" id="slide15">
+                    <div class="slide-content">
+                        <h1 class="slide-title">碳匯知識挑戰賽</h1>
+                        <div class="slide-body">
+                            <p>讓我們進行最後的知識挑戰！</p>
+                            
+                            <div class="quiz-container">
+                                <div class="quiz-question">1. 地球上最大的碳匯是什麼？</div>
+                                <div class="quiz-options">
+                                    <div class="quiz-option" data-correct="true">海洋</div>
+                                    <div class="quiz-option" data-correct="false">森林</div>
+                                    <div class="quiz-option" data-correct="false">土壤</div>
+                                </div>
+                                
+                                <div class="quiz-question" style="margin-top: 20px;">2. 以下哪個SDGs與海洋碳匯保護最直接相關？</div>
+                                <div class="quiz-options">
+                                    <div class="quiz-option" data-correct="false">SDG 1 消除貧窮</div>
+                                    <div class="quiz-option" data-correct="true">SDG 14 水下生命</div>
+                                    <div class="quiz-option" data-correct="false">SDG 7 可負擔能源</div>
+                                </div>
+                                
+                                <div id="quiz-result" style="margin-top: 25px; text-align: center; font-size: 1.2rem; min-height: 40px;"></div>
+                                <button id="check-answers" class="nav-btn" style="margin: 15px auto; display: block;">檢查答案</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 第16頁：課程總結 -->
+                <div class="slide" id="slide16">
+                    <div class="slide-content">
+                        <h1 class="slide-title">課程總結</h1>
+                        <div class="slide-body">
+                            <p>恭喜你完成了「海洋與樹木碳匯」課程！</p>
+                            
+                            <div class="features">
                                 <div class="feature">
                                     <div class="feature-icon">
                                         <i class="fas fa-water"></i>
                                     </div>
                                     <h3 class="feature-title">海洋碳匯</h3>
-                                    <p>海水、海洋生物、海底沉積物</p>
+                                    <p>地球最大的碳匯</p>
                                 </div>
                                 <div class="feature">
                                     <div class="feature-icon">
-                                        <i class="fas fa-industry"></i>
+                                        <i class="fas fa-tree"></i>
                                     </div>
-                                    <h3 class="feature-title">人工碳匯</h3>
-                                    <p>碳捕捉與儲存技術</p>
+                                    <h3 class="feature-title">樹木碳匯</h3>
+                                    <p>通過光合作用吸收二氧化碳</p>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 第3頁 -->
-                <div class="slide forest-bg" id="slide3">
-                    <div class="slide-content">
-                        <h1 class="slide-title">樹木碳匯</h1>
-                        <div class="slide-body">
-                            <p>樹木通過光合作用吸收二氧化碳，釋放氧氣，並將碳儲存在樹幹、樹枝、樹葉和根部。</p>
+                            
                             <div class="fact-box">
-                                <h3 class="fact-title">樹木的小秘密</h3>
-                                <p>一棵大樹每年可以吸收約<span class="highlight">22公斤</span>的二氧化碳！</p>
-                                <p>森林儲存的碳量約佔全球陸地碳匯的<span class="highlight">45%</span>！</p>
+                                <h3 class="fact-title">重要觀念</h3>
+                                <p>1. 碳匯是地球的「天然空調」<br>
+                                2. 海洋和樹木碳匯都很重要<br>
+                                3. 保護碳匯需要每個人的參與<br>
+                                4. 我們的選擇可以對地球產生正面影響</p>
                             </div>
-                            <div class="comparison">
-                                <div class="compare-item">
-                                    <h3 class="compare-title">樹木如何儲存碳？</h3>
-                                    <p>1. 光合作用吸收CO₂</p>
-                                    <p>2. 碳轉化為木材</p>
-                                    <p>3. 儲存在樹幹、樹根</p>
-                                    <p>4. 部分碳進入土壤</p>
+                            
+                            <div class="sdg-connection">
+                                <div class="sdg-icon">
+                                    <i class="fas fa-graduation-cap"></i>
                                 </div>
-                                <div class="compare-item">
-                                    <h3 class="compare-title">森林的好處</h3>
-                                    <p>✓ 淨化空氣</p>
-                                    <p>✓ 調節氣候</p>
-                                    <p>✓ 保護生物多樣性</p>
-                                    <p>✓ 防止土壤侵蝕</p>
+                                <div class="sdg-text">
+                                    <h4>成為碳匯小達人</h4>
+                                    <p>現在你已經具備了碳匯的基本知識，可以成為學校的「碳匯小達人」！</p>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 第4頁 -->
-                <div class="slide ocean-bg" id="slide4">
-                    <div class="slide-content">
-                        <h1 class="slide-title">海洋碳匯</h1>
-                        <div class="slide-body">
-                            <p>海洋是地球上最大的碳匯，吸收了大約<span class="highlight">30%</span>人類活動排放的二氧化碳！</p>
-                            <p>海洋碳匯主要通過兩種方式運作：</p>
-                            <div class="comparison">
-                                <div class="compare-item">
-                                    <h3 class="compare-title">物理作用</h3>
-                                    <p>海水直接溶解大氣中的二氧化碳</p>
-                                    <p>海洋環流將碳帶到深海</p>
-                                </div>
-                                <div class="compare-item">
-                                    <h3 class="compare-title">生物作用</h3>
-                                    <p>浮游植物通過光合作用吸收碳</p>
-                                    <p>海洋生物將碳轉化為碳酸鈣外殼</p>
-                                </div>
-                            </div>
-                            <div class="fact-box">
-                                <h3 class="fact-title">海洋碳匯的小知識</h3>
-                                <p>雖然海洋碳匯很大，但過多的二氧化碳會導致海水酸化，危害海洋生態！</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 第5頁 -->
-                <div class="slide" id="slide5">
-                    <div class="slide-content">
-                        <h1 class="slide-title">樹木 vs. 海洋碳匯</h1>
-                        <div class="slide-body">
-                            <p>讓我們來比較一下這兩種重要的碳匯：</p>
-                            <div class="comparison">
-                                <div class="compare-item">
-                                    <h3 class="compare-title">樹木碳匯</h3>
-                                    <p><i class="fas fa-check-circle carbon-icon"></i> 儲存時間：數十年到數百年</p>
-                                    <p><i class="fas fa-check-circle carbon-icon"></i> 儲存形式：木材、土壤有機質</p>
-                                    <p><i class="fas fa-check-circle carbon-icon"></i> 優點：可見、可觸摸、多功能</p>
-                                    <p><i class="fas fa-times-circle carbon-icon" style="color:#e74c3c;"></i> 限制：需要土地、生長緩慢</p>
-                                </div>
-                                <div class="compare-item">
-                                    <h3 class="compare-title">海洋碳匯</h3>
-                                    <p><i class="fas fa-check-circle carbon-icon"></i> 儲存時間：數百年到數千年</p>
-                                    <p><i class="fas fa-check-circle carbon-icon"></i> 儲存形式：溶解無機碳、生物碳酸鈣</p>
-                                    <p><i class="fas fa-check-circle carbon-icon"></i> 優點：容量巨大、自動調節</p>
-                                    <p><i class="fas fa-times-circle carbon-icon" style="color:#e74c3c;"></i> 限制：可能導致海水酸化</p>
-                                </div>
-                            </div>
-                            <div class="fact-box">
-                                <h3 class="fact-title">重要結論</h3>
-                                <p>樹木和海洋碳匯都是地球生態系統不可或缺的一部分，我們需要同時保護兩者！</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 第6頁 -->
-                <div class="slide" id="slide6">
-                    <div class="slide-content">
-                        <h1 class="slide-title">我們可以怎麼做？</h1>
-                        <div class="slide-body">
-                            <p>作為仙洞國小的一員，我們可以為保護碳匯做出貢獻：</p>
-                            <div class="features">
-                                <div class="feature">
-                                    <div class="feature-icon">
-                                        <i class="fas fa-seedling"></i>
-                                    </div>
-                                    <h3 class="feature-title">保護樹木</h3>
-                                    <p>參與植樹活動</p>
-                                    <p>節約用紙</p>
-                                    <p>愛護校園樹木</p>
-                                </div>
-                                <div class="feature">
-                                    <div class="feature-icon">
-                                        <i class="fas fa-recycle"></i>
-                                    </div>
-                                    <h3 class="feature-title">減少碳排</h3>
-                                    <p>節能節電</p>
-                                    <p>多走路、騎單車</p>
-                                    <p>減少使用塑膠</p>
-                                </div>
-                                <div class="feature">
-                                    <div class="feature-icon">
-                                        <i class="fas fa-hands-helping"></i>
-                                    </div>
-                                    <h3 class="feature-title">保護海洋</h3>
-                                    <p>不亂丟垃圾</p>
-                                    <p>減少使用化學清潔劑</p>
-                                    <p>支持海洋保護區</p>
-                                </div>
-                            </div>
-                            <div class="fact-box">
-                                <h3 class="fact-title">仙洞國小的行動</h3>
-                                <p>讓我們一起承諾：每月至少做一件保護地球碳匯的事情！</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- 第7頁 -->
-                <div class="slide" id="slide7">
-                    <div class="slide-content">
-                        <h1 class="slide-title">小測驗時間！</h1>
-                        <div class="slide-body">
-                            <div class="quiz-container">
-                                <div class="quiz-question" id="question">哪一個是地球上最大的碳匯？</div>
-                                <div class="quiz-options" id="options">
-                                    <div class="quiz-option" data-correct="true">海洋</div>
-                                    <div class="quiz-option" data-correct="false">森林</div>
-                                    <div class="quiz-option" data-correct="false">草原</div>
-                                    <div class="quiz-option" data-correct="false">土壤</div>
-                                </div>
-                                <div id="quiz-feedback" style="margin-top: 20px; font-size: 1.4rem; min-height: 30px;"></div>
-                            </div>
-                            <div class="fact-box" style="margin-top: 40px;">
-                                <h3 class="fact-title">課程總結</h3>
-                                <p>樹木和海洋都是地球重要的碳匯，幫助我們對抗氣候變遷。保護它們就是保護我們的未來！</p>
+                            
+                            <div style="text-align: center; margin-top: 20px;">
+                                <h3 style="color: #2c3e50; margin-bottom: 15px;">仙洞國小碳匯教育課程 完</h3>
+                                <p>感謝你的參與和學習！</p>
                             </div>
                         </div>
                     </div>
@@ -627,7 +1574,7 @@
             <div class="progress-bar">
                 <div class="progress" id="progress"></div>
             </div>
-            <div class="slide-counter" id="slide-counter">1 / 7</div>
+            <div class="slide-counter" id="slide-counter">1 / 16</div>
         </div>
     </div>
 
@@ -641,10 +1588,23 @@
         const prevBtn = document.getElementById('prev-btn');
         const nextBtn = document.getElementById('next-btn');
         
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            updatePresentation();
+            addDecorations();
+            
+            // 手機上隱藏按鈕文字以節省空間
+            if (window.innerWidth < 400) {
+                document.querySelectorAll('.btn-text').forEach(text => {
+                    text.style.display = 'none';
+                });
+            }
+        });
+        
         // 更新簡報狀態
         function updatePresentation() {
             // 移動簡報到正確位置
-            slidesContainer.style.transform = `translateX(-${currentSlide * 100}vw)`;
+            slidesContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
             
             // 更新進度條
             const progressPercentage = ((currentSlide + 1) / totalSlides) * 100;
@@ -658,8 +1618,34 @@
             nextBtn.disabled = currentSlide === totalSlides - 1;
             
             // 如果是測驗頁，重置測驗
-            if (currentSlide === 6) {
+            if (currentSlide === 14) {
                 resetQuiz();
+            }
+            
+            // 如果是SDGs頁，創建SDGs圖標
+            if (currentSlide === 8) {
+                setTimeout(createSDGsGrid, 100);
+            }
+            
+            // 如果是記憶遊戲頁，創建記憶遊戲
+            if (currentSlide === 9) {
+                setTimeout(createMemoryGame, 100);
+            }
+            
+            // 如果是配對遊戲頁，初始化配對遊戲
+            if (currentSlide === 4) {
+                setTimeout(initMatchingGame, 100);
+            }
+            
+            // 如果是拖放遊戲頁，初始化拖放遊戲
+            if (currentSlide === 6) {
+                setTimeout(initDragDrop, 100);
+            }
+            
+            // 滾動到頂部
+            const slideContent = document.querySelector('.slide-content');
+            if (slideContent) {
+                slideContent.scrollTop = 0;
             }
         }
         
@@ -679,125 +1665,680 @@
             }
         });
         
-        // 鍵盤控制
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowRight' || e.key === ' ') {
-                if (currentSlide < totalSlides - 1) {
-                    currentSlide++;
-                    updatePresentation();
-                }
-            } else if (e.key === 'ArrowLeft') {
-                if (currentSlide > 0) {
-                    currentSlide--;
-                    updatePresentation();
-                }
-            }
-        });
-        
-        // 測驗功能
-        function resetQuiz() {
-            const options = document.querySelectorAll('.quiz-option');
-            const feedback = document.getElementById('quiz-feedback');
-            
-            options.forEach(option => {
-                option.classList.remove('correct', 'incorrect');
-                option.style.cursor = 'pointer';
-                option.onclick = checkAnswer;
-            });
-            
-            feedback.textContent = '';
-        }
-        
-        function checkAnswer(e) {
-            const selectedOption = e.target;
-            const isCorrect = selectedOption.getAttribute('data-correct') === 'true';
-            const options = document.querySelectorAll('.quiz-option');
-            const feedback = document.getElementById('quiz-feedback');
-            
-            // 顯示正確/錯誤
-            options.forEach(option => {
-                option.style.cursor = 'default';
-                option.onclick = null;
-                
-                if (option.getAttribute('data-correct') === 'true') {
-                    option.classList.add('correct');
-                } else if (option === selectedOption && !isCorrect) {
-                    option.classList.add('incorrect');
-                }
-            });
-            
-            // 顯示反饋
-            if (isCorrect) {
-                feedback.textContent = '答對了！海洋是地球上最大的碳匯，吸收了約30%人類排放的二氧化碳。';
-                feedback.style.color = '#27ae60';
-            } else {
-                feedback.textContent = '再想想看喔！雖然森林也很重要，但海洋才是地球上最大的碳匯。';
-                feedback.style.color = '#e74c3c';
-            }
-        }
-        
-        // 點擊測驗選項
-        document.querySelectorAll('.quiz-option').forEach(option => {
-            option.onclick = checkAnswer;
-        });
-        
-        // 添加裝飾元素
-        function addDecorations() {
-            // 在首頁添加魚兒
-            const slide1 = document.getElementById('slide1');
-            for (let i = 0; i < 5; i++) {
-                const fish = document.createElement('div');
-                fish.className = 'decoration fish';
-                fish.style.top = `${20 + Math.random() * 70}%`;
-                fish.style.left = `${-100}px`;
-                fish.style.animationDelay = `${Math.random() * 15}s`;
-                fish.style.backgroundColor = `hsl(${Math.random() * 60 + 180}, 70%, 50%)`;
-                slide1.appendChild(fish);
-            }
-            
-            // 在森林頁添加樹木
-            const slide3 = document.getElementById('slide3');
-            for (let i = 0; i < 8; i++) {
-                const tree = document.createElement('div');
-                tree.className = 'decoration tree';
-                tree.style.left = `${10 + i * 12}%`;
-                tree.style.bottom = '0';
-                tree.style.transform = `scale(${0.5 + Math.random() * 0.7})`;
-                tree.style.zIndex = '1';
-                slide3.appendChild(tree);
-            }
-        }
-        
-        // 初始化
-        updatePresentation();
-        addDecorations();
-        
-        // 添加觸控滑動手勢支援
-        let startX = 0;
-        let endX = 0;
+        // 手機觸控滑動手勢
+        let touchStartX = 0;
+        let touchEndX = 0;
         
         slidesContainer.addEventListener('touchstart', (e) => {
-            startX = e.touches[0].clientX;
-        });
+            touchStartX = e.touches[0].clientX;
+        }, { passive: true });
         
         slidesContainer.addEventListener('touchend', (e) => {
-            endX = e.changedTouches[0].clientX;
+            touchEndX = e.changedTouches[0].clientX;
             handleSwipe();
-        });
+        }, { passive: true });
         
         function handleSwipe() {
             const threshold = 50;
-            const diff = startX - endX;
+            const diff = touchStartX - touchEndX;
             
             if (Math.abs(diff) > threshold) {
                 if (diff > 0 && currentSlide < totalSlides - 1) {
                     // 向左滑動，下一頁
                     currentSlide++;
+                    updatePresentation();
                 } else if (diff < 0 && currentSlide > 0) {
                     // 向右滑動，上一頁
                     currentSlide--;
+                    updatePresentation();
                 }
+            }
+        }
+        
+        // 點擊螢幕邊緣翻頁
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.nav-btn') || e.target.closest('.qa-show-btn') || 
+                e.target.closest('.quiz-option') || e.target.closest('.matching-item') ||
+                e.target.closest('.drag-item') || e.target.closest('.game-card') ||
+                e.target.closest('.sdg-goal')) {
+                return;
+            }
+            
+            const windowWidth = window.innerWidth;
+            if (e.clientX > windowWidth * 0.7 && currentSlide < totalSlides - 1) {
+                currentSlide++;
                 updatePresentation();
+            } else if (e.clientX < windowWidth * 0.3 && currentSlide > 0) {
+                currentSlide--;
+                updatePresentation();
+            }
+        });
+        
+        // 互動問答功能
+        function toggleAnswer(answerId) {
+            const answer = document.getElementById(answerId);
+            if (answer.style.display === 'block') {
+                answer.style.display = 'none';
+            } else {
+                answer.style.display = 'block';
+                answer.style.animation = 'fadeIn 0.3s';
+            }
+        }
+        
+        // 創建SDGs圖標網格
+        function createSDGsGrid() {
+            const sdgsGrid = document.getElementById('sdgs-grid');
+            const sdgDetail = document.getElementById('sdg-detail');
+            
+            if (!sdgsGrid || !sdgDetail) return;
+            
+            sdgsGrid.innerHTML = '';
+            
+            // 與碳匯相關的SDGs
+            const relevantSDGs = [
+                { number: 13, name: "氣候行動", color: "#3F7E44", description: "採取緊急行動應對氣候變遷及其影響。" },
+                { number: 14, name: "水下生命", color: "#0A97D9", description: "保育及永續利用海洋與海洋資源。" },
+                { number: 15, name: "陸域生命", color: "#56C02B", description: "保護、恢復及促進永續利用陸地生態系統。" },
+                { number: 6, name: "潔淨水資源", color: "#26BDE2", description: "確保所有人都能享有水、衛生及其永續管理。" }
+            ];
+            
+            // 創建SDGs圖標
+            relevantSDGs.forEach(sdg => {
+                const goalElement = document.createElement('div');
+                goalElement.className = 'sdg-goal';
+                goalElement.style.backgroundColor = sdg.color;
+                goalElement.textContent = sdg.number;
+                
+                goalElement.addEventListener('click', () => {
+                    // 更新詳細資訊
+                    sdgDetail.innerHTML = `
+                        <h4>SDG ${sdg.number}：${sdg.name}</h4>
+                        <p><strong>目標：</strong>${sdg.description}</p>
+                        <p><strong>與碳匯的關聯：</strong>${getSDGConnection(sdg.number)}</p>
+                        <p><strong>我們可以做的：</strong>${getSDGAction(sdg.number)}</p>
+                    `;
+                    
+                    // 添加動畫效果
+                    sdgDetail.style.animation = 'none';
+                    setTimeout(() => {
+                        sdgDetail.style.animation = 'fadeIn 0.3s';
+                    }, 10);
+                });
+                
+                sdgsGrid.appendChild(goalElement);
+            });
+            
+            // 設置預設顯示第一個SDG
+            if (relevantSDGs.length > 0) {
+                sdgDetail.innerHTML = `
+                    <h4>SDG ${relevantSDGs[0].number}：${relevantSDGs[0].name}</h4>
+                    <p><strong>目標：</strong>${relevantSDGs[0].description}</p>
+                    <p><strong>與碳匯的關聯：</strong>${getSDGConnection(relevantSDGs[0].number)}</p>
+                    <p><strong>我們可以做的：</strong>${getSDGAction(relevantSDGs[0].number)}</p>
+                `;
+            }
+        }
+        
+        // 獲取SDG與碳匯的關聯
+        function getSDGConnection(sdgNumber) {
+            const connections = {
+                13: "碳匯可以吸收二氧化碳，減緩全球暖化，直接支持氣候行動目標。",
+                14: "健康的海洋生態系統是有效的碳匯，保護海洋就是保護碳匯。",
+                15: "森林是重要的陸地碳匯，保護森林可以同時儲存碳和維護生物多樣性。",
+                6: "森林保護水源，海洋調節水循環，健康的碳匯生態系統有助於水資源保護。"
+            };
+            return connections[sdgNumber] || "碳匯保護有助於實現永續發展目標。";
+        }
+        
+        // 獲取SDG相關行動
+        function getSDGAction(sdgNumber) {
+            const actions = {
+                13: "參與植樹活動、減少能源消耗。",
+                14: "參與海岸淨灘、減少塑膠使用。",
+                15: "種植台灣原生樹種、建立校園生態區。",
+                6: "節約用水、保護水源區。"
+            };
+            return actions[sdgNumber] || "學習相關知識並在生活中實踐永續行動。";
+        }
+        
+        // 記憶遊戲變數
+        let memoryGameCards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let attempts = 0;
+        
+        // 創建記憶遊戲
+        function createMemoryGame() {
+            const memoryGame = document.getElementById('memory-game');
+            if (!memoryGame) return;
+            
+            memoryGame.innerHTML = '';
+            memoryGameCards = [];
+            flippedCards = [];
+            matchedPairs = 0;
+            attempts = 0;
+            
+            document.getElementById('match-count').textContent = '0';
+            document.getElementById('attempt-count').textContent = '0';
+            
+            // SDGs配對資料
+            const sdgPairs = [
+                { number: 13, name: "氣候行動" },
+                { number: 14, name: "水下生命" },
+                { number: 15, name: "陸域生命" },
+                { number: 6, name: "潔淨水資源" }
+            ];
+            
+            // 創建卡片組（每對兩張）
+            const cards = [];
+            sdgPairs.forEach(pair => {
+                cards.push({ type: 'number', value: pair.number, pairId: pair.number });
+                cards.push({ type: 'name', value: pair.name, pairId: pair.number });
+            });
+            
+            // 洗牌
+            for (let i = cards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [cards[i], cards[j]] = [cards[j], cards[i]];
+            }
+            
+            // 創建卡片元素
+            cards.forEach((card, index) => {
+                const cardElement = document.createElement('div');
+                cardElement.className = 'game-card';
+                cardElement.dataset.index = index;
+                cardElement.dataset.type = card.type;
+                cardElement.dataset.value = card.value;
+                cardElement.dataset.pairId = card.pairId;
+                
+                cardElement.textContent = card.type === 'number' ? `SDG ${card.value}` : '?';
+                
+                cardElement.addEventListener('click', () => flipCard(cardElement));
+                
+                memoryGame.appendChild(cardElement);
+                memoryGameCards.push(cardElement);
+            });
+        }
+        
+        // 翻轉卡片
+        function flipCard(card) {
+            // 如果卡片已經配對或已經翻開，則不處理
+            if (card.classList.contains('flipped') || flippedCards.length >= 2) {
+                return;
+            }
+            
+            // 翻開卡片
+            card.classList.add('flipped');
+            card.textContent = card.dataset.type === 'number' ? `SDG ${card.dataset.value}` : card.dataset.value;
+            flippedCards.push(card);
+            
+            // 如果翻開了兩張卡片，檢查是否配對
+            if (flippedCards.length === 2) {
+                attempts++;
+                document.getElementById('attempt-count').textContent = attempts;
+                
+                const card1 = flippedCards[0];
+                const card2 = flippedCards[1];
+                
+                // 檢查是否配對成功
+                if (card1.dataset.pairId === card2.dataset.pairId) {
+                    // 配對成功
+                    card1.style.backgroundColor = '#4CAF50';
+                    card2.style.backgroundColor = '#4CAF50';
+                    matchedPairs++;
+                    document.getElementById('match-count').textContent = matchedPairs;
+                    
+                    // 清空已翻開的卡片
+                    flippedCards = [];
+                    
+                    // 檢查遊戲是否完成
+                    if (matchedPairs === 4) {
+                        setTimeout(() => {
+                            alert(`恭喜！你完成了遊戲！\n總嘗試次數：${attempts}次`);
+                        }, 300);
+                    }
+                } else {
+                    // 配對失敗，翻回卡片
+                    setTimeout(() => {
+                        card1.classList.remove('flipped');
+                        card2.classList.remove('flipped');
+                        card1.textContent = card1.dataset.type === 'number' ? `SDG ${card1.dataset.value}` : '?';
+                        card2.textContent = card2.dataset.type === 'number' ? `SDG ${card2.dataset.value}` : '?';
+                        flippedCards = [];
+                    }, 800);
+                }
+            }
+        }
+        
+        // 重置記憶遊戲
+        function resetMemoryGame() {
+            createMemoryGame();
+        }
+        
+        // 配對遊戲變數
+        let selectedLeftItem = null;
+        let selectedRightItem = null;
+        
+        // 初始化配對遊戲
+        function initMatchingGame() {
+            const leftItems = document.querySelectorAll('#matching-left .matching-item');
+            const rightItems = document.querySelectorAll('#matching-right .matching-item');
+            
+            // 重置樣式
+            leftItems.forEach(item => {
+                item.classList.remove('selected', 'matched');
+                item.addEventListener('click', selectLeftItem);
+            });
+            
+            rightItems.forEach(item => {
+                item.classList.remove('selected', 'matched');
+                item.addEventListener('click', selectRightItem);
+            });
+            
+            selectedLeftItem = null;
+            selectedRightItem = null;
+            document.getElementById('matching-result').innerHTML = '';
+        }
+        
+        // 選擇左側項目
+        function selectLeftItem(e) {
+            const leftItems = document.querySelectorAll('#matching-left .matching-item');
+            leftItems.forEach(item => item.classList.remove('selected'));
+            
+            e.target.classList.add('selected');
+            selectedLeftItem = e.target;
+            
+            checkPair();
+        }
+        
+        // 選擇右側項目
+        function selectRightItem(e) {
+            const rightItems = document.querySelectorAll('#matching-right .matching-item');
+            rightItems.forEach(item => item.classList.remove('selected'));
+            
+            e.target.classList.add('selected');
+            selectedRightItem = e.target;
+            
+            checkPair();
+        }
+        
+        // 檢查配對
+        function checkPair() {
+            if (selectedLeftItem && selectedRightItem) {
+                if (selectedLeftItem.dataset.match === selectedRightItem.dataset.match) {
+                    // 配對成功
+                    selectedLeftItem.classList.add('matched');
+                    selectedRightItem.classList.add('matched');
+                    selectedLeftItem.classList.remove('selected');
+                    selectedRightItem.classList.remove('selected');
+                    
+                    document.getElementById('matching-result').innerHTML = 
+                        '<span style="color: #27ae60;">✓ 配對正確！</span>';
+                    
+                    // 檢查是否全部配對完成
+                    const allMatched = document.querySelectorAll('.matching-item.matched').length === 8;
+                    if (allMatched) {
+                        document.getElementById('matching-result').innerHTML = 
+                            '<span style="color: #27ae60; font-weight: bold;">恭喜！全部配對正確！</span>';
+                    }
+                } else {
+                    // 配對錯誤
+                    document.getElementById('matching-result').innerHTML = 
+                        '<span style="color: #e74c3c;">✗ 配對錯誤，請再試一次</span>';
+                    
+                    // 取消選擇
+                    setTimeout(() => {
+                        selectedLeftItem.classList.remove('selected');
+                        selectedRightItem.classList.remove('selected');
+                        selectedLeftItem = null;
+                        selectedRightItem = null;
+                        document.getElementById('matching-result').innerHTML = '';
+                    }, 1000);
+                }
+            }
+        }
+        
+        // 檢查配對遊戲答案
+        function checkMatching() {
+            const resultDiv = document.getElementById('matching-result');
+            const matchedItems = document.querySelectorAll('.matching-item.matched');
+            
+            if (matchedItems.length === 8) {
+                resultDiv.innerHTML = '<span style="color: #27ae60; font-weight: bold;">太棒了！全部配對正確！</span>';
+            } else {
+                resultDiv.innerHTML = `<span style="color: #e74c3c;">還有${8 - matchedItems.length}個配對不正確，請再試試看</span>`;
+            }
+        }
+        
+        // 重置配對遊戲
+        function resetMatching() {
+            initMatchingGame();
+        }
+        
+        // 初始化拖放遊戲
+        function initDragDrop() {
+            const dragItems = document.querySelectorAll('.drag-item');
+            const dropZone = document.getElementById('drop-zone');
+            
+            // 清空放置區
+            dropZone.innerHTML = '<p>請將步驟拖放到這裡</p><p>正確順序：1 → 2 → 3 → 4</p>';
+            
+            // 重置樣式
+            dragItems.forEach(item => {
+                item.style.opacity = '1';
+                item.draggable = true;
+                
+                item.addEventListener('touchstart', handleTouchStart, { passive: true });
+                item.addEventListener('touchmove', handleTouchMove, { passive: false });
+                item.addEventListener('touchend', handleTouchEnd);
+            });
+            
+            // 設置放置區
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.style.backgroundColor = '#d1e7ff';
+            });
+            
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.style.backgroundColor = '#e3f2fd';
+            });
+            
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.style.backgroundColor = '#e3f2fd';
+                
+                const step = e.dataTransfer.getData('text/plain');
+                const html = e.dataTransfer.getData('text/html');
+                
+                // 檢查是否已經有相同步驟
+                const existingSteps = dropZone.querySelectorAll('.drag-item');
+                let alreadyExists = false;
+                existingSteps.forEach(existing => {
+                    if (existing.dataset.step === step) {
+                        alreadyExists = true;
+                    }
+                });
+                
+                if (!alreadyExists) {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = html;
+                    const draggedElement = tempDiv.firstChild;
+                    
+                    // 設置拖動元素為不可拖動
+                    draggedElement.draggable = false;
+                    draggedElement.style.cursor = 'default';
+                    
+                    dropZone.appendChild(draggedElement);
+                    
+                    // 隱原本的項目
+                    const originalItem = document.querySelector(`.drag-item[data-step="${step}"]:not([draggable="false"])`);
+                    if (originalItem) {
+                        originalItem.style.opacity = '0.3';
+                        originalItem.draggable = false;
+                    }
+                }
+            });
+            
+            document.getElementById('drag-result').innerHTML = '';
+        }
+        
+        // 觸控拖放處理
+        let draggedElement = null;
+        
+        function handleTouchStart(e) {
+            draggedElement = e.target;
+            draggedElement.style.opacity = '0.5';
+        }
+        
+        function handleTouchMove(e) {
+            if (draggedElement) {
+                e.preventDefault();
+            }
+        }
+        
+        function handleTouchEnd(e) {
+            if (!draggedElement) return;
+            
+            const dropZone = document.getElementById('drop-zone');
+            const dropZoneRect = dropZone.getBoundingClientRect();
+            const touch = e.changedTouches[0];
+            
+            // 檢查是否拖放到放置區
+            if (touch.clientX >= dropZoneRect.left && touch.clientX <= dropZoneRect.right &&
+                touch.clientY >= dropZoneRect.top && touch.clientY <= dropZoneRect.bottom) {
+                
+                const step = draggedElement.dataset.step;
+                
+                // 檢查是否已經有相同步驟
+                const existingSteps = dropZone.querySelectorAll('.drag-item');
+                let alreadyExists = false;
+                existingSteps.forEach(existing => {
+                    if (existing.dataset.step === step) {
+                        alreadyExists = true;
+                    }
+                });
+                
+                if (!alreadyExists) {
+                    const clonedElement = draggedElement.cloneNode(true);
+                    clonedElement.draggable = false;
+                    clonedElement.style.opacity = '1';
+                    clonedElement.style.cursor = 'default';
+                    
+                    dropZone.appendChild(clonedElement);
+                    
+                    // 隱原本的項目
+                    draggedElement.style.opacity = '0.3';
+                    draggedElement.draggable = false;
+                }
+            }
+            
+            draggedElement.style.opacity = '1';
+            draggedElement = null;
+        }
+        
+        // 檢查拖放遊戲順序
+        function checkDragDrop() {
+            const dropZone = document.getElementById('drop-zone');
+            const droppedItems = dropZone.querySelectorAll('.drag-item');
+            const resultDiv = document.getElementById('drag-result');
+            
+            if (droppedItems.length !== 4) {
+                resultDiv.innerHTML = '<span style="color: #e74c3c;">請將所有4個步驟都拖放到右側區域</span>';
+                return;
+            }
+            
+            let correctOrder = true;
+            
+            droppedItems.forEach((item, index) => {
+                if (parseInt(item.dataset.step) !== index + 1) {
+                    correctOrder = false;
+                }
+            });
+            
+            if (correctOrder) {
+                resultDiv.innerHTML = '<span style="color: #27ae60; font-weight: bold;">✓ 正確！樹木碳匯的流程順序是對的！</span>';
+            } else {
+                resultDiv.innerHTML = '<span style="color: #e74c3c;">✗ 順序不正確，請再試一次</span>';
+            }
+        }
+        
+        // 重置拖放遊戲
+        function resetDragDrop() {
+            initDragDrop();
+        }
+        
+        // 情境題檢查
+        function checkScenario(element, isCorrect) {
+            const feedbackDiv = document.getElementById('scenario-feedback');
+            const allOptions = element.parentElement.querySelectorAll('.quiz-option');
+            
+            // 移除其他選項的樣式
+            allOptions.forEach(opt => {
+                opt.classList.remove('correct', 'incorrect');
+            });
+            
+            // 標記正確/錯誤
+            if (isCorrect) {
+                element.classList.add('correct');
+                feedbackDiv.innerHTML = '<span style="color: #27ae60;">✓ 答對了！這是最環保的選擇。</span>';
+            } else {
+                element.classList.add('incorrect');
+                feedbackDiv.innerHTML = '<span style="color: #e74c3c;">✗ 再想想看，有沒有更環保的選擇？</span>';
+            }
+        }
+        
+        // 承諾功能
+        function makePromise() {
+            const promises = [
+                document.getElementById('promise1'),
+                document.getElementById('promise2'),
+                document.getElementById('promise3'),
+                document.getElementById('promise4')
+            ];
+            
+            let selectedCount = 0;
+            promises.forEach(promise => {
+                if (promise && promise.checked) selectedCount++;
+            });
+            
+            const resultDiv = document.getElementById('promise-result');
+            
+            if (selectedCount === 0) {
+                resultDiv.innerHTML = '<span style="color: #e74c3c;">請至少選擇一項承諾！</span>';
+            } else {
+                resultDiv.innerHTML = `<span style="color: #27ae60; font-weight: bold;">太棒了！你做出了${selectedCount}項承諾！記得要實踐哦！</span>`;
+                
+                // 禁用勾選框
+                promises.forEach(promise => {
+                    if (promise) promise.disabled = true;
+                });
+            }
+        }
+        
+        // 測驗功能
+        function resetQuiz() {
+            const allOptions = document.querySelectorAll('#slide15 .quiz-option');
+            const resultDiv = document.getElementById('quiz-result');
+            const checkBtn = document.getElementById('check-answers');
+            
+            allOptions.forEach(option => {
+                option.classList.remove('correct', 'incorrect', 'selected');
+                option.style.cursor = 'pointer';
+                option.style.backgroundColor = '';
+            });
+            
+            if (resultDiv) resultDiv.textContent = '';
+            if (checkBtn) {
+                checkBtn.textContent = '檢查答案';
+                checkBtn.onclick = checkAllAnswers;
+            }
+            
+            // 重新綁定點擊事件
+            document.querySelectorAll('#slide15 .quiz-option').forEach(option => {
+                option.addEventListener('click', handleQuizOptionClick);
+            });
+        }
+        
+        function handleQuizOptionClick() {
+            // 如果是測驗頁且尚未檢查答案
+            if (currentSlide === 14 && document.getElementById('check-answers').textContent === '檢查答案') {
+                // 移除同題其他選項的選中狀態
+                const parent = this.parentElement;
+                const siblingOptions = parent.querySelectorAll('.quiz-option');
+                siblingOptions.forEach(opt => {
+                    opt.classList.remove('selected');
+                    opt.style.backgroundColor = '';
+                });
+                
+                // 標記當前選項為選中
+                this.classList.add('selected');
+                this.style.backgroundColor = '#e0f7fa';
+            }
+        }
+        
+        function checkAllAnswers() {
+            const questions = document.querySelectorAll('#slide15 .quiz-options');
+            let score = 0;
+            const totalQuestions = questions.length;
+            
+            // 檢查每題答案
+            questions.forEach((question, index) => {
+                const options = question.querySelectorAll('.quiz-option');
+                let answeredCorrectly = false;
+                
+                options.forEach(option => {
+                    const isCorrect = option.getAttribute('data-correct') === 'true';
+                    const isSelected = option.classList.contains('selected');
+                    
+                    // 標記正確答案
+                    if (isCorrect) {
+                        option.classList.add('correct');
+                        if (isSelected) {
+                            answeredCorrectly = true;
+                        }
+                    }
+                    
+                    // 標記錯誤選擇
+                    if (isSelected && !isCorrect) {
+                        option.classList.add('incorrect');
+                    }
+                    
+                    // 移除點擊功能
+                    option.style.cursor = 'default';
+                    option.removeEventListener('click', handleQuizOptionClick);
+                });
+                
+                if (answeredCorrectly) {
+                    score++;
+                }
+            });
+            
+            // 顯示結果
+            const resultDiv = document.getElementById('quiz-result');
+            const checkBtn = document.getElementById('check-answers');
+            const percentage = Math.round((score / totalQuestions) * 100);
+            
+            if (percentage === 100) {
+                resultDiv.innerHTML = `<span style="color: #27ae60; font-weight: bold;">太棒了！${score}/${totalQuestions}分！你是碳匯小達人！</span>`;
+            } else if (percentage >= 50) {
+                resultDiv.innerHTML = `<span style="color: #f39c12; font-weight: bold;">不錯哦！${score}/${totalQuestions}分！繼續加油！</span>`;
+            } else {
+                resultDiv.innerHTML = `<span style="color: #e74c3c; font-weight: bold;">${score}/${totalQuestions}分。沒關係，再複習一下吧！</span>`;
+            }
+            
+            // 更新檢查按鈕
+            checkBtn.textContent = '重新測驗';
+            checkBtn.onclick = resetQuiz;
+        }
+        
+        // 添加裝飾元素
+        function addDecorations() {
+            // 在首頁添加魚兒
+            const slide1 = document.getElementById('slide1');
+            if (slide1) {
+                for (let i = 0; i < 3; i++) {
+                    const fish = document.createElement('div');
+                    fish.className = 'decoration fish';
+                    fish.style.top = `${15 + Math.random() * 70}%`;
+                    fish.style.left = `${-50}px`;
+                    fish.style.animationDelay = `${Math.random() * 10}s`;
+                    fish.style.backgroundColor = `hsl(${Math.random() * 60 + 180}, 70%, 50%)`;
+                    slide1.appendChild(fish);
+                }
+            }
+            
+            // 在森林頁添加樹木
+            const slide3 = document.getElementById('slide3');
+            if (slide3) {
+                for (let i = 0; i < 5; i++) {
+                    const tree = document.createElement('div');
+                    tree.className = 'decoration tree';
+                    tree.style.left = `${10 + i * 18}%`;
+                    tree.style.bottom = '0';
+                    tree.style.transform = `scale(${0.5 + Math.random() * 0.5})`;
+                    tree.style.zIndex = '1';
+                    slide3.appendChild(tree);
+                }
             }
         }
     </script>
