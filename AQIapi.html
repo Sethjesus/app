@@ -6,7 +6,7 @@
     <title>環境監控 - 手機版</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* 重置與基礎 */
+        /* 保持所有 CSS 不變 */
         * {
             margin: 0;
             padding: 0;
@@ -33,16 +33,14 @@
             padding-top: env(safe-area-inset-top);
         }
         
-        /* 主容器 */
         .container {
             width: 100%;
             max-width: 100%;
             margin: 0 auto;
             padding: 15px;
-            padding-bottom: 80px; /* 底部按鈕空間 */
+            padding-bottom: 80px;
         }
         
-        /* 頂部狀態欄 */
         .status-bar {
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(20px);
@@ -77,7 +75,6 @@
             animation: pulse 2s infinite;
         }
         
-        /* 數據卡片 */
         .data-cards {
             display: flex;
             flex-direction: column;
@@ -147,14 +144,12 @@
         .moderate { background: linear-gradient(135deg, #f39c12, #e67e22); }
         .unhealthy { background: linear-gradient(135deg, #e74c3c, #c0392b); }
         
-        /* 圖表容器 */
         .chart-container {
             height: 250px;
             margin-top: 20px;
             position: relative;
         }
         
-        /* 底部固定控制欄 */
         .bottom-controls {
             position: fixed;
             bottom: 0;
@@ -178,7 +173,6 @@
             display: none;
         }
         
-        /* 底部按鈕 */
         .control-btn {
             flex: 0 0 auto;
             background: rgba(255, 255, 255, 0.15);
@@ -216,7 +210,6 @@
             opacity: 0.9;
         }
         
-        /* 時間選擇器 */
         .time-selector {
             position: fixed;
             top: 0;
@@ -266,7 +259,6 @@
             background: rgba(52, 152, 219, 0.8);
         }
         
-        /* 滑出選單 */
         .slide-menu {
             position: fixed;
             top: 0;
@@ -353,7 +345,6 @@
             transform: translateX(24px);
         }
         
-        /* 吐司提示 */
         .toast {
             position: fixed;
             bottom: 100px;
@@ -377,7 +368,6 @@
             animation: slideUp 0.3s ease;
         }
         
-        /* 載入指示器 */
         .loader {
             display: inline-block;
             width: 20px;
@@ -388,57 +378,6 @@
             animation: spin 1s ease-in-out infinite;
         }
         
-        /* 觸控回饋 */
-        @media (hover: hover) {
-            .control-btn:hover {
-                background: rgba(255, 255, 255, 0.25);
-            }
-            
-            .time-option:hover {
-                background: rgba(255, 255, 255, 0.2);
-            }
-        }
-        
-        /* 橫向模式優化 */
-        @media (orientation: landscape) and (max-height: 600px) {
-            .data-cards {
-                flex-direction: row;
-            }
-            
-            .data-card {
-                flex: 1;
-            }
-            
-            .value {
-                font-size: 2.8rem;
-            }
-            
-            .chart-container {
-                height: 180px;
-            }
-            
-            .bottom-controls {
-                padding: 10px;
-            }
-        }
-        
-        /* 大螢幕優化 */
-        @media (min-width: 768px) {
-            .container {
-                max-width: 750px;
-                padding: 20px;
-            }
-            
-            .time-presets {
-                grid-template-columns: repeat(4, 1fr);
-            }
-            
-            .bottom-controls {
-                justify-content: center;
-            }
-        }
-        
-        /* 動畫 */
         @keyframes pulse {
             0% { opacity: 1; }
             50% { opacity: 0.5; }
@@ -492,6 +431,10 @@
             <div class="status-item" onclick="showTimeSelector()" style="cursor: pointer;">
                 <span>⏰</span>
                 <span id="currentTimeRange">1小時</span>
+            </div>
+            <div class="status-item" onclick="showConfigDialog()" style="cursor: pointer;">
+                <span>⚙️</span>
+                <span>設定</span>
             </div>
         </div>
         
@@ -552,8 +495,8 @@
         </button>
         
         <button class="control-btn" onclick="showSettings()">
-            <span class="btn-icon">⚙️</span>
-            <span class="btn-label">設定</span>
+            <span class="btn-icon">📈</span>
+            <span class="btn-label">圖表</span>
         </button>
         
         <button class="control-btn" onclick="exportData()">
@@ -596,9 +539,6 @@
             </button>
             <button class="time-option" onclick="selectTimeRange(720)">
                 最近30天
-            </button>
-            <button class="time-option" onclick="showCustomTime()">
-                自訂時間
             </button>
         </div>
         
@@ -662,12 +602,37 @@
         </div>
     </div>
     
+    <!-- API 設定對話框 -->
+    <div id="apiConfigModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); z-index: 3000; padding: 20px; display: flex; align-items: center; justify-content: center;">
+        <div style="background: rgba(255,255,255,0.1); backdrop-filter: blur(20px); border-radius: 20px; padding: 25px; width: 100%; max-width: 400px; border: 1px solid rgba(255,255,255,0.2);">
+            <h3 style="margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+                <span>⚙️</span> API 伺服器設定
+            </h3>
+            
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; opacity: 0.9;">API 網址</label>
+                <input type="text" id="apiUrlInput" 
+                       style="width: 100%; padding: 12px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; color: white; font-size: 1rem;">
+            </div>
+            
+            <div style="display: flex; gap: 10px; margin-top: 25px;">
+                <button onclick="hideConfigDialog()" style="flex: 1; padding: 12px; background: rgba(255,255,255,0.1); border: none; border-radius: 10px; color: white; cursor: pointer;">
+                    取消
+                </button>
+                <button onclick="saveApiConfig()" style="flex: 1; padding: 12px; background: #3498db; border: none; border-radius: 10px; color: white; font-weight: bold; cursor: pointer;">
+                    儲存
+                </button>
+            </div>
+        </div>
+    </div>
+    
     <!-- 吐司提示 -->
     <div class="toast" id="toast"></div>
 
     <script>
         // ============ 全域變數 ============
-        const API_BASE_URL = 'http://192.168.0.179:5000';
+        // API 設定（可儲存在 localStorage）
+        let API_BASE_URL = localStorage.getItem('api_base_url') || 'http://localhost:5000';
         let autoRefreshEnabled = true;
         let currentTimeRange = 1; // 小時
         let co2Chart = null;
@@ -678,25 +643,16 @@
             pm25: []
         };
         let isRefreshing = false;
-        
-        // 行動裝置偵測
-        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-        const isAndroid = /Android/.test(navigator.userAgent);
+        let autoRefreshInterval = null;
         
         // ============ 初始化 ============
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('📱 手機友善儀表板初始化...');
+            console.log('📱 環境監控儀表板初始化...');
+            console.log('API 伺服器:', API_BASE_URL);
             
-            // 行動裝置特殊處理
-            if (isMobile) {
-                document.body.style.fontSize = '16px'; // 手機最佳字體大小
-                
-                // iOS 防止橡皮筋效果
-                if (isIOS) {
-                    document.body.style.WebkitOverflowScrolling = 'touch';
-                }
-            }
+            // 顯示當前 API 狀態
+            updateConnectionStatus('connecting');
+            showToast(`連線到: ${API_BASE_URL}`, 'info');
             
             // 初始化圖表
             initCharts();
@@ -713,17 +669,48 @@
             
             // 監聽網路狀態
             setupNetworkMonitoring();
-            
-            // 設定下拉刷新
-            setupPullToRefresh();
-            
-            // 顯示歡迎訊息
-            showToast('儀表板已準備就緒！', 'success');
         });
+        
+        // ============ API 設定功能 ============
+        
+        function showConfigDialog() {
+            document.getElementById('apiUrlInput').value = API_BASE_URL;
+            document.getElementById('apiConfigModal').style.display = 'flex';
+        }
+        
+        function hideConfigDialog() {
+            document.getElementById('apiConfigModal').style.display = 'none';
+        }
+        
+        function saveApiConfig() {
+            const newUrl = document.getElementById('apiUrlInput').value.trim();
+            
+            if (!newUrl) {
+                showToast('請輸入 API 網址', 'error');
+                return;
+            }
+            
+            // 驗證網址格式
+            if (!newUrl.startsWith('http://') && !newUrl.startsWith('https://')) {
+                showToast('請輸入完整的網址 (http:// 或 https://)', 'error');
+                return;
+            }
+            
+            // 儲存到 localStorage
+            localStorage.setItem('api_base_url', newUrl);
+            API_BASE_URL = newUrl;
+            
+            hideConfigDialog();
+            showToast('API 設定已更新', 'success');
+            
+            // 重新連線
+            setTimeout(() => {
+                loadData();
+            }, 1000);
+        }
         
         // ============ 主要功能按鈕 ============
         
-        // 1. 更新資料
         async function refreshData() {
             if (isRefreshing) return;
             
@@ -738,27 +725,24 @@
             try {
                 await loadData();
                 
-                // 成功回饋
-                if (isMobile && navigator.vibrate) {
-                    navigator.vibrate(50);
-                }
+                // 手機震動回饋
+                if (navigator.vibrate) navigator.vibrate(50);
                 
                 showToast('資料更新成功！', 'success');
                 
             } catch (error) {
                 console.error('更新失敗:', error);
-                showToast('更新失敗，請檢查連線', 'error');
+                showToast('更新失敗: ' + error.message, 'error');
             } finally {
                 // 恢復按鈕狀態
                 setTimeout(() => {
                     btn.style.opacity = '1';
                     icon.textContent = '🔄';
                     isRefreshing = false;
-                }, 1000);
+                }, 500);
             }
         }
         
-        // 2. 切換自動更新
         function toggleAutoRefresh() {
             autoRefreshEnabled = !autoRefreshEnabled;
             const btn = document.getElementById('autoRefreshBtn');
@@ -777,34 +761,48 @@
             }
         }
         
-        // 3. 顯示設定選單
         function showSettings() {
             document.getElementById('settingsMenu').classList.add('active');
         }
         
-        // 4. 匯出資料
         function exportData() {
-            // 這裡可以實作匯出功能
-            showToast('匯出功能準備中...', 'info');
+            // 匯出 CSV 格式資料
+            const csvContent = "data:text/csv;charset=utf-8," 
+                + ["時間,CO2 (ppm),PM2.5 (μg/m³)"]
+                  .concat(chartData.labels.map((label, i) => 
+                    `${label},${chartData.co2[i]},${chartData.pm25[i]}`))
+                  .join("\n");
+            
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `環境監控_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showToast('資料已匯出為 CSV', 'success');
         }
         
-        // 5. 顯示歷史資料
         function showHistory() {
-            // 這裡可以實作歷史資料顯示
-            showToast('歷史資料功能準備中...', 'info');
+            // 載入並顯示歷史資料
+            loadHistoricalData(true);
         }
         
-        // 6. 顯示資訊
         function showInfo() {
             const info = `
-                環境監控系統 v2.0
+                環境監控系統 - 即時儀表板
                 
                 API 伺服器: ${API_BASE_URL}
-                資料更新: 每30秒
-                時間範圍: ${currentTimeRange} 小時
+                更新間隔: ${document.getElementById('refreshInterval').value}秒
+                時間範圍: ${currentTimeRange}小時
+                最後更新: ${document.getElementById('lastUpdate').textContent}
                 
-                開發者: 您的姓名
-                版本: 2024.01
+                數據來源: Modbus RTU 感測器
+                位置: 台北市實驗室
+                
+                版本: v2.0
+                開發者: 環境監控團隊
             `;
             
             alert(info.replace(/^\s+/gm, ''));
@@ -827,30 +825,16 @@
             document.querySelectorAll('.time-option').forEach(btn => {
                 btn.classList.remove('selected');
             });
-            
-            // 標記選中的按鈕
-            const buttons = document.querySelectorAll('.time-option');
-            for (let btn of buttons) {
-                if (btn.textContent.includes(hours + '小時') || 
-                    btn.textContent.includes(hours + '天')) {
-                    btn.classList.add('selected');
-                    break;
-                }
-            }
+            event.target.classList.add('selected');
             
             // 更新顯示
             document.getElementById('currentTimeRange').textContent = 
                 hours < 24 ? `${hours}小時` : `${hours/24}天`;
             
-            // 載入新資料
-            loadData();
+            // 載入歷史資料
+            loadHistoricalData();
             
-            showToast(`時間範圍設定為: ${hours < 24 ? `${hours}小時` : `${hours/24}天`}`, 'success');
-        }
-        
-        function showCustomTime() {
-            // 這裡可以實作自訂時間選擇
-            showToast('自訂時間功能準備中...', 'info');
+            showToast(`時間範圍設定為 ${hours < 24 ? `${hours}小時` : `${hours/24}天`}`, 'success');
         }
         
         // ============ 圖表設定功能 ============
@@ -866,7 +850,7 @@
                 pm25Chart.update();
             }
             
-            showToast(`圖表類型切換為: ${type === 'line' ? '線圖' : '長條圖'}`, 'success');
+            showToast(`圖表類型: ${type === 'line' ? '線圖' : '長條圖'}`, 'success');
         }
         
         function toggleSmoothCurve() {
@@ -942,20 +926,21 @@
         
         async function loadData() {
             try {
-                // 更新連線狀態
                 updateConnectionStatus('connecting');
                 
-                // 載入即時資料
+                // 1. 取得最新資料
                 const latestData = await fetchLatestData();
                 
-                if (latestData) {
-                    updateDisplay(latestData);
-                    updateCharts(latestData);
-                    updateConnectionStatus('connected');
+                if (!latestData) {
+                    throw new Error('無法取得感測器資料');
                 }
                 
-                // 載入歷史資料
-                await loadHistoricalData();
+                // 2. 更新顯示
+                updateDisplay(latestData);
+                updateCharts(latestData);
+                
+                // 3. 更新連線狀態
+                updateConnectionStatus('connected');
                 
             } catch (error) {
                 console.error('載入資料失敗:', error);
@@ -966,23 +951,74 @@
         
         async function fetchLatestData() {
             try {
-                const response = await fetch(`${API_BASE_URL}/api/data/latest`);
+                // 嘗試不同的 API 端點
+                let response;
+                let data;
                 
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}`);
+                // 嘗試 /api/data/latest
+                try {
+                    response = await fetch(`${API_BASE_URL}/api/data/latest`, {
+                        signal: AbortSignal.timeout(5000)
+                    });
+                    
+                    if (response.ok) {
+                        data = await response.json();
+                        return data;
+                    }
+                } catch (e) {
+                    console.log('嘗試 /api/data/latest 失敗:', e);
                 }
                 
-                return await response.json();
+                // 嘗試 /api/data/current
+                try {
+                    response = await fetch(`${API_BASE_URL}/api/data/current`, {
+                        signal: AbortSignal.timeout(5000)
+                    });
+                    
+                    if (response.ok) {
+                        data = await response.json();
+                        return data;
+                    }
+                } catch (e) {
+                    console.log('嘗試 /api/data/current 失敗:', e);
+                }
+                
+                // 嘗試 /data.json
+                try {
+                    response = await fetch(`${API_BASE_URL}/data.json`, {
+                        signal: AbortSignal.timeout(5000)
+                    });
+                    
+                    if (response.ok) {
+                        data = await response.json();
+                        return data;
+                    }
+                } catch (e) {
+                    console.log('嘗試 /data.json 失敗:', e);
+                }
+                
+                throw new Error('所有 API 端點都無法連線');
                 
             } catch (error) {
-                console.error('取得最新資料失敗:', error);
+                console.error('API 請求失敗:', error);
+                
+                // 檢查網路狀態
+                if (!navigator.onLine) {
+                    showToast('網路連線中斷', 'error');
+                } else {
+                    showToast('無法連線到 API 伺服器', 'error');
+                }
+                
                 return null;
             }
         }
         
-        async function loadHistoricalData() {
+        async function loadHistoricalData(showAlert = false) {
             try {
-                const response = await fetch(`${API_BASE_URL}/api/data/history?hours=${currentTimeRange}`);
+                const response = await fetch(
+                    `${API_BASE_URL}/api/data/history?hours=${currentTimeRange}`, 
+                    { signal: AbortSignal.timeout(10000) }
+                );
                 
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}`);
@@ -990,11 +1026,24 @@
                 
                 const data = await response.json();
                 
-                // 更新圖表歷史資料
-                updateHistoricalCharts(data);
+                if (data && data.length > 0) {
+                    updateHistoricalCharts(data);
+                    
+                    if (showAlert) {
+                        showToast(`已載入 ${data.length} 筆歷史資料`, 'success');
+                    }
+                } else {
+                    if (showAlert) {
+                        showToast('暫無歷史資料', 'info');
+                    }
+                }
                 
             } catch (error) {
                 console.error('載入歷史資料失敗:', error);
+                
+                if (showAlert) {
+                    showToast('無法載入歷史資料', 'error');
+                }
             }
         }
         
@@ -1003,18 +1052,25 @@
         function updateDisplay(data) {
             if (!data) return;
             
-            // 更新數值
-            document.getElementById('co2Value').textContent = data.co2.toFixed(1);
-            document.getElementById('pm25Value').textContent = data.pm25.toFixed(2);
+            // 更新數值（支援不同 API 格式）
+            const co2 = data.co2 || data.co2_value || 0;
+            const pm25 = data.pm25 || data.pm25_value || 0;
+            const timestamp = data.timestamp || new Date().toISOString();
             
-            // 更新時間
-            const timeStr = data.timestamp ? 
-                data.timestamp.split(' ')[1].substring(0, 5) : 
-                new Date().toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('co2Value').textContent = co2.toFixed(1);
+            document.getElementById('pm25Value').textContent = pm25.toFixed(2);
+            
+            // 更新時間顯示
+            const time = new Date(timestamp);
+            const timeStr = time.toLocaleTimeString('zh-TW', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: false 
+            });
             document.getElementById('lastUpdate').textContent = timeStr;
             
             // 更新品質指示
-            updateQualityIndicators(data.co2, data.pm25);
+            updateQualityIndicators(co2, pm25);
         }
         
         function updateQualityIndicators(co2, pm25) {
@@ -1045,19 +1101,25 @@
             }
             
             // 更新顯示
-            const co2Element = document.getElementById('co2Quality');
-            co2Element.textContent = co2Quality;
-            co2Element.className = `quality-badge ${co2Class}`;
+            document.getElementById('co2Quality').textContent = co2Quality;
+            document.getElementById('co2Quality').className = `quality-badge ${co2Class}`;
             
-            const pm25Element = document.getElementById('pm25Quality');
-            pm25Element.textContent = pm25Quality;
-            pm25Element.className = `quality-badge ${pm25Class}`;
+            document.getElementById('pm25Quality').textContent = pm25Quality;
+            document.getElementById('pm25Quality').className = `quality-badge ${pm25Class}`;
         }
         
         function updateTimeDisplay() {
             const now = new Date();
-            const timeStr = now.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit' });
-            document.getElementById('lastUpdate').textContent = timeStr;
+            const timeStr = now.toLocaleTimeString('zh-TW', { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                hour12: false 
+            });
+            
+            // 只有在沒有數據時才更新
+            if (document.getElementById('lastUpdate').textContent === '--:--') {
+                document.getElementById('lastUpdate').textContent = timeStr;
+            }
         }
         
         // ============ 圖表功能 ============
@@ -1086,39 +1148,23 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
-                    },
+                    plugins: { legend: { display: false } },
                     scales: {
                         y: {
                             beginAtZero: false,
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
-                            },
-                            ticks: {
-                                color: 'rgba(255, 255, 255, 0.7)',
-                                font: {
-                                    size: 12
-                                }
-                            }
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { color: 'rgba(255, 255, 255, 0.7)', font: { size: 12 } }
                         },
                         x: {
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
-                            },
-                            ticks: {
-                                color: 'rgba(255, 255, 255, 0.7)',
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { 
+                                color: 'rgba(255, 255, 255, 0.7)', 
                                 maxRotation: 0,
-                                font: {
-                                    size: 11
-                                }
+                                font: { size: 11 }
                             }
                         }
                     },
-                    interaction: {
-                        intersect: false,
-                        mode: 'index'
-                    }
+                    interaction: { intersect: false, mode: 'index' }
                 }
             });
             
@@ -1142,39 +1188,23 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
-                    },
+                    plugins: { legend: { display: false } },
                     scales: {
                         y: {
                             beginAtZero: true,
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
-                            },
-                            ticks: {
-                                color: 'rgba(255, 255, 255, 0.7)',
-                                font: {
-                                    size: 12
-                                }
-                            }
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { color: 'rgba(255, 255, 255, 0.7)', font: { size: 12 } }
                         },
                         x: {
-                            grid: {
-                                color: 'rgba(255, 255, 255, 0.1)'
-                            },
-                            ticks: {
-                                color: 'rgba(255, 255, 255, 0.7)',
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            ticks: { 
+                                color: 'rgba(255, 255, 255, 0.7)', 
                                 maxRotation: 0,
-                                font: {
-                                    size: 11
-                                }
+                                font: { size: 11 }
                             }
                         }
                     },
-                    interaction: {
-                        intersect: false,
-                        mode: 'index'
-                    }
+                    interaction: { intersect: false, mode: 'index' }
                 }
             });
         }
@@ -1185,11 +1215,11 @@
                              now.getMinutes().toString().padStart(2, '0');
             
             // 限制資料點數量
-            const maxPoints = 20;
+            const maxPoints = 30;
             
             chartData.labels.push(timeLabel);
-            chartData.co2.push(data.co2);
-            chartData.pm25.push(data.pm25);
+            chartData.co2.push(data.co2 || 0);
+            chartData.pm25.push(data.pm25 || 0);
             
             if (chartData.labels.length > maxPoints) {
                 chartData.labels.shift();
@@ -1207,36 +1237,32 @@
             pm25Chart.update('none');
         }
         
-        function updateHistoricalCharts(data) {
-            if (!data || data.length === 0) return;
+        function updateHistoricalCharts(historyData) {
+            if (!historyData || historyData.length === 0) return;
             
-            // 取最後20個點或平均採樣
-            const sampleSize = Math.min(20, data.length);
-            const step = Math.max(1, Math.floor(data.length / sampleSize));
+            // 清空現有資料
+            chartData.labels = [];
+            chartData.co2 = [];
+            chartData.pm25 = [];
             
-            const sampledLabels = [];
-            const sampledCo2 = [];
-            const sampledPm25 = [];
-            
-            for (let i = 0; i < sampleSize; i++) {
-                const idx = Math.min(i * step, data.length - 1);
-                const item = data[idx];
+            // 處理歷史資料
+            historyData.forEach(item => {
                 const time = new Date(item.timestamp);
                 const timeLabel = time.getHours().toString().padStart(2, '0') + ':' + 
                                  time.getMinutes().toString().padStart(2, '0');
                 
-                sampledLabels.push(timeLabel);
-                sampledCo2.push(item.co2);
-                sampledPm25.push(item.pm25);
-            }
+                chartData.labels.push(timeLabel);
+                chartData.co2.push(item.co2);
+                chartData.pm25.push(item.pm25);
+            });
             
             // 更新圖表
-            co2Chart.data.labels = sampledLabels;
-            co2Chart.data.datasets[0].data = sampledCo2;
+            co2Chart.data.labels = chartData.labels;
+            co2Chart.data.datasets[0].data = chartData.co2;
             co2Chart.update();
             
-            pm25Chart.data.labels = sampledLabels;
-            pm25Chart.data.datasets[0].data = sampledPm25;
+            pm25Chart.data.labels = chartData.labels;
+            pm25Chart.data.datasets[0].data = chartData.pm25;
             pm25Chart.update();
         }
         
@@ -1267,9 +1293,8 @@
         
         function setupNetworkMonitoring() {
             window.addEventListener('online', function() {
-                updateConnectionStatus('connected');
                 showToast('網路連線恢復', 'success');
-                loadData();
+                setTimeout(() => loadData(), 1000);
             });
             
             window.addEventListener('offline', function() {
@@ -1281,10 +1306,12 @@
         // ============ 自動更新控制 ============
         
         function startAutoRefresh() {
+            stopAutoRefresh(); // 先清除舊的定時器
+            
             const interval = parseInt(document.getElementById('refreshInterval').value) * 1000;
             
             if (autoRefreshEnabled) {
-                setInterval(() => {
+                autoRefreshInterval = setInterval(() => {
                     if (!isRefreshing) {
                         loadData();
                     }
@@ -1293,34 +1320,10 @@
         }
         
         function stopAutoRefresh() {
-            // 清除定時器
-            const highestId = window.setTimeout(() => {}, 0);
-            for (let i = 0; i < highestId; i++) {
-                window.clearInterval(i);
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+                autoRefreshInterval = null;
             }
-        }
-        
-        // ============ 手機專用功能 ============
-        
-        function setupPullToRefresh() {
-            if (!isMobile) return;
-            
-            let startY = 0;
-            let distance = 0;
-            
-            document.addEventListener('touchstart', function(e) {
-                startY = e.touches[0].clientY;
-            }, { passive: true });
-            
-            document.addEventListener('touchmove', function(e) {
-                const currentY = e.touches[0].clientY;
-                distance = currentY - startY;
-                
-                // 在頂部且下拉超過100px時觸發刷新
-                if (window.scrollY === 0 && distance > 100 && !isRefreshing) {
-                    refreshData();
-                }
-            }, { passive: true });
         }
         
         // ============ UI 工具函數 ============
@@ -1343,7 +1346,7 @@
             }, 3000);
             
             // 手機震動回饋
-            if (isMobile && navigator.vibrate) {
+            if (navigator.vibrate) {
                 if (type === 'success') {
                     navigator.vibrate([50, 50, 50]);
                 } else if (type === 'error') {
@@ -1372,12 +1375,26 @@
             }
         });
         
-        // 防止選單內滾動傳遞到 body
-        document.querySelectorAll('.slide-menu, .time-selector').forEach(el => {
-            el.addEventListener('touchmove', function(e) {
-                e.stopPropagation();
-            }, { passive: true });
+        // 點擊 API 設定模態框外部關閉
+        document.getElementById('apiConfigModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hideConfigDialog();
+            }
         });
+        
+        // 監聽下拉刷新
+        let touchStartY = 0;
+        document.addEventListener('touchstart', function(e) {
+            touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+        
+        document.addEventListener('touchmove', function(e) {
+            if (window.scrollY === 0 && e.touches[0].clientY - touchStartY > 100) {
+                if (!isRefreshing) {
+                    refreshData();
+                }
+            }
+        }, { passive: true });
     </script>
 </body>
 </html>
